@@ -6,10 +6,10 @@ class Podcasts {
 
 	public static function page() {
 
-		$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : NULL;
+		$action = null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL;
 
-		if ( $action == 'confirm_delete' && isset( $_REQUEST['podcast'] ) ) {
-			$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( (int) $_REQUEST['podcast'] );
+		if ( $action == 'confirm_delete' && null !== filter_input(INPUT_GET, 'podcast') ) {
+			$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( (int) filter_input(INPUT_GET, 'podcast') );
 			?>
 			<div class="updated">
 				<p>
@@ -48,12 +48,13 @@ class Podcasts {
 	 * Process form: save/update a format
 	 */
 	public static function save() {
-
-		if ( ! isset( $_REQUEST['podcast'] ) )
+		if ( null == filter_input(INPUT_GET, 'podcast') )
 			return;
 
-		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( $_REQUEST['podcast'] );
-		$podcast->update_attributes( $_POST['podlove_podcast'] );
+		$post = filter_input_array(INPUT_POST);
+
+		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') );
+		$podcast->update_attributes( $post['podlove_podcast'] );
 		
 		self::redirect( 'index' );
 	}
@@ -62,9 +63,11 @@ class Podcasts {
 	 */
 	public static function create() {
 		global $wpdb;
+		
+		$post = filter_input_array(INPUT_POST);
 
 		$podcast = new \PodloveSubscribeButton\Model\Podcast;
-		$podcast->update_attributes( $_POST['podlove_podcast'] );
+		$podcast->update_attributes( $post['podlove_podcast'] );
 
 		self::redirect( 'index' );
 	}
@@ -73,10 +76,10 @@ class Podcasts {
 	 * Process form: delete a format
 	 */
 	public static function delete() {
-		if ( ! isset( $_REQUEST['podcast'] ) )
+		if ( null ==  filter_input(INPUT_GET, 'podcast') )
 			return;
 
-		\PodloveSubscribeButton\Model\Podcast::find_by_id( $_REQUEST['podcast'] )->delete();
+		\PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') )->delete();
 
 		self::redirect( 'index' );		
 	}
@@ -85,22 +88,20 @@ class Podcasts {
 	 * Helper method: redirect to a certain page.
 	 */
 	public function redirect( $action, $podcast_id = NULL, $params = array() ) {
-		$page    = 'options-general.php?page=' . $_REQUEST['page'];
+		$page    = 'options-general.php?page=' . filter_input(INPUT_GET, 'page');
 		$show    = ( $podcast_id ) ? '&podcast=' . $podcast_id : '';
 		$action  = '&action=' . $action;
 
 		array_walk( $params, function(&$value, $key) { $value = "&$key=$value"; } );
 		
 		wp_redirect( admin_url( $page . $show . $action . implode( '', $params ) ) );
-		exit;
 	}
 	
 	public static function process_form() {
-
-		if ( ! isset( $_REQUEST['podcast'] ) )
+		if ( null === filter_input(INPUT_GET, 'podcast') )
 			return;
 
-		$action = ( isset( $_REQUEST['action'] ) ) ? $_REQUEST['action'] : NULL;
+		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL );
 		
 		if ( $action === 'save' ) {
 			self::save();
@@ -118,7 +119,7 @@ class Podcasts {
 	}
 
 	public static function edit_template() {
-		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( $_REQUEST['podcast'] );
+		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') );
 		echo '<h3>' . sprintf( __( 'Edit Podcast: %s', 'podlove' ), $podcast->title ) . '</h3>';
 		self::form_template( $podcast, 'save' );
 	}
@@ -280,7 +281,7 @@ class Podcasts {
 	public static function get_action_link( $podcast, $title, $action = 'edit', $type = 'link' ) {
 		return sprintf(
 			'<a href="?page=%s&action=%s&podcast=%s"%s>' . $title . '</a>',
-			$_REQUEST['page'],
+			filter_input(INPUT_GET, 'page'),
 			$action,
 			$podcast->id,
 			$type == 'button' ? ' class="button"' : ''
