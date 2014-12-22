@@ -305,7 +305,7 @@ abstract class Base {
 		if ( ! is_array( $attributes ) )
 			return false;
 
-		$request = $_REQUEST; // Do this for security reasons
+		$request = filter_input_array(INPUT_POST); // Do this for security reasons
 			
 		foreach ( $attributes as $key => $value ) {
 			if ( is_array($value) ) {
