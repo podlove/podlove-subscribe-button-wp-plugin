@@ -54,7 +54,7 @@ class PodloveSubscribeButton {
 		$autowidth = ( isset($args['width']) && $args['width'] == 'auto' ? 'on' : '' ); // "on" because this value originates from a checkbox
 		$style = ( isset($args['style']) && in_array($args['style'], array('small', 'medium', 'big', 'big-logo')) ? $args['style'] : 'medium' );
 
-		return $button->button( $style, $autowidth );
+		return $button->render( $style, $autowidth );
 	}
 
 }

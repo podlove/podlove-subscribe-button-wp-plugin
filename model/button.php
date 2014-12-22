@@ -3,7 +3,7 @@ namespace PodloveSubscribeButton\Model;
 
 class Button extends Base {
 
-	public function button( $style='medium', $autowidth=false ) {
+	public function render( $style='medium', $autowidth='on' ) {
 		$feeds = array();
 		foreach ($this->feeds as $feed) {
 			$feeds[] = array(
