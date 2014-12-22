@@ -43,6 +43,16 @@ abstract class Base {
 			return NULL;
 		}
 	}
+
+	private static function unserialize_property($property) {
+		if ( ! isset($property) )
+			return;
+
+		if ( $unserialized_string = is_serialized($property) )
+			return unserialize($property);
+
+		return $property;
+	}
 	
 	/**
 	 * Define a property with name and type.
@@ -145,7 +155,7 @@ abstract class Base {
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+			$model->$property = self::unserialize_property($value);
 		}
 		
 		return $model;
@@ -169,7 +179,7 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+				$model->$property = self::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -193,7 +203,7 @@ abstract class Base {
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+			$model->$property = self::unserialize_property($value);
 		}
 		
 		return $model;
@@ -217,7 +227,7 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+				$model->$property = self::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -241,7 +251,7 @@ abstract class Base {
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+			$model->$property = self::unserialize_property($value);
 		}
 		
 		return $model;
@@ -263,7 +273,7 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = ( ! @unserialize($value) ? $value : unserialize($value) );
+				$model->$property = self::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -294,6 +304,8 @@ abstract class Base {
 
 		if ( ! is_array( $attributes ) )
 			return false;
+
+		$request = $_REQUEST; // Do this for security reasons
 			
 		foreach ( $attributes as $key => $value ) {
 			if ( is_array($value) ) {
@@ -303,8 +315,8 @@ abstract class Base {
 			}
 		}
 		
-		if ( isset( $_REQUEST['checkboxes'] ) && is_array( $_REQUEST['checkboxes'] ) ) {
-			foreach ( $_REQUEST['checkboxes'] as $checkbox ) {
+		if ( isset( $request['checkboxes'] ) && is_array( $request['checkboxes'] ) ) {
+			foreach ( $request['checkboxes'] as $checkbox ) {
 				if ( isset( $attributes[ $checkbox ] ) && $attributes[ $checkbox ] === 'on' ) {
 					$this->$checkbox = 1;
 				} else {
@@ -316,8 +328,8 @@ abstract class Base {
 		// @todo this is the wrong place to do this!
 		// The feed password is the only "passphrase" which is saved. It is not encrypted!
 		// However, we keep this function for later use
-		if ( isset( $_REQUEST['passwords'] ) && is_array( $_REQUEST['passwords'] ) ) {
-			foreach ( $_REQUEST['passwords'] as $password ) {
+		if ( isset( $request['passwords'] ) && is_array( $request['passwords'] ) ) {
+			foreach ( $request['passwords'] as $password ) {
 				$this->$password = $attributes[ $password ];
 			}
 		}
