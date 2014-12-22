@@ -40,4 +40,3 @@ Podcast::property( 'subtitle', 'VARCHAR(255)' );
 Podcast::property( 'description', 'TEXT' );
 Podcast::property( 'cover', 'VARCHAR(255)' );
 Podcast::property( 'feeds', 'TEXT' );
-?>

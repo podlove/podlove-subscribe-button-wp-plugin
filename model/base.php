@@ -549,4 +549,3 @@ abstract class Base {
 		return $table_name;
 	}
 }
-?>
