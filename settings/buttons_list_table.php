@@ -5,7 +5,7 @@ if( ! class_exists( 'WP_List_Table' ) ){
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class Podcast_List_Table extends \WP_List_Table {
+class Button_List_Table extends \WP_List_Table {
 
 	function __construct(){
 		global $status, $page;
@@ -18,29 +18,29 @@ class Podcast_List_Table extends \WP_List_Table {
 		) );
 	}
 	
-	function column_name( $podcast ) {
+	function column_name( $button ) {
 
 		$actions = array(
-			'edit'   => Settings\Podcasts::get_action_link( $podcast, __( 'Edit', 'podlove' ), 'edit' ),
-			'delete' => Settings\Podcasts::get_action_link( $podcast, __( 'Delete', 'podlove' ), 'confirm_delete' )
+			'edit'   => Settings\Buttons::get_action_link( $button, __( 'Edit', 'podlove' ), 'edit' ),
+			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove' ), 'confirm_delete' )
 		);
 	
 		return sprintf('%1$s %2$s',
-		    /*$1%s*/ $podcast->title . '<br><code>[podlove-subscribe-button id="' . $podcast->name . '"]</code>',
+		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button id="' . $button->name . '"]</code>',
 		    /*$3%s*/ $this->row_actions( $actions )
 		);
 	}
 
-	function column_button_preview( $podcast ) {
+	function column_button_preview( $button ) {
 
-		if ( ! $podcast->feeds )
+		if ( ! $button->feeds )
 			return;
 
-		return $podcast->button();
+		return $button->button();
 	}
 	
-	function column_id( $podcast ) {
-		return $podcast->id;
+	function column_id( $button ) {
+		return $button->id;
 	}
 
 	function get_columns(){
@@ -62,7 +62,7 @@ class Podcast_List_Table extends \WP_List_Table {
 		
 		// retrieve data
 		// TODO select data for current page only
-		$data = \PodloveSubscribeButton\Model\Podcast::all();
+		$data = \PodloveSubscribeButton\Model\Button::all();
 		
 		// get current page
 		$current_page = $this->get_pagenum();

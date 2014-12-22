@@ -11,12 +11,12 @@
  * Text Domain: podlove
  */
 
-require('settings/podcasts.php');
+require('settings/buttons.php');
 // Models
 require('model/base.php');
-require('model/podcast.php');
+require('model/button.php');
 // Table
-require('settings/podcasts_list_table.php');
+require('settings/buttons_list_table.php');
 // Media Types
 require('media_types.php');
 // Widget
@@ -24,7 +24,7 @@ require('widget.php');
 
 add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
 add_action( 'admin_init', array( 'PodloveSubscribeButton', 'register_settings') );
-add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Podcasts', 'process_form' ) );
+add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
@@ -36,19 +36,19 @@ class PodloveSubscribeButton {
 				'Podlove Subscribe Button',
 				'manage_options',
 				'podlove-subscribe-button',
-				array( 'PodloveSubscribeButton\Settings\Podcasts', 'page')
+				array( 'PodloveSubscribeButton\Settings\Buttons', 'page')
 			);
 	}
 
 	public static function register_settings() {
-		\PodloveSubscribeButton\Model\Podcast::build();		
+		\PodloveSubscribeButton\Model\Button::build();		
 	}
 
 	public static function shortcode( $args ) {
 		if ( ! $args || ! $args['id'] )
 			return __('You need create a Button first and provide its ID.', 'podlove');
 
-		if ( ! $button = \PodloveSubscribeButton\Model\Podcast::find_one_by_property('name', $args['id']) )
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['id']) )
 			return __('Oops. There is no button with the provided ID.', 'podlove');
 
 		$autowidth = ( isset($args['width']) && $args['width'] == 'auto' ? 'on' : '' ); // "on" because this value originates from a checkbox

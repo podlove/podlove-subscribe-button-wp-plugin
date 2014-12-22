@@ -2,35 +2,35 @@
 
 namespace PodloveSubscribeButton\Settings;
 
-class Podcasts {
+class Buttons {
 
 	public static function page() {
 
 		$action = null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL;
 
-		if ( $action == 'confirm_delete' && null !== filter_input(INPUT_GET, 'podcast') ) {
-			$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( (int) filter_input(INPUT_GET, 'podcast') );
+		if ( $action == 'confirm_delete' && null !== filter_input(INPUT_GET, 'button') ) {
+			$button = \PodloveSubscribeButton\Model\Button::find_by_id( (int) filter_input(INPUT_GET, 'button') );
 			?>
 			<div class="updated">
 				<p>
 					<strong>
-						<?php echo sprintf( __( 'You selected to delete the podcast "%s". Please confirm this action.', 'podlove' ), $podcast->title ) ?>
+						<?php echo sprintf( __( 'You selected to delete the button "%s". Please confirm this action.', 'podlove' ), $button->title ) ?>
 					</strong>
 				</p>
 				<p>
-					<?php echo __( 'Clients subscribing to this podcast will no longer receive updates. If you are moving your podcast, you must inform your subscribers.', 'podlove' ) ?>
+					<?php echo __( 'Clients subscribing to this button will no longer receive updates. If you are moving your button, you must inform your subscribers.', 'podlove' ) ?>
 				</p>
 				<p>
-					<?php echo self::get_action_link( $podcast, __( 'Delete podcast permanently', 'podlove' ), 'delete', 'button' ) ?>
-					<?php echo self::get_action_link( $podcast, __( 'Don\'t change anything', 'podlove' ), 'keep', 'button-primary' ) ?>
+					<?php echo self::get_action_link( $button, __( 'Delete button permanently', 'podlove' ), 'delete', 'button' ) ?>
+					<?php echo self::get_action_link( $button, __( 'Don\'t change anything', 'podlove' ), 'keep', 'button-primary' ) ?>
 				</p>
 			</div>
 			<?php
 		}
 		?>
 		<div class="wrap">
-			<?php screen_icon( 'podlove-podcast' ); ?>
-			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove' ); ?> <a href="?page=<?php echo $_REQUEST['page']; ?>&amp;action=new" class="add-new-h2"><?php echo __( 'Add New', 'podlove' ); ?></a></h2>
+			<?php screen_icon( 'podlove-button' ); ?>
+			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new" class="add-new-h2"><?php echo __( 'Add New', 'podlove' ); ?></a></h2>
 			<?php
 			
 			switch ( $action ) {
@@ -48,13 +48,13 @@ class Podcasts {
 	 * Process form: save/update a format
 	 */
 	public static function save() {
-		if ( null == filter_input(INPUT_GET, 'podcast') )
+		if ( null == filter_input(INPUT_GET, 'button') )
 			return;
 
 		$post = filter_input_array(INPUT_POST);
 
-		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') );
-		$podcast->update_attributes( $post['podlove_podcast'] );
+		$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
+		$button->update_attributes( $post['podlove_button'] );
 		
 		self::redirect( 'index' );
 	}
@@ -66,8 +66,8 @@ class Podcasts {
 		
 		$post = filter_input_array(INPUT_POST);
 
-		$podcast = new \PodloveSubscribeButton\Model\Podcast;
-		$podcast->update_attributes( $post['podlove_podcast'] );
+		$button = new \PodloveSubscribeButton\Model\Button;
+		$button->update_attributes( $post['podlove_button'] );
 
 		self::redirect( 'index' );
 	}
@@ -76,10 +76,10 @@ class Podcasts {
 	 * Process form: delete a format
 	 */
 	public static function delete() {
-		if ( null ==  filter_input(INPUT_GET, 'podcast') )
+		if ( null ==  filter_input(INPUT_GET, 'button') )
 			return;
 
-		\PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') )->delete();
+		\PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') )->delete();
 
 		self::redirect( 'index' );		
 	}
@@ -87,9 +87,9 @@ class Podcasts {
 	/**
 	 * Helper method: redirect to a certain page.
 	 */
-	public function redirect( $action, $podcast_id = NULL, $params = array() ) {
+	public function redirect( $action, $button_id = NULL, $params = array() ) {
 		$page    = 'options-general.php?page=' . filter_input(INPUT_GET, 'page');
-		$show    = ( $podcast_id ) ? '&podcast=' . $podcast_id : '';
+		$show    = ( $button_id ) ? '&button=' . $button_id : '';
 		$action  = '&action=' . $action;
 
 		array_walk( $params, function(&$value, $key) { $value = "&$key=$value"; } );
@@ -98,7 +98,7 @@ class Podcasts {
 	}
 	
 	public static function process_form() {
-		if ( null === filter_input(INPUT_GET, 'podcast') )
+		if ( null === filter_input(INPUT_GET, 'button') )
 			return;
 
 		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL );
@@ -113,27 +113,27 @@ class Podcasts {
 	}
 
 	public static function new_template() {
-		$podcast = new \PodloveSubscribeButton\Model\Podcast;
-		echo '<h3>' . __( 'New Podcast', 'podlove' ) . '</h3>';
-		self::form_template( $podcast, 'create' );
+		$button = new \PodloveSubscribeButton\Model\Button;
+		echo '<h3>' . __( 'New button', 'podlove' ) . '</h3>';
+		self::form_template( $button, 'create' );
 	}
 
 	public static function edit_template() {
-		$podcast = \PodloveSubscribeButton\Model\Podcast::find_by_id( filter_input(INPUT_GET, 'podcast') );
-		echo '<h3>' . sprintf( __( 'Edit Podcast: %s', 'podlove' ), $podcast->title ) . '</h3>';
-		self::form_template( $podcast, 'save' );
+		$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
+		echo '<h3>' . sprintf( __( 'Edit button: %s', 'podlove' ), $button->title ) . '</h3>';
+		self::form_template( $button, 'save' );
 	}
 
 	public static function view_template() {
-		$table = new \PodloveSubscribeButton\Podcast_List_Table;
+		$table = new \PodloveSubscribeButton\Button_List_Table;
 		$table->prepare_items();
 		$table->display();
 	}
 
-	private static function form_template( $podcast, $action ) {
+	private static function form_template( $button, $action ) {
 		?>
-		<form method="post" action="options-general.php?page=podlove-subscribe-button&podcast=<?php echo $podcast->id; ?>&action=<?php echo $action; ?>">
-			<input type="hidden" value="<?php echo $podcast->id; ?>" name="podlove_podcast[id]" />
+		<form method="post" action="options-general.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>">
+			<input type="hidden" value="<?php echo $button->id; ?>" name="podlove_button[id]" />
 			<table class="form-table" border="0" cellspacing="0">
 					<tbody>
 					<tr>
@@ -141,7 +141,7 @@ class Podcasts {
 							<label for="">ID</label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_podcast[name]" value="<?php echo $podcast->name; ?>" />
+							<input type="text" class="regular-text" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -149,7 +149,7 @@ class Podcasts {
 							<label for="">Title</label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_podcast[title]" value="<?php echo $podcast->title; ?>" />
+							<input type="text" class="regular-text" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -157,7 +157,7 @@ class Podcasts {
 							<label for="">Subtitle</label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_podcast[subtitle]" value="<?php echo $podcast->subtitle; ?>" />
+							<input type="text" class="regular-text" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -165,7 +165,7 @@ class Podcasts {
 							<label for="">Description</label>
 						</td>
 						<td>
-							<textarea class="autogrow" cols="40" rows="3" name="podlove_podcast[description]"><?php echo $podcast->description; ?></textarea>
+							<textarea class="autogrow" cols="40" rows="3" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -173,11 +173,11 @@ class Podcasts {
 							<label for="">Cover</label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" id="podlove-podcast-cover" name="podlove_podcast[cover]" value="<?php echo $podcast->cover; ?>" />
-							<br /><img src="<?php echo $podcast->cover; ?>" alt="" style="width: 200px" /> 
+							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
+							<br /><img src="<?php echo $button->cover; ?>" alt="" style="width: 200px" /> 
 							<script type="text/javascript">
 								(function($) {
-									$("#podlove-podcast-cover").on( 'change', function() {
+									$("#podlove-button-cover").on( 'change', function() {
 										url = $(this).val();
 										$(this).parent().find("img").attr("src", url);
 									} );
@@ -210,10 +210,10 @@ class Podcasts {
 				<script type="text/template" id="feed_line_template">
 					<tr>
 						<td>
-							<input type="text" class="regular-text" name="podlove_podcast[feeds][{{id}}][url]" value="{{url}}" />
+							<input type="text" class="regular-text" name="podlove_button[feeds][{{id}}][url]" value="{{url}}" />
 						</td>
 						<td>
-							<select class="regular-text podlove-media-format" name="podlove_podcast[feeds][{{id}}][format]">
+							<select class="regular-text podlove-media-format" name="podlove_button[feeds][{{id}}][format]">
 								<?php 
 									foreach (\PodloveSubscribeButton\MediaTypes::$audio as $id => $audio) {
 										echo "<option value='".$id."'>".$audio['title']."</option>\n";
@@ -226,7 +226,7 @@ class Podcasts {
 				</script>
 				<script type="text/javascript">
 					var feed_counter = 0;
-					var feeds = <?php echo json_encode($podcast->feeds); ?>;
+					var feeds = <?php echo json_encode($button->feeds); ?>;
 
 					(function($) {
 						$( document ).ready( function() {
@@ -278,12 +278,12 @@ class Podcasts {
 		<?php
 	}
 
-	public static function get_action_link( $podcast, $title, $action = 'edit', $type = 'link' ) {
+	public static function get_action_link( $button, $title, $action = 'edit', $type = 'link' ) {
 		return sprintf(
-			'<a href="?page=%s&action=%s&podcast=%s"%s>' . $title . '</a>',
+			'<a href="?page=%s&action=%s&button=%s"%s>' . $title . '</a>',
 			filter_input(INPUT_GET, 'page'),
 			$action,
-			$podcast->id,
+			$button->id,
 			$type == 'button' ? ' class="button"' : ''
 		);
 	}

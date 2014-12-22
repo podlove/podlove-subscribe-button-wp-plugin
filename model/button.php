@@ -1,7 +1,7 @@
 <?php
 namespace PodloveSubscribeButton\Model;
 
-class Podcast extends Base {
+class Button extends Base {
 
 	public function button( $style='medium', $autowidth=false ) {
 		$feeds = array();
@@ -33,10 +33,10 @@ class Podcast extends Base {
 
 }
 
-Podcast::property( 'id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY' );
-Podcast::property( 'name', 'VARCHAR(255)' );
-Podcast::property( 'title', 'VARCHAR(255)' );
-Podcast::property( 'subtitle', 'VARCHAR(255)' );
-Podcast::property( 'description', 'TEXT' );
-Podcast::property( 'cover', 'VARCHAR(255)' );
-Podcast::property( 'feeds', 'TEXT' );
+Button::property( 'id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY' );
+Button::property( 'name', 'VARCHAR(255)' );
+Button::property( 'title', 'VARCHAR(255)' );
+Button::property( 'subtitle', 'VARCHAR(255)' );
+Button::property( 'description', 'TEXT' );
+Button::property( 'cover', 'VARCHAR(255)' );
+Button::property( 'feeds', 'TEXT' );
