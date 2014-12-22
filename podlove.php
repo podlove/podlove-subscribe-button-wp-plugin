@@ -25,6 +25,10 @@ require('widget.php');
 add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
 add_action( 'admin_init', array( 'PodloveSubscribeButton', 'register_settings') );
 add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
+add_action( 'admin_enqueue_scripts', function () {
+	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
+	wp_enqueue_style( 'podlove-subscribe-button' );
+} );
 
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 

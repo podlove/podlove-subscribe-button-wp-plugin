@@ -1,0 +1,20 @@
+table.podlove_alternating th {
+	font-weight: bold;
+	padding: 1px;
+}
+
+table.podlove_alternating {
+	width: 100%;
+	border-bottom: 1px solid #999;
+}
+table.podlove_alternating th {
+	text-align: left;
+	border-bottom: 1px solid #999;
+}
+table.podlove_alternating td {
+	padding: 5px;
+	height: 24px;
+}
+table.podlove_alternating tr:nth-child(even) {
+	background: #EAEAEA;
+}

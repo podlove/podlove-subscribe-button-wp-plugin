@@ -36,7 +36,7 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds )
 			return;
 
-		return $button->button();
+		return $button->render('big','no');
 	}
 	
 	function column_id( $button ) {
