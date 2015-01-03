@@ -18,9 +18,6 @@ class Buttons {
 					</strong>
 				</p>
 				<p>
-					<?php echo __( 'Clients subscribing to this button will no longer receive updates. If you are moving your button, you must inform your subscribers.', 'podlove' ) ?>
-				</p>
-				<p>
 					<?php echo self::get_action_link( $button, __( 'Delete button permanently', 'podlove' ), 'delete', 'button' ) ?>
 					<?php echo self::get_action_link( $button, __( 'Don\'t change anything', 'podlove' ), 'keep', 'button-primary' ) ?>
 				</p>

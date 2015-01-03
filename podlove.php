@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.0-alpha
+ * Version:     1.0
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -30,6 +30,13 @@ add_action( 'admin_enqueue_scripts', function () {
 	wp_enqueue_style( 'podlove-subscribe-button' );
 } );
 
+if ( is_plugin_active('podlove-publisher/podlove.php') )
+	add_action( 'admin_notices', function () {
+		echo '<div class="error"><p>'.__('Warning: If you are using Podlove Publisher please use the <em>Subscribe button</em> module instead of the WordPress plugin!', 'podlove').'</p></div>';
+	} );
+
+
+
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
 class PodloveSubscribeButton {
@@ -49,16 +56,16 @@ class PodloveSubscribeButton {
 	}
 
 	public static function shortcode( $args ) {
-		if ( ! $args || ! $args['id'] )
+		if ( ! $args || ! isset($args['id']) )
 			return __('You need create a Button first and provide its ID.', 'podlove');
 
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['id']) )
 			return __('Oops. There is no button with the provided ID.', 'podlove');
 
 		$autowidth = ( isset($args['width']) && $args['width'] == 'auto' ? 'on' : '' ); // "on" because this value originates from a checkbox
-		$style = ( isset($args['style']) && in_array($args['style'], array('small', 'medium', 'big', 'big-logo')) ? $args['style'] : 'medium' );
+		$size = ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ? $args['size'] : 'medium' );
 
-		return $button->render( $style, $autowidth );
+		return $button->render( $size, $autowidth );
 	}
 
 }
