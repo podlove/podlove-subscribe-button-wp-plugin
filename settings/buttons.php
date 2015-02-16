@@ -111,13 +111,14 @@ class Buttons {
 
 	public static function new_template() {
 		$button = new \PodloveSubscribeButton\Model\Button;
-		echo '<h3>' . __( 'New button', 'podlove' ) . '</h3>';
+		echo '<h3>' . __( 'New Subscribe button', 'podlove' ) . '</h3>'.
+				__( 'Please fill in your Podcast metadata to create a Podlove Subscription button', 'podlove' );
 		self::form_template( $button, 'create' );
 	}
 
 	public static function edit_template() {
 		$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
-		echo '<h3>' . sprintf( __( 'Edit button: %s', 'podlove' ), $button->title ) . '</h3>';
+		echo '<h3>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove' ), $button->title ) . '</h3>';
 		self::form_template( $button, 'save' );
 	}
 
@@ -135,39 +136,40 @@ class Buttons {
 					<tbody>
 					<tr>
 						<td scope="row">
-							<label for="">ID</label>
+							<label for="podlove_button_name"><?php _e('ID', 'podlove'); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
+							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
+							<br /><span class="description"><?php _e('The ID will be used as in internal identifier for shortcodes.', 'podlove'); ?></span>
 						</td>
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="">Title</label>
+							<label for="podlove_button_title"><?php _e('Title', 'podlove'); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
+							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="">Subtitle</label>
+							<label for="podlove_button_subtitle"><?php _e('Subtitle', 'podlove'); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
+							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="">Description</label>
+							<label for="podlove_button_description"><?php _e('Description', 'podlove'); ?></label>
 						</td>
 						<td>
-							<textarea class="autogrow" cols="40" rows="3" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
+							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="">Cover</label>
+							<label for="podlove-button-cover"><?php _e('Image URL', 'podlove'); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
