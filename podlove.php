@@ -30,15 +30,6 @@ add_action( 'admin_enqueue_scripts', function () {
 	wp_enqueue_style( 'podlove-subscribe-button' );
 } );
 
-add_action( 'admin_init', function () {
-	if ( is_plugin_active('podlove-publisher/podlove.php') ) {
-		add_action( 'admin_notices', function () {
-			echo '<div class="error"><p>'.__('Warning: If you are using Podlove Publisher please use the <em>Subscribe button</em> module instead of the WordPress plugin!', 'podlove').'</p></div>';
-		} );
-	}		
-});
-
-
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
 class PodloveSubscribeButton {
