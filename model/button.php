@@ -27,7 +27,7 @@ class Button extends Base {
 				podcastData".$this->id." =".json_encode($podcast_data)."
 			</script>
 			<script class=\"podlove-subscribe-button\" src=\"http://docs.podlove.org/podlove-subscribe-button/dist/javascripts/app.js\"
-			 data-language=\"".get_bloginfo('language')."\" data-size=\"".$style.( $autowidth === 'on' ? ' auto' : '' )."\" data-json-data=\"podcastData".$this->id."\"></script>
+			 data-language=\"".get_bloginfo('language')."\" data-size=\"". $style . ( $autowidth == 'on' ? ' auto' : '' ) . "\" data-json-data=\"podcastData".$this->id."\"></script>
 		";
 	}
 

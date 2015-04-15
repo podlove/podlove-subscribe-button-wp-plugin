@@ -53,7 +53,11 @@ class Buttons {
 		$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
 		$button->update_attributes( $post['podlove_button'] );
 		
-		self::redirect( 'index' );
+		if ( isset($_POST['submit_and_stay']) ) {
+			self::redirect( 'edit', $button->id );
+		} else {
+			self::redirect( 'index', $button->id );
+		}
 	}
 	/**
 	 * Process form: create a format
@@ -123,6 +127,9 @@ class Buttons {
 	}
 
 	public static function view_template() {
+		?>
+		<p><?php _e('Start by adding a button for each of your Podcasts. You can then add your button to your Blog by using the provided shortcodes or the <a href="widgets.php">Subscribe Button Widget</a>.', 'podlove'); ?></p>
+		<?php
 		$table = new \PodloveSubscribeButton\Button_List_Table;
 		$table->prepare_items();
 		$table->display();
@@ -186,26 +193,29 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="">Feeds</label>
+							<label for="feeds_table">Feeds</label>
 						</td>
 						<td>
-							<table class="podlove_alternating" border="0" cellspacing="0">
+							<table id="feeds_table" class="podlove_alternating" border="0" cellspacing="0">
 								<thead>
 									<tr>
-										<th>URL</th>
-										<th>Media format</th>
-										<th>Actions</th>
+										<th><?php _e('URL', 'podlove'); ?></th>
+										<th><?php _e('Media format', 'podlove'); ?></th>
+										<th><?php _e('Actions', 'podlove'); ?></th>
 									</tr>
 								</thead>
 								<tbody id="feeds_table_body">
 								</tbody>
 							</table>
 							<input type="button" class="button add_feed" value="+" />
+							<p><span class="description"><?php _e('Provide all Feeds with their corresponding Media File Type. The Subscribe Button will then automatically provide the most suitable feed to the subscriber with respect to their Podcast Client.', 'podlove'); ?></span></p>
 						</td>
 					</tr>
 					</tbody>
 				</table>
-				<input name="submit" id="submit" class="button button-primary" value="Save Changes" type="submit" />
+				<input name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'podlove'); ?>" type="submit" />
+				<input type="submit" name="submit_and_stay" id="submit_and_stay" class="button" value="<?php _e('Save Changes and Continue Editing', 'podlove'); ?>"  />
+
 				<script type="text/template" id="feed_line_template">
 					<tr>
 						<td>

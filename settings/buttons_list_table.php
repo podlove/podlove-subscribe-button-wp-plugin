@@ -36,7 +36,7 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds )
 			return;
 
-		return $button->render('big','no');
+		return "<div class='podlove-button-preview-container'>" . $button->render('big') . "</div>";
 	}
 	
 	function column_id( $button ) {
