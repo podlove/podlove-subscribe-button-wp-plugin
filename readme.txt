@@ -69,16 +69,16 @@ This is the easiest and recommended way of using this plugin especially if you o
 If you want to include a Podlove Subscribe Button in a WordPress page (or a post) just put the shortcode `[podlove-subscribe-button]` at the desired position in your text. Use the following shortcode parameters to configure it properly:
 
 * `button` --- the ID of one of your preconfigured buttons
-* `style` --- one of 'small', 'medium', 'big', 'big-logo'
+* `size` --- one of 'small', 'medium', 'big', 'big-logo'
 * `width` --- specify desired button width in CSS compatibles values or 'auto' automatic width depending on context.
 
 
 ==== Shortcode Examples ====
 
-`[podlove-subscribe-button button="mybutton1" style="big-logo"]`
+`[podlove-subscribe-button button="mybutton1" size="big-logo"]`
 Displays a large button with the podcast logo on top using data from button configuration with id "mybutton1"
 
-`[podlove-subscribe-button button="mybutton2" style="medium" width="100pt"]`
+`[podlove-subscribe-button button="mybutton2" size="medium" width="100pt"]`
 Displays a small button with a width of 100pt using data from button configuration with id "mybutton2"
 
 
