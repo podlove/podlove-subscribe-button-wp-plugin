@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Podlove Subscribe button ===
 Contributors: chemiker
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget
 Requires at least: 3.0.1
 Tested up to: 4.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -87,6 +87,10 @@ Displays a small button with a width of 100pt using data from button configurati
 
 == Frequently Asked Questions ==
 
+### I'm running the _Podlove Publisher_. Do I need this plugin to display a Subscribe button?
+
+Yes and No. If you simply want to display a Subscribe Button for your Podcast you publish with the Podlove Publisher you do not need this plugin as the Publisher itself provides this functionality. If you want to display multiple Subscribe Buttons you can use the Subscribe Button plugin.
+
 ### Does this plugin actually contain the code for the button?
 
 No. This plugin just embeds the code that is needed to display the Podlove Subscribe Button. The button itself is served live from api.podlove.org
@@ -110,9 +114,18 @@ Consult the information provided on [the technical information page](http://podl
 
 
 
+== Upgrade Notices ==
+
+=== 1.0.1 ===
+* Shortcodes: The `id` attribute was changed to `button`. Please adjust your shortcodes.
 
 
 == Changelog ==
+
+=== 1.0.1 ===
+* Enhancements in documentation
+* Smaller Bugfixes
+* Shortcodes: Change `id` attribute to `button`
 
 === 1.0 ===
 

@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.0
+ * Version:     1.0.1
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -49,14 +49,14 @@ class PodloveSubscribeButton {
 	}
 
 	public static function shortcode( $args ) {
-		if ( ! $args || ! isset($args['id']) )
-			return __('You need create a Button first and provide its ID.', 'podlove');
+		if ( ! $args || ! isset($args['button']) )
+			return __('You need to create a Button first and provide its ID.', 'podlove');
 
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['id']) )
-			return __('Oops. There is no button with the provided ID.', 'podlove');
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) )
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		$autowidth = ( isset($args['width']) && $args['width'] == 'auto' ? 'on' : '' ); // "on" because this value originates from a checkbox
-		$size = ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ? $args['size'] : 'medium' );
+		$size = ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ? $args['size'] : 'big-logo' );
 
 		return $button->render( $size, $autowidth );
 	}

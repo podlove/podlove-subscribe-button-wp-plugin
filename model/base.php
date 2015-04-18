@@ -311,7 +311,7 @@ abstract class Base {
 			if ( is_array($value) ) {
 				$this->{$key} = serialize($value);
 			} else {
-				$this->{$key} = $value;
+				$this->{$key} = esc_sql($value);
 			}
 		}
 		
@@ -352,7 +352,7 @@ abstract class Base {
 			"UPDATE %s SET %s = '%s' WHERE id = %s",
 			self::table_name(),
 			$attribute,
-			$value,
+			mysqli_real_escape_string($value),
 			$this->id
 		);
 

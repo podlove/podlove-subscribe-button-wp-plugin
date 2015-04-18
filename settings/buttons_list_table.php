@@ -26,7 +26,7 @@ class Button_List_Table extends \WP_List_Table {
 		);
 	
 		return sprintf('%1$s %2$s',
-		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button id="' . $button->name . '"]</code>',
+		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button button="' . $button->name . '"]</code>',
 		    /*$3%s*/ $this->row_actions( $actions )
 		);
 	}
@@ -36,7 +36,7 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds )
 			return;
 
-		return "<div class='podlove-button-preview-container'>" . $button->render('big') . "</div>";
+		return "<div class='podlove-button-preview-container'>" . $button->render('big-logo', 'off') . "</div>";
 	}
 	
 	function column_id( $button ) {
