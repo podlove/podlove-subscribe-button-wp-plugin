@@ -13,7 +13,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	}
 
 	public function widget( $args, $instance ) {
-		$button = \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']);
+		$button = ( \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) ? \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_by_id($instance['button']) );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
@@ -33,6 +33,13 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		$autowidth = isset( $instance[ 'autowidth' ] ) ? $instance[ 'autowidth' ]  : 0;
 		$infotext  = isset( $instance[ 'infotext' ] )  ? $instance[ 'infotext' ]   : '';
 		$buttons = \PodloveSubscribeButton\Model\Button::all();
+		$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
+
+		$buttons_as_options = function ($buttons) {
+			foreach ($buttons as $subscribebutton) {
+				echo "<option value='".$subscribebutton->id."' ".( $subscribebutton->id == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
+			}
+		}
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove' ); ?></label> 
@@ -41,11 +48,16 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove' ); ?></label> 
 			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
 				      name="<?php echo $this->get_field_name( 'button' ); ?>">
-				<?php
-					foreach ($buttons as $subscribebutton) {
-						echo "<option value='".$subscribebutton->id."' ".( $subscribebutton->id == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
-					}
-				?>
+				<?php if ( isset($network_buttons) && count($network_buttons) > 0 ) : ?>
+					<optgroup label="<?php _e('Local', 'podlove'); ?>">
+						<?php $buttons_as_options($buttons); ?>
+					</optgroup>
+					<optgroup label="<?php _e('Network', 'podlove'); ?>">
+						<?php $buttons_as_options($network_buttons); ?>
+					</optgroup>
+				<?php else : 
+					$buttons_as_options($buttons);
+				 endif; ?>
 			</select>
 
 			<label for="<?php echo $this->get_field_id( 'style' ); ?>"><?php _e( 'Style', 'podlove' ); ?></label> 

@@ -15,6 +15,7 @@ require('settings/buttons.php');
 // Models
 require('model/base.php');
 require('model/button.php');
+require('model/network_button.php');
 // Table
 require('settings/buttons_list_table.php');
 // Media Types
@@ -23,8 +24,12 @@ require('media_types.php');
 require('widget.php');
 
 add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
+if ( ! defined('MULTISITE') )
+	add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu') );
+
 add_action( 'admin_init', array( 'PodloveSubscribeButton', 'register_settings') );
 add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
+
 add_action( 'admin_enqueue_scripts', function () {
 	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
 	wp_enqueue_style( 'podlove-subscribe-button' );
@@ -50,15 +55,28 @@ class PodloveSubscribeButton {
 			);
 	}
 
+	public static function admin_network_menu() {
+		add_submenu_page(
+				'settings.php',
+				'Podlove Subscribe Button Options',
+				'Podlove Subscribe Button',
+				'manage_options',
+				'podlove-subscribe-button',
+				array( 'PodloveSubscribeButton\Settings\Buttons', 'page')
+			);
+	}
+
 	public static function register_settings() {
-		\PodloveSubscribeButton\Model\Button::build();		
+		\PodloveSubscribeButton\Model\Button::build();
+		if ( ! defined('MULTISITE') )
+			\PodloveSubscribeButton\Model\NetworkButton::build();
 	}
 
 	public static function shortcode( $args ) {
 		if ( ! $args || ! isset($args['button']) )
 			return __('You need to create a Button first and provide its ID.', 'podlove');
 
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) )
+		if ( ! $button = ( \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) ? \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $args['button']) ) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		if ( isset($args['width']) && $args['width'] == 'auto' ) {

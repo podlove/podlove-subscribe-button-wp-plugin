@@ -65,7 +65,8 @@ class Button_List_Table extends \WP_List_Table {
 		
 		// retrieve data
 		// TODO select data for current page only
-		$data = \PodloveSubscribeButton\Model\Button::all();
+		$screen = get_current_screen();
+		$data = ( $screen->is_network ? \PodloveSubscribeButton\Model\NetworkButton::all() : \PodloveSubscribeButton\Model\Button::all() );
 		
 		// get current page
 		$current_page = $this->get_pagenum();
