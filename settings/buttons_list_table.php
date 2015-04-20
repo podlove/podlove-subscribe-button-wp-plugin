@@ -36,7 +36,10 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds )
 			return;
 
-		return "<div class='podlove-button-preview-container'>" . $button->render('big-logo', 'off') . "</div>";
+		return "<div class='podlove-button-preview-container'>" . $button->render(
+				( get_option('podlove_subscribe_button_default_style') === FALSE ? 'big-logo' : get_option('podlove_subscribe_button_default_style')),
+			 	( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth'))
+			 ) . "</div>";
 	}
 	
 	function column_id( $button ) {

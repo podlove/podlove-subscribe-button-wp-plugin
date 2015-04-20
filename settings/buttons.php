@@ -135,6 +135,41 @@ class Buttons {
 		$table = new \PodloveSubscribeButton\Button_List_Table;
 		$table->prepare_items();
 		$table->display();
+
+		$default_styles = array(
+				'small' => __('Small', 'podlove'),
+				'medium' => __('Medium', 'podlove'),
+				'big' => __('Big', 'podlove'),
+				'big-logo' => __('Big with logo', 'podlove')
+			);
+		$selected_style = ( get_option('podlove_subscribe_button_default_style') ? get_option('podlove_subscribe_button_default_style') : 'big-logo' );
+		$autowidth = ( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth') );
+		?>
+		<h3><?php _e('Settings', 'podlove'); ?></h3>
+		<form method="post" action="options.php">
+			<?php settings_fields( 'podlove-subscribe-button' ); ?>
+			<?php do_settings_sections( 'podlove-subscribe-button' ); ?>
+			<table class="form-table">
+				<tr valign="top">
+				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Default Style', 'podlove'); ?></label></th>
+				<td>
+					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
+						<?php foreach ($default_styles as $value => $description) : ?>
+							<option value="<?php echo $value; ?>" <?php echo ( $selected_style == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				</tr>
+				<tr valign="top">
+				<th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e('Autowidth', 'podlove'); ?></label></th>
+				<td>
+					<input type="checkbox" name="podlove_subscribe_button_default_autowidth" id="podlove_subscribe_button_default_autowidth" <?php echo ( $autowidth == 'on' ? 'checked' : '' ) ?> />
+				</td>
+				</tr>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+		<?php
 	}
 
 	private static function form_template( $button, $action ) {
@@ -251,13 +286,14 @@ class Buttons {
 								add_existing_feed(feed);
 							} );
 
-
-
 							function add_new_feed() {
 								row = source.replace( /\{\{url\}\}/g, '' );
 								row = row.replace( /\{\{id\}\}/g, feed_counter );
 
 								$("#feeds_table_body").append(row);
+
+								new_row = $("#feeds_table_body tr:last");
+								new_row.find("input:first").focus();
 
 								$(".podlove-icon-remove").on( 'click', function () {
 									$(this).closest("tr").remove();

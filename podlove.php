@@ -30,6 +30,12 @@ add_action( 'admin_enqueue_scripts', function () {
 	wp_enqueue_style( 'podlove-subscribe-button' );
 } );
 
+// Register Settings
+add_action( 'admin_init', function () {
+	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_style' );
+	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_autowidth' );
+} );
+
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
 class PodloveSubscribeButton {
@@ -55,8 +61,21 @@ class PodloveSubscribeButton {
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
-		$autowidth = ( isset($args['width']) && $args['width'] == 'auto' ? 'on' : '' ); // "on" because this value originates from a checkbox
-		$size = ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ? $args['size'] : 'big-logo' );
+		if ( isset($args['width']) && $args['width'] == 'auto' ) {
+			$autowidth = 'on';
+		} elseif ( get_option('podlove_subscribe_button_default_autowidth') !== FALSE ) {
+			$autowidth = get_option('podlove_subscribe_button_default_autowidth');
+		} else {
+			$autowidth = 'on';
+		}
+
+		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ) {
+			$size = $args['size'];
+		} elseif ( get_option('podlove_subscribe_button_default_style') ) {
+			$size = get_option('podlove_subscribe_button_default_style');
+		} else {
+			$size = 'big-logo';
+		}
 
 		return $button->render( $size, $autowidth );
 	}
