@@ -3,7 +3,7 @@ Contributors: chemiker
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.0.1
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 1.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
