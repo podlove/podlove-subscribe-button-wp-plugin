@@ -32,7 +32,7 @@ class Button extends Base {
 			return '';
 		};
 
-		$default_autowidth = ( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth'));
+		$default_autowidth = get_option('podlove_subscribe_button_default_autowidth', 'on');
 
 		return"
 			<script>
@@ -40,7 +40,7 @@ class Button extends Base {
 			</script>
 			<script class=\"podlove-subscribe-button\" src=\"http://docs.podlove.org/podlove-subscribe-button/dist/javascripts/app.js\"
 			 data-language=\"".get_bloginfo('language')."\" data-size=\""
-			 . ( $style == 'default' && get_option('podlove_subscribe_button_default_style') ? get_option('podlove_subscribe_button_default_style') : $style ) 
+			 . ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style )
 			 . $apply_autowidth($autowidth)
 			 . "\" data-json-data=\"podcastData".$this->id."\"></script>
 		";

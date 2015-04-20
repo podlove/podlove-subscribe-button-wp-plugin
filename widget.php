@@ -75,8 +75,8 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 			<select class="widefat" id="<?php echo $this->get_field_id( 'autowidth' ); ?>" name="<?php echo $this->get_field_name( 'autowidth' ); ?>">
 				<option value="default"      <?php echo ( $autowidth == 'default'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Default Autowidth', 'podlove' ) ?></option>
 				<optgroup>
-					<option value="on"    <?php echo ( $autowidth == 'on'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Yes', 'podlove' ) ?></option>
-					<option value=""   <?php echo ( $autowidth == ''   ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'No', 'podlove' ) ?></option>
+					<option value="on"       <?php echo ( $autowidth == 'on'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Yes', 'podlove' ) ?></option>
+					<option value=""         <?php echo ( $autowidth == ''   ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'No', 'podlove' ) ?></option>
 				</optgroup>
 			</select>
 		

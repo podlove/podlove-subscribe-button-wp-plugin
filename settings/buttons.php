@@ -54,8 +54,8 @@ class Buttons {
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') ) );
 		$button->update_attributes( $post['podlove_button'] );
 		
-		if ( isset($_POST['submit_and_stay']) ) {
-			self::redirect( 'edit', $button->id, array( 'network' => '1' ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+		if ( isset($post['submit_and_stay']) ) {
+			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
 		} else {
 			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
 		}
@@ -71,7 +71,11 @@ class Buttons {
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? new \PodloveSubscribeButton\Model\NetworkButton : new \PodloveSubscribeButton\Model\Button );
 		$button->update_attributes( $post['podlove_button'] );
 
-		self::redirect( 'index', NULL, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+		if ( isset($post['submit_and_stay']) ) {
+			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+		} else {
+			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+		}
 	}
 	
 	/**
@@ -139,6 +143,7 @@ class Buttons {
 	}
 
 	public static function view_template() {
+		$is_network = get_current_screen()->is_network;
 		?>
 		<p><?php _e('This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove'); ?></p>
 		<p><?php _e('Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove'); ?></p>
@@ -156,6 +161,8 @@ class Buttons {
 			);
 		$selected_style = ( get_option('podlove_subscribe_button_default_style') ? get_option('podlove_subscribe_button_default_style') : 'big-logo' );
 		$autowidth = ( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth') );
+		
+		if ( ! $is_network ) :
 		?>
 		<h3><?php _e('Default Settings', 'podlove'); ?></h3>
 		<form method="post" action="options.php">
@@ -182,6 +189,7 @@ class Buttons {
 			<?php submit_button(); ?>
 		</form>
 		<?php
+		endif;
 	}
 
 	private static function form_template( $button, $action ) {

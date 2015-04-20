@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.0.1
+ * Version:     1.1
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -24,7 +24,7 @@ require('media_types.php');
 require('widget.php');
 
 add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
-if ( ! defined('MULTISITE') )
+if ( is_multisite() )
 	add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu') );
 
 add_action( 'admin_init', array( 'PodloveSubscribeButton', 'register_settings') );
@@ -68,7 +68,7 @@ class PodloveSubscribeButton {
 
 	public static function register_settings() {
 		\PodloveSubscribeButton\Model\Button::build();
-		if ( ! defined('MULTISITE') )
+		if ( is_multisite() )
 			\PodloveSubscribeButton\Model\NetworkButton::build();
 	}
 
@@ -81,18 +81,14 @@ class PodloveSubscribeButton {
 
 		if ( isset($args['width']) && $args['width'] == 'auto' ) {
 			$autowidth = 'on';
-		} elseif ( get_option('podlove_subscribe_button_default_autowidth') !== FALSE ) {
-			$autowidth = get_option('podlove_subscribe_button_default_autowidth');
 		} else {
-			$autowidth = 'on';
+			$autowidth = get_option('podlove_subscribe_button_default_autowidth', 'on');
 		}
 
 		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ) {
 			$size = $args['size'];
-		} elseif ( get_option('podlove_subscribe_button_default_style') ) {
-			$size = get_option('podlove_subscribe_button_default_style');
 		} else {
-			$size = 'big-logo';
+			$size = get_option('podlove_subscribe_button_default_style', 'big-logo');
 		}
 
 		return $button->render( $size, $autowidth );

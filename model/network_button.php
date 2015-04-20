@@ -1,9 +1,7 @@
 <?php
 namespace PodloveSubscribeButton\Model;
 
-class NetworkButton extends Button {
-
-}
+class NetworkButton extends Button {}
 
 NetworkButton::property( 'id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY' );
 NetworkButton::property( 'name', 'VARCHAR(255)' );

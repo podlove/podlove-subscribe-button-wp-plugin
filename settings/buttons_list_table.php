@@ -32,13 +32,14 @@ class Button_List_Table extends \WP_List_Table {
 	}
 
 	function column_button_preview( $button ) {
-
 		if ( ! $button->feeds )
 			return;
 
+		$is_network = get_current_screen()->is_network;
+
 		return "<div class='podlove-button-preview-container'>" . $button->render(
-				( get_option('podlove_subscribe_button_default_style') === FALSE ? 'big-logo' : get_option('podlove_subscribe_button_default_style')),
-			 	( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth'))
+				( $is_network ? 'big-logo' : get_option('podlove_subscribe_button_default_style', 'big-logo') ),
+			 	( $is_network ? FALSE : get_option('podlove_subscribe_button_default_autowidth', 'on') )
 			 ) . "</div>";
 	}
 	
