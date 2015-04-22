@@ -27,8 +27,8 @@ add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
 if ( is_multisite() )
 	add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu') );
 
-add_action( 'admin_init', array( 'PodloveSubscribeButton', 'register_settings') );
 add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
+register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
 
 add_action( 'admin_enqueue_scripts', function () {
 	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
@@ -66,7 +66,7 @@ class PodloveSubscribeButton {
 			);
 	}
 
-	public static function register_settings() {
+	public static function build_models() {
 		\PodloveSubscribeButton\Model\Button::build();
 		if ( is_multisite() )
 			\PodloveSubscribeButton\Model\NetworkButton::build();
