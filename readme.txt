@@ -124,6 +124,9 @@ Consult the information provided on [the technical information page](http://podl
 
 == Changelog ==
 
+### 1.1.1
+* Smaller Bugfix: Build tables on plugin-activation only
+
 ### 1.1
 * Network Support - If you run a WordPress Multisite Installation you can create Buttons that are available in the whole Network
 * Default Settings for Size and Autowidth
