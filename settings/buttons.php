@@ -95,7 +95,7 @@ class Buttons {
 	 * Helper method: redirect to a certain page.
 	 */
 	public function redirect( $action, $button_id = NULL, $params = array(), $network = FALSE ) {
-		$page    = ( $network ? '/wp-admin/network/settings' : 'options-general' ) . '.php?page=' . filter_input(INPUT_GET, 'page');
+		$page    = ( $network ? '/network/settings' : 'options-general' ) . '.php?page=' . filter_input(INPUT_GET, 'page');
 		$show    = ( $button_id ) ? '&button=' . $button_id : '';
 		$action  = '&action=' . $action;
 

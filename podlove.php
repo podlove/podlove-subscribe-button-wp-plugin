@@ -11,6 +11,14 @@
  * Text Domain: podlove
  */
 
+$correct_php_version = version_compare( phpversion(), "5.3", ">=" );
+
+if ( ! $correct_php_version ) {
+	echo "Podlove Subscribe Button Plugin requires <strong>PHP 5.3</strong> or higher.<br>";
+	echo "You are running PHP " . phpversion();
+	exit;
+}
+
 require('settings/buttons.php');
 // Models
 require('model/base.php');
