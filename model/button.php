@@ -38,7 +38,7 @@ class Button extends Base {
 			<script>
 				podcastData".$this->id." =".json_encode($podcast_data)."
 			</script>
-			<script class=\"podlove-subscribe-button\" src=\"http://docs.podlove.org/podlove-subscribe-button/dist/javascripts/app.js\"
+			<script class=\"podlove-subscribe-button\" src=\"https://cdn.podlove.org/subscribe-button/javascripts/app.js\"
 			 data-language=\"".get_bloginfo('language')."\" data-size=\""
 			 . ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style )
 			 . $apply_autowidth($autowidth)

@@ -11,12 +11,12 @@
 				1 => array(
 						'title' => 'MPEG-4 AAC Audio',
 						'mime_type' => 'audio/mp4',
-						'extension' => 'm4a'
+						'extension' => 'aac'
 					),
 				2 => array(
 						'title' => 'MPEG-4 ALAC Audio',
 						'mime_type' => 'audio/mp4',
-						'extension' => 'm4a'
+						'extension' => 'aac'
 					),
 				3 => array(
 						'title' => 'Ogg Vorbis Audio',
