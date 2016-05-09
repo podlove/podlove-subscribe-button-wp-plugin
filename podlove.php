@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.1.3
+ * Version:     2.0
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -41,12 +41,19 @@ register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_mode
 add_action( 'admin_enqueue_scripts', function () {
 	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
 	wp_enqueue_style( 'podlove-subscribe-button' );
+
+	wp_enqueue_style('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.css');
+	wp_enqueue_script('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.js', array('jquery'));
+	wp_enqueue_script('podlove-subscribe-button-admin-tools', plugin_dir_url(__FILE__). 'js/admin.js', array('jquery'));
 } );
 
 // Register Settings
 add_action( 'admin_init', function () {
-	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_style' );
-	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_autowidth' );
+	$settings = array('size', 'autowidth', 'style', 'format', 'color');
+
+	foreach ($settings as $setting) {
+		register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+	}
 } );
 
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
@@ -89,17 +96,45 @@ class PodloveSubscribeButton {
 
 		if ( isset($args['width']) && $args['width'] == 'auto' ) {
 			$autowidth = 'on';
+		} elseif ( isset($args['width']) && $args['width'] !== 'auto' ) {
+			$autowidth = 'off';
 		} else {
 			$autowidth = get_option('podlove_subscribe_button_default_autowidth', 'on');
 		}
 
-		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ) {
+		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big')) ) {
 			$size = $args['size'];
 		} else {
-			$size = get_option('podlove_subscribe_button_default_style', 'big-logo');
+			$size = get_option('podlove_subscribe_button_default_size', 'big');
 		}
 
-		return $button->render( $size, $autowidth );
+		if ( isset($args['style']) && in_array($args['style'], array('filled', 'outline', 'frameless')) ) {
+			$style = $args['style'];
+		} else {
+			$style = get_option('podlove_subscribe_button_default_style', 'filled');
+		}
+
+		if ( isset($args['format']) && in_array($args['format'], array('rectangle', 'square', 'cover')) ) {
+			$format = $args['format'];
+		} else {
+			$format = get_option('podlove_subscribe_button_default_format', 'rectangle');
+		}
+
+		if ( isset($args['color']) ) {
+			$color = $args['color'];
+		} else {
+			$color = get_option('podlove_subscribe_button_default_color', '#599677');
+		}
+
+		if ( isset($args['hide']) && $args['hide'] == 'true' ) {
+			$hide = TRUE;
+		}
+
+		if ( isset($args['buttonid']) ) {
+			$buttonid = $args['buttonid'];
+		}
+
+		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid);
 	}
 
 }

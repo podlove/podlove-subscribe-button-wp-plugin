@@ -153,14 +153,8 @@ class Buttons {
 		$table->prepare_items();
 		$table->display();
 
-		$default_styles = array(
-				'small' => __('Small', 'podlove'),
-				'medium' => __('Medium', 'podlove'),
-				'big' => __('Big', 'podlove'),
-				'big-logo' => __('Big with logo', 'podlove')
-			);
-		$selected_style = ( get_option('podlove_subscribe_button_default_style') ? get_option('podlove_subscribe_button_default_style') : 'big-logo' );
-		$autowidth = ( get_option('podlove_subscribe_button_default_autowidth') === FALSE ? 'on' : get_option('podlove_subscribe_button_default_autowidth') );
+		// Get the global button settings (with fallback to default values)
+		$settings = \PodloveSubscribeButton\Model\Button::get_global_setting_with_fallback();
 		
 		if ( ! $is_network ) :
 		?>
@@ -170,11 +164,11 @@ class Buttons {
 			<?php do_settings_sections( 'podlove-subscribe-button' ); ?>
 			<table class="form-table">
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Style', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e('Size', 'podlove'); ?></label></th>
 				<td>
-					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
-						<?php foreach ($default_styles as $value => $description) : ?>
-							<option value="<?php echo $value; ?>" <?php echo ( $selected_style == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
+					<select name="podlove_subscribe_button_default_size" id="podlove_subscribe_button_default_size">
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$sizes as $value => $description) : ?>
+							<option value="<?php echo $value; ?>" <?php echo ( $settings['size'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</td>
@@ -182,7 +176,33 @@ class Buttons {
 				<tr valign="top">
 				<th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e('Autowidth', 'podlove'); ?></label></th>
 				<td>
-					<input type="checkbox" name="podlove_subscribe_button_default_autowidth" id="podlove_subscribe_button_default_autowidth" <?php echo ( $autowidth == 'on' ? 'checked' : '' ) ?> />
+					<input type="checkbox" name="podlove_subscribe_button_default_autowidth" id="podlove_subscribe_button_default_autowidth" <?php echo ( $settings['autowidth'] == 'on' ? 'checked' : '' ) ?> />
+				</td>
+				</tr>
+				<tr valign="top">
+				<th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e('Color', 'podlove'); ?></label></th>
+				<td>
+					<input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color" value="<?php echo $settings['color'] ?>" />
+				</td>
+				</tr>
+				<tr valign="top">
+				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Style', 'podlove'); ?></label></th>
+				<td>
+					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$styles as $value => $description) : ?>
+							<option value="<?php echo $value; ?>" <?php echo ( $settings['style'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				</tr>
+				<tr valign="top">
+				<th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e('Format', 'podlove'); ?></label></th>
+				<td>
+					<select name="podlove_subscribe_button_default_format" id="podlove_subscribe_button_default_format">
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$formats as $value => $description) : ?>
+							<option value="<?php echo $value; ?>" <?php echo ( $settings['format'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
+						<?php endforeach; ?>
+					</select>
 				</td>
 				</tr>
 			</table>
@@ -258,6 +278,7 @@ class Buttons {
 								<thead>
 									<tr>
 										<th><?php _e('URL', 'podlove'); ?></th>
+										<th><?php _e('iTunes feed ID', 'podlove'); ?></th>
 										<th><?php _e('Media format', 'podlove'); ?></th>
 										<th><?php _e('Actions', 'podlove'); ?></th>
 									</tr>
@@ -280,6 +301,9 @@ class Buttons {
 							<input type="text" class="regular-text" name="podlove_button[feeds][{{id}}][url]" value="{{url}}" />
 						</td>
 						<td>
+						<input type="text" class="regular-text" name="podlove_button[feeds][{{id}}][itunesfeedid]" value="{{itunesfeedid}}" />
+						</td>
+						<td>
 							<select class="regular-text podlove-media-format" name="podlove_button[feeds][{{id}}][format]">
 								<?php 
 									foreach (\PodloveSubscribeButton\MediaTypes::$audio as $id => $audio) {
@@ -292,55 +316,7 @@ class Buttons {
 					</tr>
 				</script>
 				<script type="text/javascript">
-					var feed_counter = 0;
 					var feeds = <?php echo json_encode($button->feeds); ?>;
-
-					(function($) {
-						$( document ).ready( function() {
-							var source = $("#feed_line_template").html();
-
-							$(".add_feed").on( 'click', function () {
-								add_new_feed();
-							} );
-
-							$.each( feeds, function (index, feed) {
-								add_existing_feed(feed);
-							} );
-
-							function add_new_feed() {
-								row = source.replace( /\{\{url\}\}/g, '' );
-								row = row.replace( /\{\{id\}\}/g, feed_counter );
-
-								$("#feeds_table_body").append(row);
-
-								new_row = $("#feeds_table_body tr:last");
-								new_row.find("input:first").focus();
-
-								$(".podlove-icon-remove").on( 'click', function () {
-									$(this).closest("tr").remove();
-								} );
-
-								feed_counter++;
-							}
-
-							function add_existing_feed( feed ) {
-								row = source.replace( /\{\{url\}\}/g, feed.url );
-								row = row.replace( /\{\{id\}\}/g, feed_counter );
-
-								$("#feeds_table_body").append(row);
-
-								new_row = $("#feeds_table_body tr:last");
-								new_row.find('select.podlove-media-format option[value="' + feed.format + '"]').attr('selected',true);
-
-								$(".podlove-icon-remove").on( 'click', function () {
-									$(this).closest("tr").remove();
-								} );
-
-								feed_counter++;
-							}
-
-						} );
-					}(jQuery));
 				</script>
 		</form>
 		<?php
