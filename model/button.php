@@ -90,11 +90,11 @@ class Button extends Base {
 
 		return"
 			<script>
-				podcastData".$this->id." =".json_encode($podcast_data)."
+				podcastData".$this->name." =".json_encode($podcast_data)."
 			</script>
 			<script 
 				class=\"podlove-subscribe-button\" 
-				src=\"https://cdn.podlove.org/subscribe-button/javascripts/app.js\"" . $data_attributes . ">
+				src=\"https://cdn.podlove.org/subscribe-button/javascripts/app.js\" " . $data_attributes . ">
 			</script>
 		";
 	}
@@ -142,7 +142,7 @@ class Button extends Base {
 				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
 				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
 				'color' => ( $color == '#599677' ? get_option('podlove_subscribe_button_default_color', $color) : $color ),
-				'json-data' => 'podcastData' . $this->id
+				'json-data' => 'podcastData' . $this->name
 			);
 
 		return $this->provide_button_html($podcast_data, $button_styling);

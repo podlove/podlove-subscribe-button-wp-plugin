@@ -24,7 +24,8 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	}
 
 	public function widget( $args, $instance ) {
-		$button = ( \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) ? \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_by_id($instance['button']) );
+		if ( ! $button = ( $button = ( \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $instance['button']) ? \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $instance['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $instance['button']) ) ) )
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
@@ -47,7 +48,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 		$buttons_as_options = function ($buttons) {
 			foreach ($buttons as $subscribebutton) {
-				echo "<option value='".$subscribebutton->id."' ".( $subscribebutton->id == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
+				echo "<option value='".$subscribebutton->name."' ".( $subscribebutton->name == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
 			}
 		}
 		?>
@@ -85,7 +86,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 							'options' => \PodloveSubscribeButton\Model\Button::$formats
 						),
 					'autowidth' => array(
-							'name' => 'Width',
+							'name' => 'Autowidth',
 							'options' => \PodloveSubscribeButton\Model\Button::$autowidth
 						)
 				);

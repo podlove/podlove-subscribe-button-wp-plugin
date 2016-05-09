@@ -41,9 +41,6 @@ Podlove currently provides:
 * Documentation: http://docs.podlove.org/
 * Donate: http://podlove.org/donations/
 
-
-
-
 == Installation ==
 
 ###  Install the plugin
@@ -61,7 +58,7 @@ Podlove currently provides:
 
 Go to `Appearance -> Widgets` and drag the "Podlove Subscribe Button" widget to your sidebar configuration. Select the pre-configured button from the list and determine which style you want. That's it. The button should show up in your sidebar. Optionally add a title and description for your widget.
 
-This is the easiest and recommended way of using this plugin especially if you ony want to display a button for a single podcast. For best visibility choose size "big-logo" to make your Subscribe Button stand out and easily locatable.
+This is the easiest and recommended way of using this plugin especially if you ony want to display a button for a single podcast. For best visibility choose size "big" and format "cover" to make your Subscribe Button stand out and easily locatable.
 
 
 ### Include the Subscribe Button in WordPress pages using a Shortcode
@@ -69,21 +66,29 @@ This is the easiest and recommended way of using this plugin especially if you o
 If you want to include a Podlove Subscribe Button in a WordPress page (or a post) just put the shortcode `[podlove-subscribe-button]` at the desired position in your text. Use the following shortcode parameters to configure it properly:
 
 * `button` - the ID of one of your preconfigured buttons
-* `size` - one of 'small', 'medium', 'big', 'big-logo'
+* `size` - one of 'small', 'medium', 'big'
 * `width` - specify desired button width in CSS compatibles values or 'auto' automatic width depending on context.
+* `color` - specify the color of the button in a CSS compatible format (keyword, rgb-hex, rgb, rgba, hsl, hsla)
+* `style` - default is filled, options are 'outline' and 'frameless'
+* `format` - default is a rectangle, options are 'square' and 'cover' (**Note**: 'cover' has a max size of 300px)
+* `hide` - if set to `true` the button will not be shown (useful if you want to use your own element)
+* `buttonid` - you can use this to open the popup from another element on the same page
 
+Note that if you do not provide one of the attributes the subscribe button will use the globally set default.
 
 ### Shortcode Examples
 
-`[podlove-subscribe-button button="mybutton1" size="big-logo"]`
-Displays a large button with the podcast logo on top using data from button configuration with id "mybutton1"
+`[podlove-subscribe-button button="mybutton1" size="big"]`
+Displays a large button with the podcast logo on top using data from button configuration with id "mybutton1". All other options will be set to the globally set default values.
 
 `[podlove-subscribe-button button="mybutton2" size="medium" width="100pt"]`
-Displays a small button with a width of 100pt using data from button configuration with id "mybutton2"
+Displays a small button with a width of 100pt using data from button configuration with id "mybutton2". All other options will be set to the globally set default values.
 
+`[podlove-subscribe-button button="mybutton3" size="big" width="auto" format="cover"]`
+Displays a big button with a the podcast cover and automatically adjusted using data from button configuration with id "mybutton3". All other options will be set to the globally set default values.
 
-
-
+`[podlove-subscribe-button button="mybutton4" format="square" style="frameless"]`
+Displays a small, frameless square button with using data from button configuration with id "mybutton4". All other options will be set to the globally set default values.
 
 == Frequently Asked Questions ==
 
@@ -118,11 +123,18 @@ Consult the information provided on [the technical information page](http://podl
 
 == Upgrade Notice ==
 
+### 2.0
+* 
+
 ### 1.0.1
 * Shortcodes: The `id` attribute was changed to `button`. Please adjust your shortcodes.
 
 
 == Changelog ==
+
+### 2.0
+* Added various options that allow customization of the Subscribe button
+* Various bugfixes
 
 ### 1.1.3
 * Various bugfixes
