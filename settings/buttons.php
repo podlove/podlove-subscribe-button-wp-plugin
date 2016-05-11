@@ -167,7 +167,7 @@ class Buttons {
 				<th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e('Size', 'podlove'); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_size" id="podlove_subscribe_button_default_size">
-						<?php foreach (\PodloveSubscribeButton\Model\Button::$sizes as $value => $description) : ?>
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$size as $value => $description) : ?>
 							<option value="<?php echo $value; ?>" <?php echo ( $settings['size'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -189,7 +189,7 @@ class Buttons {
 				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Style', 'podlove'); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
-						<?php foreach (\PodloveSubscribeButton\Model\Button::$styles as $value => $description) : ?>
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$style as $value => $description) : ?>
 							<option value="<?php echo $value; ?>" <?php echo ( $settings['style'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -199,7 +199,7 @@ class Buttons {
 				<th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e('Format', 'podlove'); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_format" id="podlove_subscribe_button_default_format">
-						<?php foreach (\PodloveSubscribeButton\Model\Button::$formats as $value => $description) : ?>
+						<?php foreach (\PodloveSubscribeButton\Model\Button::$format as $value => $description) : ?>
 							<option value="<?php echo $value; ?>" <?php echo ( $settings['format'] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
 						<?php endforeach; ?>
 					</select>

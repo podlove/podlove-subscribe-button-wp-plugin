@@ -15,28 +15,44 @@ class Button extends Base {
 		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
-	public static $styles = array(
+	public static $style = array(
 		'filled' => 'Filled',
 		'outline' => 'Outline',
 		'frameless' => 'Frameless'
 	);
 
-	public static $formats = array(
+	public static $format = array(
 		'rectangle' => 'Rectangle',
 		'square' => 'Square',
 		'cover' => 'Cover'
 	);
 
-	public static $autowidth = array(
+	public static $width = array(
 		'on' => 'Yes',
 		'off' => 'No'
 	);
 
-	public static $sizes = array(
+	public static $size = array(
 		'small' => 'Small',
 		'medium' => 'Medium',
 		'big' => 'Big'
 	);
+
+
+	/**
+	 * Fetches a Button or Network Button with a specific name
+	 * @param  string $name
+	 * @return object||FALSE
+	 */
+	public static function get_button_by_name($name) {
+		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $name) )
+			return $button;
+
+		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $name) )
+			return $network_button;
+
+		return FALSE;
+	}
 
 	/**
 	 * Returns either global buttons settings or the default settings 
@@ -49,6 +65,28 @@ class Button extends Base {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Gathers all information and renders the Subscribe button.
+	 * @param  string  $size
+	 * @param  string  $autowidth
+	 * @param  string  $style
+	 * @param  string  $format
+	 * @param  string  $color
+	 * @param  boolean $hide
+	 * @param  boolean $buttonid
+	 * @return string
+	 */
+	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE ) {
+		return $this->provide_button_html(
+			array(
+				'title' => $this->title,
+				'subtitle' => $this->subtitle,
+				'description' => $this->description,
+				'cover' => $this->cover,
+				'feeds' => $this->get_feeds_as_array($this->feeds)
+			), $this->get_button_styling($size, $autowidth, $style, $format, $color) );
 	}
 
 	/** 
@@ -100,52 +138,40 @@ class Button extends Base {
 	}
 
 	/**
-	 * Gathers all information and renders the Subscribe button.
-	 * @param  string  $size      
-	 * @param  string  $autowidth
-	 * @param  string  $style     
-	 * @param  string  $format    
-	 * @param  string  $color     
-	 * @param  boolean $hide      
-	 * @param  boolean $buttonid  
-	 * @return string
+	 * Returns an array with either the set or default values
+	 * @param  string $size
+	 * @param  string $autowidth
+	 * @param  string $style
+	 * @param  string $format
+	 * @param  string $color
+	 * @return array
 	 */
-	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE ) {
-
-		// Helper function to interprete the given $autowidth value correctly
-		$apply_autowidth = function ($autowidth) {
-			if ( $autowidth == 'default' && get_option('podlove_subscribe_button_default_autowidth') !== 'on' ) {
-				return '';
-			} 
-			if ( $autowidth !== 'default' && $autowidth !== 'on' ) {
-				return '';
-			}
-
-			return ' auto';
-		};
-
-		$feeds = $this->get_feeds_as_array($this->feeds);		
-
-		$podcast_data = array(
-				'title' => $this->title,
-				'subtitle' => $this->subtitle,
-				'description' => $this->description,
-				'cover' => $this->cover,
-				'feeds' => $feeds
-			);
-
-		$button_styling = array(
+	private function get_button_styling($size, $autowidth, $style, $format, $color) {
+		return array(
 				// $attribute => $value
 				'language' => get_bloginfo('language'),
 				'size' => ( $size == 'default' ? get_option('podlove_subscribe_button_default_size', $size) : $size )
-			 	. $apply_autowidth($autowidth),
+			 	. self::interpret_autowidth_attribute($autowidth),
 				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
 				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
-				'color' => ( $color == '#599677' ? get_option('podlove_subscribe_button_default_color', $color) : $color ),
+				'color' => ( $color == 'default' ? get_option('podlove_subscribe_button_default_color', $color) : $color ),
 				'json-data' => 'podcastData' . $this->name
 			);
+	}
 
-		return $this->provide_button_html($podcast_data, $button_styling);
+	/**
+	 * Helper function to interpret the given $autowidth value correctly
+	 * @param  string $autowidth
+	 * @return string
+	 */
+	private static function interpret_autowidth_attribute($autowidth) {
+		if ( $autowidth == 'default' && get_option('podlove_subscribe_button_default_autowidth') !== 'on' )
+			return '';
+
+		if ( $autowidth !== 'default' && $autowidth !== 'on' )
+			return '';
+
+		return ' auto';
 	}
 }
 

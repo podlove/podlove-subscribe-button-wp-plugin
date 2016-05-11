@@ -88,37 +88,21 @@ class PodloveSubscribeButton {
 	}
 
 	public static function shortcode( $args ) {
-		if ( ! $args || ! isset($args['button']) )
+		if ( ! $args || ! isset($args['button']) ) {
 			return __('You need to create a Button first and provide its ID.', 'podlove');
+		} else {
+			$buttonid = $args['button'];
+		}
 
-		if ( ! $button = ( \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) ? \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $args['button']) ) )
+		// Fetch the (network)button by it's name
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
-		if ( isset($args['width']) && $args['width'] == 'auto' ) {
-			$autowidth = 'on';
-		} elseif ( isset($args['width']) && $args['width'] !== 'auto' ) {
-			$autowidth = 'off';
-		} else {
-			$autowidth = get_option('podlove_subscribe_button_default_autowidth', 'on');
-		}
-
-		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big')) ) {
-			$size = $args['size'];
-		} else {
-			$size = get_option('podlove_subscribe_button_default_size', 'big');
-		}
-
-		if ( isset($args['style']) && in_array($args['style'], array('filled', 'outline', 'frameless')) ) {
-			$style = $args['style'];
-		} else {
-			$style = get_option('podlove_subscribe_button_default_style', 'filled');
-		}
-
-		if ( isset($args['format']) && in_array($args['format'], array('rectangle', 'square', 'cover')) ) {
-			$format = $args['format'];
-		} else {
-			$format = get_option('podlove_subscribe_button_default_format', 'rectangle');
-		}
+		// Get button styling
+		$autowidth = self::interpret_width_attribute($args['width']);
+		$size = self::get_attribute('size', $args['size']);
+		$style = self::get_attribute('style', $args['style']);
+		$format = self::get_attribute('format', $args['format']);
 
 		if ( isset($args['color']) ) {
 			$color = $args['color'];
@@ -130,11 +114,35 @@ class PodloveSubscribeButton {
 			$hide = TRUE;
 		}
 
-		if ( isset($args['buttonid']) ) {
-			$buttonid = $args['buttonid'];
-		}
-
+		// Render button
 		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid);
 	}
 
+	/**
+	 * 
+	 * @param  string $attribute
+	 * @param  string $attribute_value
+	 * @return string
+	 */
+	private static function get_attribute($attribute, $attribute_value) {
+		if ( isset($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
+			return $attribute_value;
+		} else {
+			return get_option('podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[$attribute]);
+		}
+	}
+
+	/**
+	 * Interprets the provided width attribute and return either auto- or a specific width
+	 * @param  string $width_attribute
+	 * @return string
+	 */
+	private static function interpret_width_attribute( $width_attribute = NULL ) {
+		if ( $width_attribute == 'auto' )
+			return 'on';
+		if ( $width_attribute && $width_attribute !== 'auto' )
+			return 'off';
+
+		return get_option('podlove_subscribe_button_default_autowidth', 'on');
+	}
 }

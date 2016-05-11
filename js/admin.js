@@ -18,7 +18,7 @@
 			add_new_feed();
 		} );
 
-		if ( window.feeds != undefined ) {
+		if ( window.feeds !== undefined ) {
 			$.each( feeds, function (index, feed) {
 				add_existing_feed(feed);
 			} );
