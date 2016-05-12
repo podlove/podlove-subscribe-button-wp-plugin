@@ -45,11 +45,14 @@ class Button extends Base {
 	 * @return object||FALSE
 	 */
 	public static function get_button_by_name($name) {
-		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $name) )
+		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $name) ) {
 			return $button;
+		}
 
-		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $name) )
+		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $name) ) {
+			$network_button->id = $network_button->id . 'N';
 			return $network_button;
+		}
 
 		return FALSE;
 	}
@@ -128,7 +131,7 @@ class Button extends Base {
 
 		return"
 			<script>
-				podcastData".$this->name." =".json_encode($podcast_data)."
+				podcastData".$this->id . " = ".json_encode($podcast_data)."
 			</script>
 			<script 
 				class=\"podlove-subscribe-button\" 
@@ -155,7 +158,7 @@ class Button extends Base {
 				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
 				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
 				'color' => ( $color == 'default' ? get_option('podlove_subscribe_button_default_color', $color) : $color ),
-				'json-data' => 'podcastData' . $this->name
+				'json-data' => 'podcastData' . $this->id
 			);
 	}
 

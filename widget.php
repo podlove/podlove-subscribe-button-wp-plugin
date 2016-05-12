@@ -25,7 +25,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 	public function widget( $args, $instance ) {
 		// Fetch the (network)button by it's name
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($instance['button']) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		echo $args['before_widget'];
