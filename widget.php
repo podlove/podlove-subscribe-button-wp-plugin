@@ -2,23 +2,36 @@
 
 namespace PodloveSubscribeButton;
 
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
 class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 	public function __construct() {
 		parent::__construct(
-					'podlove_subscribe_button_widget',
-					'Podlove Subscribe Button',
+					'podlove_subscribe_button_wp_plugin_widget',
+					( self::is_podlove_publisher_active() ? 'Podlove Subscribe Button' : 'Podlove Subscribe Button (WordPress plugin)' ),
 					array( 'description' => __( 'Adds a Podlove Subscribe Button to your Sidebar', 'podlove' ), )
 				);
 	}
 
+	public static $widget_settings = array('infotext', 'title', 'size', 'style', 'format', 'autowidth', 'button');
+
+	public static function is_podlove_publisher_active() {
+		if ( is_plugin_active("podlove-publisher/plugin.php") )
+			return true;
+
+		return false;
+	}
+
 	public function widget( $args, $instance ) {
-		$button = ( \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) ? \PodloveSubscribeButton\Model\Button::find_by_id($instance['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_by_id($instance['button']) );
+		// Fetch the (network)button by it's name
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($instance['button']) )
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 
-		echo $button->render($instance['style'], $instance['autowidth']);
+		echo $button->render($instance['size'], $instance['autowidth'], $instance['style'], $instance['format'], $instance['color']);
 		
 		if ( strlen($instance['infotext']) )
 			echo wpautop($instance['infotext']);
@@ -27,17 +40,16 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	}	
 
 	public function form( $instance ) {
-		$title     = isset( $instance[ 'title' ] )     ? $instance[ 'title' ]      : '';
-		$button    = isset( $instance[ 'button' ] )    ? $instance[ 'button' ]     : '';
-		$style     = isset( $instance[ 'style' ] )     ? $instance[ 'style' ]      : '';
-		$autowidth = isset( $instance[ 'autowidth' ] ) ? $instance[ 'autowidth' ]  : 0;
-		$infotext  = isset( $instance[ 'infotext' ] )  ? $instance[ 'infotext' ]   : '';
+		foreach (self::$widget_settings as $setting) {
+			$$setting = isset( $instance[$setting] ) ? $instance[$setting] : '';
+		}
+
 		$buttons = \PodloveSubscribeButton\Model\Button::all();
 		$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
 
 		$buttons_as_options = function ($buttons) {
 			foreach ($buttons as $subscribebutton) {
-				echo "<option value='".$subscribebutton->id."' ".( $subscribebutton->id == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
+				echo "<option value='".$subscribebutton->name."' ".( $subscribebutton->name == $button ? 'selected=\"selected\"' : '' )." >".$subscribebutton->title." (".$subscribebutton->name.")</option>";
 			}
 		}
 		?>
@@ -60,25 +72,37 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 				 endif; ?>
 			</select>
 
-			<label for="<?php echo $this->get_field_id( 'style' ); ?>"><?php _e( 'Style', 'podlove' ); ?></label> 
-			<select class="widefat" id="<?php echo $this->get_field_id( 'style' ); ?>" name="<?php echo $this->get_field_name( 'style' ); ?>">
-				<option value="default"      <?php echo ( $style == 'default'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Default Style', 'podlove' ) ?></option>
-				<optgroup>
-					<option value="small"    <?php echo ( $style == 'small'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Small', 'podlove' ) ?></option>
-					<option value="medium"   <?php echo ( $style == 'medium'   ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'medium', 'podlove' ) ?></option>
-					<option value="big"      <?php echo ( $style == 'big'      ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Big', 'podlove' ) ?></option>
-					<option value="big-logo" <?php echo ( $style == 'big-logo' ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Big with logo', 'podlove' ) ?></option>
-				</optgroup>
-			</select>
+			<?php
+			$customize_options = array(
+					'size' => array(
+							'name' => 'Size',
+							'options' => \PodloveSubscribeButton\Model\Button::$size
+						),
+					'style' => array(
+							'name' => 'Style',
+							'options' => \PodloveSubscribeButton\Model\Button::$style
+						),
+					'format' => array(
+							'name' => 'Format',
+							'options' => \PodloveSubscribeButton\Model\Button::$format
+						),
+					'autowidth' => array(
+							'name' => 'Autowidth',
+							'options' => \PodloveSubscribeButton\Model\Button::$width
+						)
+				);
 
-			<label for="<?php echo $this->get_field_id( 'autowidth' ); ?>"><?php _e( 'Autowidth', 'podlove' ); ?></label> 
-			<select class="widefat" id="<?php echo $this->get_field_id( 'autowidth' ); ?>" name="<?php echo $this->get_field_name( 'autowidth' ); ?>">
-				<option value="default"      <?php echo ( $autowidth == 'default'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Default Autowidth', 'podlove' ) ?></option>
-				<optgroup>
-					<option value="on"       <?php echo ( $autowidth == 'on'    ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'Yes', 'podlove' ) ?></option>
-					<option value=""         <?php echo ( $autowidth == ''   ? 'selected=\"selected\"' : '' ); ?>><?php _e( 'No', 'podlove' ) ?></option>
-				</optgroup>
-			</select>
+			foreach ($customize_options as $slug => $properties) : ?>
+				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php _e( $properties['name'], 'podlove' ); ?></label> 
+				<select class="widefat" id="<?php echo $this->get_field_id( $slug ); ?>" name="<?php echo $this->get_field_name( $slug ); ?>">
+					<option value="default" <?php echo ( $$slug == 'default' ? 'selected="selected"' : '' ); ?>><?php _e( 'Default ' . $properties['name'], 'podlove' ) ?></option>
+					<optgroup>
+						<?php foreach ( $properties['options'] as $property => $name ) : ?>
+						<option value="<?php echo $property; ?>" <?php echo ( $$slug == $property ? 'selected="selected"' : '' ); ?>><?php _e( $name, 'podlove' ) ?></option>
+						<?php endforeach; ?>
+					</optgroup>
+				</select>
+			<?php endforeach; ?>
 		
 			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove' ); ?></label> 
 			<textarea class="widefat" rows="10" id="<?php echo $this->get_field_id( 'infotext' ); ?>" name="<?php echo $this->get_field_name( 'infotext' ); ?>"><?php echo $infotext; ?></textarea>
@@ -88,11 +112,11 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-		$instance['infotext']  = ( ! empty( $new_instance['infotext'] ) )  ? $new_instance['infotext']                : '';
-		$instance['title']     = ( ! empty( $new_instance['title'] ) )     ? strip_tags( $new_instance['title'] )     : '';
-		$instance['style']     = ( ! empty( $new_instance['style'] ) )     ? strip_tags( $new_instance['style'] )     : '';
-		$instance['autowidth'] = ( ! empty( $new_instance['autowidth'] ) ) ? strip_tags( $new_instance['autowidth'] ) : 0;
-		$instance['button']    = ( ! empty( $new_instance['button'] ) )    ? strip_tags( $new_instance['button'] )    : '';
+
+		foreach (self::$widget_settings as $setting) {
+			$instance[$setting]  = ( ! empty( $new_instance[$setting] ) ) ? strip_tags( $new_instance[$setting] ) : '';
+		}
+
 		return $instance;
 	}
 }

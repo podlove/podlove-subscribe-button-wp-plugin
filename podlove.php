@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.1.3
+ * Version:     1.2
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -41,12 +41,19 @@ register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_mode
 add_action( 'admin_enqueue_scripts', function () {
 	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
 	wp_enqueue_style( 'podlove-subscribe-button' );
+
+	wp_enqueue_style('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.css');
+	wp_enqueue_script('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.js', array('jquery'));
+	wp_enqueue_script('podlove-subscribe-button-admin-tools', plugin_dir_url(__FILE__). 'js/admin.js', array('jquery'));
 } );
 
 // Register Settings
 add_action( 'admin_init', function () {
-	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_style' );
-	register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_autowidth' );
+	$settings = array('size', 'autowidth', 'style', 'format', 'color');
+
+	foreach ($settings as $setting) {
+		register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+	}
 } );
 
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
@@ -81,25 +88,61 @@ class PodloveSubscribeButton {
 	}
 
 	public static function shortcode( $args ) {
-		if ( ! $args || ! isset($args['button']) )
+		if ( ! $args || ! isset($args['button']) ) {
 			return __('You need to create a Button first and provide its ID.', 'podlove');
+		} else {
+			$buttonid = $args['button'];
+		}
 
-		if ( ! $button = ( \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) ? \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $args['button']) : \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $args['button']) ) )
+		// Fetch the (network)button by it's name
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
-		if ( isset($args['width']) && $args['width'] == 'auto' ) {
-			$autowidth = 'on';
+		// Get button styling
+		$autowidth = self::interpret_width_attribute($args['width']);
+		$size = self::get_attribute('size', $args['size']);
+		$style = self::get_attribute('style', $args['style']);
+		$format = self::get_attribute('format', $args['format']);
+
+		if ( isset($args['color']) ) {
+			$color = $args['color'];
 		} else {
-			$autowidth = get_option('podlove_subscribe_button_default_autowidth', 'on');
+			$color = get_option('podlove_subscribe_button_default_color', '#599677');
 		}
 
-		if ( isset($args['size']) && in_array($args['size'], array('small', 'medium', 'big', 'big-logo')) ) {
-			$size = $args['size'];
-		} else {
-			$size = get_option('podlove_subscribe_button_default_style', 'big-logo');
+		if ( isset($args['hide']) && $args['hide'] == 'true' ) {
+			$hide = TRUE;
 		}
 
-		return $button->render( $size, $autowidth );
+		// Render button
+		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid);
 	}
 
+	/**
+	 * 
+	 * @param  string $attribute
+	 * @param  string $attribute_value
+	 * @return string
+	 */
+	private static function get_attribute($attribute, $attribute_value) {
+		if ( isset($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
+			return $attribute_value;
+		} else {
+			return get_option('podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[$attribute]);
+		}
+	}
+
+	/**
+	 * Interprets the provided width attribute and return either auto- or a specific width
+	 * @param  string $width_attribute
+	 * @return string
+	 */
+	private static function interpret_width_attribute( $width_attribute = NULL ) {
+		if ( $width_attribute == 'auto' )
+			return 'on';
+		if ( $width_attribute && $width_attribute !== 'auto' )
+			return 'off';
+
+		return get_option('podlove_subscribe_button_default_autowidth', 'on');
+	}
 }

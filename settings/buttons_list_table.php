@@ -38,7 +38,7 @@ class Button_List_Table extends \WP_List_Table {
 		$is_network = get_current_screen()->is_network;
 
 		return "<div class='podlove-button-preview-container'>" . $button->render(
-				( $is_network ? 'big-logo' : get_option('podlove_subscribe_button_default_style', 'big-logo') ),
+				( $is_network ? 'big' : get_option('podlove_subscribe_button_default_size', 'big') ),
 			 	( $is_network ? FALSE : get_option('podlove_subscribe_button_default_autowidth', 'on') )
 			 ) . "</div>";
 	}
