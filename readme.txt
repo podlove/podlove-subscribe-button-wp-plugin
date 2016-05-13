@@ -4,7 +4,7 @@ Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPr
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.0.1
 Tested up to: 4.5.1
-Stable tag: 2.0
+Stable tag: 1.2
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -123,8 +123,8 @@ Consult the information provided on [the technical information page](http://podl
 
 == Upgrade Notice ==
 
-### 2.0
-* 
+### 1.2
+* Due to internal changes the Subscribe Button widget might be removed from your sidebar. If this happened just readd it to the sidebar.
 
 ### 1.0.1
 * Shortcodes: The `id` attribute was changed to `button`. Please adjust your shortcodes.
@@ -132,7 +132,7 @@ Consult the information provided on [the technical information page](http://podl
 
 == Changelog ==
 
-### 2.0
+### 1.2
 * Added various options that allow customization of the Subscribe button
 * Various bugfixes
 
@@ -157,7 +157,6 @@ Consult the information provided on [the technical information page](http://podl
 * Shortcodes: Change `id` attribute to `button`
 
 ### 1.0
-
 * Initial Release
 * Settings page to allow definition of preconfigured buttons
 * WordPress Widget to show preconfigured buttons in WordPress Sidebar
