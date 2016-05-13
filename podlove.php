@@ -11,10 +11,10 @@
  * Text Domain: podlove
  */
 
-$correct_php_version = version_compare( phpversion(), "5.5", ">=" );
+$correct_php_version = version_compare( phpversion(), "5.3", ">=" );
 
 if ( ! $correct_php_version ) {
-	echo "Podlove Subscribe Button Plugin requires <strong>PHP 5.5</strong> or higher.<br>";
+	echo "Podlove Subscribe Button Plugin requires <strong>PHP 5.3</strong> or higher.<br>";
 	echo "You are running PHP " . phpversion();
 	exit;
 }
