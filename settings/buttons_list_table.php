@@ -39,7 +39,10 @@ class Button_List_Table extends \WP_List_Table {
 
 		return "<div class='podlove-button-preview-container'>" . $button->render(
 				( $is_network ? 'big' : get_option('podlove_subscribe_button_default_size', 'big') ),
-			 	( $is_network ? FALSE : get_option('podlove_subscribe_button_default_autowidth', 'on') )
+			 	'off',
+			 	( $is_network ? 'filled' : get_option('podlove_subscribe_button_default_style', 'filled') ),
+			 	'rectangle',
+			 	( $is_network ? '#599677' : get_option('podlove_subscribe_button_default_color', '#599677') )
 			 ) . "</div>";
 	}
 	
