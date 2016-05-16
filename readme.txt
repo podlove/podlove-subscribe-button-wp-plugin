@@ -132,6 +132,9 @@ Consult the information provided on [the technical information page](http://podl
 
 == Changelog ==
 
+### 1.2.1
+* Various bugfixes
+
 ### 1.2
 * Added various options that allow customization of the Subscribe button
 * Various bugfixes
