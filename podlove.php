@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.2
+ * Version:     1.2.1
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -99,10 +99,10 @@ class PodloveSubscribeButton {
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
 		// Get button styling
-		$autowidth = self::interpret_width_attribute($args['width']);
-		$size = self::get_attribute('size', $args['size']);
-		$style = self::get_attribute('style', $args['style']);
-		$format = self::get_attribute('format', $args['format']);
+		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback($args, 'width') );
+		$size = self::get_attribute( 'size', self::get_array_value_with_fallback($args, 'size') );
+		$style = self::get_attribute( 'style', self::get_array_value_with_fallback($args, 'style') );
+		$format = self::get_attribute( 'format', self::get_array_value_with_fallback($args, 'format') );
 
 		if ( isset($args['color']) ) {
 			$color = $args['color'];
@@ -112,10 +112,19 @@ class PodloveSubscribeButton {
 
 		if ( isset($args['hide']) && $args['hide'] == 'true' ) {
 			$hide = TRUE;
+		} else {
+			$hide = FALSE;
 		}
 
 		// Render button
 		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid);
+	}
+
+	public static function get_array_value_with_fallback($args, $key) {
+		if ( isset($args[$key]) )
+			return $args[$key];
+
+		return FALSE;
 	}
 
 	/**
@@ -124,8 +133,8 @@ class PodloveSubscribeButton {
 	 * @param  string $attribute_value
 	 * @return string
 	 */
-	private static function get_attribute($attribute, $attribute_value) {
-		if ( isset($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
+	private static function get_attribute($attribute=NULL, $attribute_value=NULL) {
+		if ( isset($attribute_value) && ctype_alnum($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
 			return get_option('podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[$attribute]);

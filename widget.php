@@ -31,7 +31,13 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 
-		echo $button->render($instance['size'], $instance['autowidth'], $instance['style'], $instance['format'], $instance['color']);
+		echo $button->render(
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'size'),
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'autowidth'),
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'style'),
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'format'), 
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'color')
+			);
 		
 		if ( strlen($instance['infotext']) )
 			echo wpautop($instance['infotext']);

@@ -82,6 +82,14 @@ class Button extends Base {
 	 * @return string
 	 */
 	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE ) {
+		$button_styling = array_merge(
+				$this->get_button_styling($size, $autowidth, $style, $format, $color),
+				array(
+						'hide' => $hide,
+						'buttonid' => $buttonid
+					)
+			);
+
 		return $this->provide_button_html(
 			array(
 				'title' => $this->title,
@@ -89,7 +97,7 @@ class Button extends Base {
 				'description' => $this->description,
 				'cover' => $this->cover,
 				'feeds' => $this->get_feeds_as_array($this->feeds)
-			), $this->get_button_styling($size, $autowidth, $style, $format, $color) );
+			), $button_styling );
 	}
 
 	/** 
@@ -157,7 +165,7 @@ class Button extends Base {
 			 	. self::interpret_autowidth_attribute($autowidth),
 				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
 				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
-				'color' => ( $color == 'default' ? get_option('podlove_subscribe_button_default_color', $color) : $color ),
+				'color' => ( $color ? $color : get_option('podlove_subscribe_button_default_color', $color) ),
 				'json-data' => 'podcastData' . $this->id
 			);
 	}
