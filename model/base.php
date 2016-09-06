@@ -391,6 +391,7 @@ abstract class Base {
 			     . implode( ',', array_map( array( $this, 'property_name_to_sql_update_statement' ), self::property_names() ) )
 			     . ' WHERE id = ' . $this->id
 			;
+
 			$success = $wpdb->query( $sql );
 		}
 
@@ -451,7 +452,7 @@ abstract class Base {
 		global $wpdb;
 
 		if ( $this->$p !== NULL && $this->$p !== '' ) {
-			return sprintf( "%s = '%s'", $p, $this->$p );
+			return sprintf( "%s = '%s'", $p, ( is_array($this->$p) ? serialize($this->$p) : $this->$p ) );
 		} else {
 			return "$p = NULL";
 		}

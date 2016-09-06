@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.2.1
+ * Version:     1.3
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -30,6 +30,10 @@ require('settings/buttons_list_table.php');
 require('media_types.php');
 // Widget
 require('widget.php');
+// Version control
+require('version.php');
+// Helper functions
+require('helper.php');
 
 add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
 if ( is_multisite() )
@@ -98,11 +102,18 @@ class PodloveSubscribeButton {
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
 			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
 
-		// Get button styling
+		// Get button styling and options
 		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback($args, 'width') );
 		$size = self::get_attribute( 'size', self::get_array_value_with_fallback($args, 'size') );
 		$style = self::get_attribute( 'style', self::get_array_value_with_fallback($args, 'style') );
 		$format = self::get_attribute( 'format', self::get_array_value_with_fallback($args, 'format') );
+		$color = self::get_attribute( 'color', self::get_array_value_with_fallback($args, 'color') );
+
+		if ( isset($args['language']) ) {
+			$language = $args['language'];
+		} else {
+			$language = 'en';
+		}
 
 		if ( isset($args['color']) ) {
 			$color = $args['color'];
@@ -117,7 +128,7 @@ class PodloveSubscribeButton {
 		}
 
 		// Render button
-		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid);
+		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid, $language);
 	}
 
 	public static function get_array_value_with_fallback($args, $key) {

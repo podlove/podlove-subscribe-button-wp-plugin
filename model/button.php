@@ -81,12 +81,13 @@ class Button extends Base {
 	 * @param  boolean $buttonid
 	 * @return string
 	 */
-	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE ) {
+	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE, $language='en' ) {
 		$button_styling = array_merge(
 				$this->get_button_styling($size, $autowidth, $style, $format, $color),
 				array(
 						'hide' => $hide,
-						'buttonid' => $buttonid
+						'buttonid' => $buttonid,
+						'language' => $language
 					)
 			);
 
@@ -157,15 +158,15 @@ class Button extends Base {
 	 * @param  string $color
 	 * @return array
 	 */
-	private function get_button_styling($size, $autowidth, $style, $format, $color) {
+	public function get_button_styling($size, $autowidth, $style, $format, $color) {
+
 		return array(
 				// $attribute => $value
-				'language' => get_bloginfo('language'),
 				'size' => ( $size == 'default' ? get_option('podlove_subscribe_button_default_size', $size) : $size )
 			 	. self::interpret_autowidth_attribute($autowidth),
 				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
 				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
-				'color' => ( $color ? $color : get_option('podlove_subscribe_button_default_color', $color) ),
+				'color' => ( isset($color) ? $color : get_option('podlove_subscribe_button_default_color', $color) ),
 				'json-data' => 'podcastData' . $this->id
 			);
 	}

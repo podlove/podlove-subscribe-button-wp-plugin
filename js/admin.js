@@ -1,7 +1,7 @@
 (function($) {
-	$( document ).ready( function() {
 
-		$("#podlove_subscribe_button_default_color").spectrum({
+	function podlove_init_color_buttons() {
+		$(".podlove_subscribe_button_color").spectrum({
 			preferredFormat: 'hex',
 			showInput: true,
 			palette: [ '#599677' ],
@@ -10,6 +10,43 @@
 			chooseText: "Select Color",
 			cancelText: "Cancel",
 		});
+	}
+
+	$( document ).ready( function() {
+
+		podlove_init_color_buttons();
+
+		$("#Podlove_cover_image_select").on( 'click', function(event) {
+			podlove_cover_image_selector = wp.media.frames.customHeader = wp.media( {
+					title: "Media Library",
+					library: {
+						type: 'image'
+					},
+					button: {
+						text: "Use for Podcast Cover Art"
+			   		},
+			   		multiple: false
+			    } );
+			podlove_cover_image_selector.open();
+
+			podlove_cover_image_selector.on('select', function() {
+				var podcast_image_url = podlove_cover_image_selector.state().get('selection').first().toJSON().url;
+				$("#podlove-button-cover").val(podcast_image_url);
+				$("#podlove-button-cover").trigger('change');
+			});
+		} );
+
+		$(document).ready(function () {
+		    podlove_init_color_buttons();
+
+		    jQuery(document).on('widget-updated', podlove_init_color_buttons);
+		    jQuery(document).on('widget-added', podlove_init_color_buttons);
+
+		    // re-init after saving configs
+		    jQuery(document).on('ajaxComplete', function(e){
+		        podlove_init_color_buttons();
+		    });
+		})
 
 		var feed_counter = 0;
 		var source = $("#feed_line_template").html();

@@ -14,7 +14,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 				);
 	}
 
-	public static $widget_settings = array('infotext', 'title', 'size', 'style', 'format', 'autowidth', 'button');
+	public static $widget_settings = array('infotext', 'title', 'size', 'style', 'format', 'autowidth', 'button', 'color');
 
 	public static function is_podlove_publisher_active() {
 		if ( is_plugin_active("podlove-publisher/plugin.php") )
@@ -62,6 +62,9 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove' ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" />
+
+			<label for="<?php echo $this->get_field_id( 'color' ); ?>"><?php _e( 'Color', 'podlove' ); ?></label> 
+			<input class="podlove_subscribe_button_color" id="<?php echo $this->get_field_id( 'color' ); ?>" name="<?php echo $this->get_field_name( 'color' ); ?>" value="<?php echo $color; ?>" />
 
 			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove' ); ?></label> 
 			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
