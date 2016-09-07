@@ -51,7 +51,8 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		}
 
 		$buttons = \PodloveSubscribeButton\Model\Button::all();
-		$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
+		if ( is_multisite() )
+			$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
 
 		$buttons_as_options = function ($buttons) {
 			foreach ($buttons as $subscribebutton) {
@@ -63,8 +64,8 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove' ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" />
 
-			<label for="<?php echo $this->get_field_id( 'color' ); ?>"><?php _e( 'Color', 'podlove' ); ?></label> 
-			<input class="podlove_subscribe_button_color" id="<?php echo $this->get_field_id( 'color' ); ?>" name="<?php echo $this->get_field_name( 'color' ); ?>" value="<?php echo $color; ?>" />
+			<label for="<?php echo $this->get_field_id( 'color' ); ?>"><?php _e( 'Color', 'podlove' ); ?></label><br />
+			<input class="podlove_subscribe_button_color" id="<?php echo $this->get_field_id( 'color' ); ?>" name="<?php echo $this->get_field_name( 'color' ); ?>" value="<?php echo $color; ?>" /><br />
 
 			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove' ); ?></label> 
 			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"

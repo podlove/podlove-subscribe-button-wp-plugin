@@ -51,11 +51,6 @@ function maybe_run_database_migrations() {
 	if ( $database_version === false ) {
 		// plugin has just been installed or Plugin Version < 1.3
 		update_option( 'podlove_subscribe_button_plugin_database_version', DATABASE_VERSION );
-
-		// If Version 1.3 is detected, run migrations
-		if ( get_plugin_data( plugin_dir_url(__FILE__) . 'podlove.php' )['Version'] == '1.3' ) {
-			\PodloveSubscribeButton\run_migrations_for_version(2);
-		}
 	}
 }
 

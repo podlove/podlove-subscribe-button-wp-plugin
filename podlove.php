@@ -86,9 +86,25 @@ class PodloveSubscribeButton {
 	}
 
 	public static function build_models() {
+		// Build Databases
 		\PodloveSubscribeButton\Model\Button::build();
 		if ( is_multisite() )
 			\PodloveSubscribeButton\Model\NetworkButton::build();
+
+		// Set Button "default" values
+		$default_values = array(
+				'size' => 'big',
+				'autowidth' => 'on',
+				'color' => '#599677',
+				'style' => 'filled',
+				'format' => 'rectangle'
+			);
+
+		foreach ($default_values as $option => $default_value) {
+			if ( ! get_option('podlove_subscribe_button_default_' . $option ) ) {
+				update_option('podlove_subscribe_button_default_' . $option, $default_value);
+			}
+		}
 	}
 
 	public static function shortcode( $args ) {
@@ -139,7 +155,6 @@ class PodloveSubscribeButton {
 	}
 
 	/**
-	 * 
 	 * @param  string $attribute
 	 * @param  string $attribute_value
 	 * @return string
