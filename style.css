@@ -61,11 +61,3 @@ div.podlove-button-preview-container {
 .podlove-icon-remove:before {
 	content: "\f00d";
 }
-
-.sp-replacer {
-	display: flex;
-}
-
-.sp-preview {
-	flex-grow: 10;
-}
