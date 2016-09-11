@@ -5,7 +5,7 @@ namespace PodloveSubscribeButton;
 function for_every_podcast_blog($callback) {
 	global $wpdb;
 
-	$plugin  = basename(\Podlove\PLUGIN_DIR) . '/' . \Podlove\PLUGIN_FILE_NAME;
+	$plugin  = basename(\PodloveSubscribeButton\PLUGIN_DIR) . '/' . \PodloveSubscribeButton\PLUGIN_FILE_NAME;
 	$blogids = $wpdb->get_col("SELECT blog_id FROM " . $wpdb->blogs);
 
 	if (!is_array($blogids))

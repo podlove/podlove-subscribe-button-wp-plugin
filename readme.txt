@@ -4,7 +4,7 @@ Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPr
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.0.1
 Tested up to: 4.6
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -132,6 +132,9 @@ Consult the information provided on [the technical information page](http://podl
 
 
 == Changelog ==
+
+### 1.3.1
+* Fixed an error that caused fatal errors on some installations
 
 ### 1.3
 * Podcast Cover Image can be selected using the WordPress Media Library
