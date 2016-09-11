@@ -134,9 +134,9 @@ Consult the information provided on [the technical information page](http://podl
 == Changelog ==
 
 ### 1.3
-* Podcast Cover Image can now be selected using the WordPress Media Library
+* Podcast Cover Image can be selected using the WordPress Media Library
 * When using the Shortcode, the button language can now be set using the language attribute
-* Enhancement support for button color
+* Enhanced support for button color
 * Fixed a bug that caused an error message for non-network installations
 * UI enhancements and further optimizations
 
