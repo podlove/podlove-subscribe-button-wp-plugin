@@ -37,13 +37,14 @@ class Button_List_Table extends \WP_List_Table {
 
 		$is_network = get_current_screen()->is_network;
 
-		return "<div class='podlove-button-preview-container'>" . $button->render(
-				( $is_network ? 'big' : get_option('podlove_subscribe_button_default_size', 'big') ),
-			 	'off',
-			 	( $is_network ? 'filled' : get_option('podlove_subscribe_button_default_style', 'filled') ),
-			 	'rectangle',
-			 	( $is_network ? '#599677' : get_option('podlove_subscribe_button_default_color', '#599677') )
-			 ) . "</div>";
+		return "<div class='podlove-button-preview-container'>"
+			. $button->render(
+					'big',
+					'false',
+					get_option('podlove_subscribe_button_default_style', 'filled'),
+					'rectangle'
+				) 
+			. "</div>";
 	}
 	
 	function column_id( $button ) {

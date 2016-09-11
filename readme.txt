@@ -4,7 +4,7 @@ Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPr
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.0.1
 Tested up to: 4.6
-Stable tag: 1.2.1
+Stable tag: 1.3
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -73,6 +73,7 @@ If you want to include a Podlove Subscribe Button in a WordPress page (or a post
 * `format` - default is a rectangle, options are 'square' and 'cover' (**Note**: 'cover' has a max size of 300px)
 * `hide` - if set to `true` the button will not be shown (useful if you want to use your own element)
 * `buttonid` - you can use this to open the popup from another element on the same page
+* `language` - specify the language the texts on the button and popup should be in (currently supports 'de', 'en', 'eo', 'fi', 'fr', 'nl', 'zh' and 'ja')
 
 Note that if you do not provide one of the attributes the subscribe button will use the globally set default.
 
@@ -81,8 +82,8 @@ Note that if you do not provide one of the attributes the subscribe button will 
 `[podlove-subscribe-button button="mybutton1" size="big"]`
 Displays a large button with the podcast logo on top using data from button configuration with id "mybutton1". All other options will be set to the globally set default values.
 
-`[podlove-subscribe-button button="mybutton2" size="medium" width="100pt"]`
-Displays a small button with a width of 100pt using data from button configuration with id "mybutton2". All other options will be set to the globally set default values.
+`[podlove-subscribe-button button="mybutton2" size="medium" width="100pt" language="de"]`
+Displays a small button with a width of 100pt using data from button configuration with id "mybutton2" in german. All other options will be set to the globally set default values.
 
 `[podlove-subscribe-button button="mybutton3" size="big" width="auto" format="cover"]`
 Displays a big button with a the podcast cover and automatically adjusted using data from button configuration with id "mybutton3". All other options will be set to the globally set default values.
@@ -131,6 +132,13 @@ Consult the information provided on [the technical information page](http://podl
 
 
 == Changelog ==
+
+### 1.3
+* Podcast Cover Image can now be selected using the WordPress Media Library
+* When using the Shortcode, the button language can now be set using the language attribute
+* Enhancement support for button color
+* Fixed a bug that caused an error message for non-network installations
+* UI enhancements and further optimizations
 
 ### 1.2.1
 * Various bugfixes

@@ -213,6 +213,9 @@ class Buttons {
 	}
 
 	private static function form_template( $button, $action ) {
+		// Enqueue Scripts for Media Manager
+		wp_enqueue_media();
+		// Adjust if is_network
 		$is_network = get_current_screen()->is_network;
 		?>
 		<form method="post" action="<?php echo ( $is_network === TRUE ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
@@ -221,7 +224,7 @@ class Buttons {
 					<tbody>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_name"><?php _e('ID', 'podlove'); ?></label>
+							<label for="podlove_button_name"><?php _e('Button ID', 'podlove'); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
@@ -230,7 +233,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_title"><?php _e('Title', 'podlove'); ?></label>
+							<label for="podlove_button_title"><?php _e('Podcast Title', 'podlove'); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
@@ -238,7 +241,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_subtitle"><?php _e('Subtitle', 'podlove'); ?></label>
+							<label for="podlove_button_subtitle"><?php _e('Podcast Subtitle', 'podlove'); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
@@ -246,7 +249,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_description"><?php _e('Description', 'podlove'); ?></label>
+							<label for="podlove_button_description"><?php _e('Podcast Description', 'podlove'); ?></label>
 						</td>
 						<td>
 							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
@@ -254,10 +257,11 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove-button-cover"><?php _e('Image URL', 'podlove'); ?></label>
+							<label for="podlove-button-cover"><?php _e('Podcast Image URL', 'podlove'); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
+							<a id="Podlove_cover_image_select" class="button" href="#">Select</a>
 							<br /><img src="<?php echo $button->cover; ?>" alt="" style="width: 200px" /> 
 							<script type="text/javascript">
 								(function($) {
@@ -271,7 +275,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="feeds_table">Feeds</label>
+							<label for="feeds_table"><?php _e('Podcast Feeds', 'podlove'); ?></label>
 						</td>
 						<td>
 							<table id="feeds_table" class="podlove_alternating" border="0" cellspacing="0">
