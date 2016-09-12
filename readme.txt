@@ -133,6 +133,9 @@ Consult the information provided on [the technical information page](http://podl
 
 == Changelog ==
 
+### 1.3.2
+* Fixed an error that caused notices on some installations
+
 ### 1.3.1
 * Fixed an error that caused fatal errors on some installations
 
