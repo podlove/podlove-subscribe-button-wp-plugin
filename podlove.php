@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.3.1
+ * Version:     1.3.2
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
@@ -20,11 +20,7 @@ if ( ! $correct_php_version ) {
 }
 
 // Constants
-define( '\PodloveSubscribeButton\PLUGIN_FILE_NAME', strtolower( preg_replace( '/([a-z])([A-Z])/', '$1-$2', '\PodloveSubscribeButton' ) ) . '.php' );
-define( '\PodloveSubscribeButton\PLUGIN_DIR' , plugin_dir_path( dirname(__FILE__) ) );
-define( '\PodloveSubscribeButton\PLUGIN_FILE', PLUGIN_DIR . PLUGIN_FILE_NAME );
-define( '\PodloveSubscribeButton\PLUGIN_URL' , plugins_url( '', PLUGIN_FILE ) );
-
+require('constants.php');
 require('settings/buttons.php');
 // Models
 require('model/base.php');
