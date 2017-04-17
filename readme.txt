@@ -3,8 +3,8 @@ Contributors: chemiker
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.0.1
-Tested up to: 4.6
-Stable tag: 1.3.2
+Tested up to: 4.7.3
+Stable tag: 1.3.3
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -30,16 +30,16 @@ Podlove is an open source initiative to improve the overall podcasting infrastru
 
 Podlove currently provides:
 
-* ***Podlove Podcast Publisher*** - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts 
+* [***Podlove Podcast Publisher***](https://publisher.podlove.org) - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts 
 * ***Podlove Web Player*** - a podcast-optimized HTML5 web player with chapter support
-* ***Podlove Subscribe Button*** - a centrally hosted universal podcast subscribe button for the web
+* [***Podlove Subscribe Button***](https://subscribe-button.podlove.org) - a centrally hosted universal podcast subscribe button for the web
 
 ### Other Resources
 
-* Podlove Project: http://podlove.org/
+* Podlove Project: https://podlove.org/
 * Podlove Community: https://community.podlove.org/
-* Documentation: http://docs.podlove.org/
-* Donate: http://podlove.org/donations/
+* Documentation: https://docs.podlove.org/
+* Donate: https://podlove.org/donations/
 
 == Installation ==
 
@@ -93,7 +93,7 @@ Displays a small, frameless square button with using data from button configurat
 
 == Frequently Asked Questions ==
 
-### I'm running the ***Podlove Publisher***. Do I need this plugin to display a Subscribe button?
+### I'm running the Podlove Publisher. Do I need this plugin to display a Subscribe button?
 
 Yes and No. If you simply want to display a Subscribe Button for your Podcast you publish with the Podlove Publisher you do not need this plugin as the Publisher itself provides this functionality. If you want to display multiple Subscribe Buttons you can use the Subscribe Button plugin.
 
@@ -111,7 +111,7 @@ No. As the Podlove Subscribe Button is hosted centrally, it gets updated regular
 
 ### I am a podcast app developer and would like my app be listed in the button. What do I need to do?
 
-Consult the information provided on [the technical information page](http://podlove.org/podlove-subscribe-button) at podlove.org on how the button works and what app developers need to support and do in order to get listed in the button.
+Consult the information provided on [the technical information page](https://podlove.org/podlove-subscribe-button) at podlove.org on how the button works and what app developers need to support and do in order to get listed in the button.
 
 
 == Screenshots ==
@@ -132,6 +132,10 @@ Consult the information provided on [the technical information page](http://podl
 
 
 == Changelog ==
+
+### 1.3.3
+* Enhanced Support for translation
+* Fixed an issue that prevented network buttons to be shown
 
 ### 1.3.2
 * Fixed an error that caused notices on some installations
@@ -164,7 +168,7 @@ Consult the information provided on [the technical information page](http://podl
 * Smaller Bugfix: Build tables on plugin-activation only
 
 ### 1.1
-* Network Support - If you run a WordPress Multisite Installation you can create Buttons that are available in the whole Network
+* Network Support - If you run a WordPress Multisite Installation you can create network-wide available Buttons 
 * Default Settings for Size and Autowidth
 * UI enhancements
 

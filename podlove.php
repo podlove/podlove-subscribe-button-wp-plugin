@@ -3,19 +3,19 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.3.2
+ * Version:     1.3.3
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT
  * License URI: license.txt
- * Text Domain: podlove
+ * Text Domain: podlove-subscribe-button
  */
 
 $correct_php_version = version_compare( phpversion(), "5.3", ">=" );
 
 if ( ! $correct_php_version ) {
-	echo "Podlove Subscribe Button Plugin requires <strong>PHP 5.3</strong> or higher.<br>";
-	echo "You are running PHP " . phpversion();
+	_e("Podlove Subscribe Button Plugin requires <strong>PHP 5.3</strong> or higher.<br>", 'podlove-subscribe-button');
+	echo __("You are running PHP ", 'podlove-subscribe-button') . phpversion();
 	exit;
 }
 
@@ -64,6 +64,11 @@ add_action( 'admin_init', function () {
 
 add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
+add_action( 'plugins_loaded', function () {
+	load_plugin_textdomain( 'podlove-subscribe-button' );
+} );
+
+
 class PodloveSubscribeButton {
 
 	public static function admin_menu() {
@@ -111,14 +116,14 @@ class PodloveSubscribeButton {
 
 	public static function shortcode( $args ) {
 		if ( ! $args || ! isset($args['button']) ) {
-			return __('You need to create a Button first and provide its ID.', 'podlove');
+			return __('You need to create a Button first and provide its ID.', 'podlove-subscribe-button');
 		} else {
 			$buttonid = $args['button'];
 		}
 
 		// Fetch the (network)button by it's name
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
-			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), $args['button'] );
 
 		// Get button styling and options
 		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback($args, 'width') );

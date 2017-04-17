@@ -10,7 +10,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		parent::__construct(
 					'podlove_subscribe_button_wp_plugin_widget',
 					( self::is_podlove_publisher_active() ? 'Podlove Subscribe Button' : 'Podlove Subscribe Button (WordPress plugin)' ),
-					array( 'description' => __( 'Adds a Podlove Subscribe Button to your Sidebar', 'podlove' ), )
+					array( 'description' => __( 'Adds a Podlove Subscribe Button to your Sidebar', 'podlove-subscribe-button' ), )
 				);
 	}
 
@@ -26,7 +26,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	public function widget( $args, $instance ) {
 		// Fetch the (network)button by it's name
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($instance['button']) )
-			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove'), $args['button'] );
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), $args['button'] );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
@@ -61,10 +61,10 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 		}
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove-subscribe-button' ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" />
 
-			<label for="<?php echo $this->get_field_id( 'color' ); ?>"><?php _e( 'Color', 'podlove' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'color' ); ?>"><?php _e( 'Color', 'podlove-subscribe-button' ); ?></label>
 			<input class="podlove_subscribe_button_color" id="<?php echo $this->get_field_id( 'color' ); ?>" name="<?php echo $this->get_field_name( 'color' ); ?>" value="<?php echo $color; ?>" />
 			<style type="text/css">
 				.sp-replacer {
@@ -75,7 +75,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 				}
 			</style>
 
-			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove-subscribe-button' ); ?></label> 
 			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
 				      name="<?php echo $this->get_field_name( 'button' ); ?>">
 				<?php if ( isset($network_buttons) && count($network_buttons) > 0 ) : ?>
@@ -111,18 +111,18 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 				);
 
 			foreach ($customize_options as $slug => $properties) : ?>
-				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php _e( $properties['name'], 'podlove' ); ?></label> 
+				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php _e( $properties['name'], 'podlove-subscribe-button' ); ?></label> 
 				<select class="widefat" id="<?php echo $this->get_field_id( $slug ); ?>" name="<?php echo $this->get_field_name( $slug ); ?>">
-					<option value="default" <?php echo ( $$slug == 'default' ? 'selected="selected"' : '' ); ?>><?php _e( 'Default ' . $properties['name'], 'podlove' ) ?></option>
+					<option value="default" <?php echo ( $$slug == 'default' ? 'selected="selected"' : '' ); ?>><?php _e( 'Default ' . $properties['name'], 'podlove-subscribe-button' ) ?></option>
 					<optgroup>
 						<?php foreach ( $properties['options'] as $property => $name ) : ?>
-						<option value="<?php echo $property; ?>" <?php echo ( $$slug == $property ? 'selected="selected"' : '' ); ?>><?php _e( $name, 'podlove' ) ?></option>
+						<option value="<?php echo $property; ?>" <?php echo ( $$slug == $property ? 'selected="selected"' : '' ); ?>><?php _e( $name, 'podlove-subscribe-button' ) ?></option>
 						<?php endforeach; ?>
 					</optgroup>
 				</select>
 			<?php endforeach; ?>
 		
-			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove-subscribe-button' ); ?></label> 
 			<textarea class="widefat" rows="10" id="<?php echo $this->get_field_id( 'infotext' ); ?>" name="<?php echo $this->get_field_name( 'infotext' ); ?>"><?php echo $infotext; ?></textarea>
 		</p>
 		<?php 

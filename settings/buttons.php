@@ -15,12 +15,12 @@ class Buttons {
 			<div class="updated">
 				<p>
 					<strong>
-						<?php echo sprintf( __( 'You selected to delete the button "%s". Please confirm this action.', 'podlove' ), $button->title ) ?>
+						<?php echo sprintf( __( 'You selected to delete the button "%s". Please confirm this action.', 'podlove-subscribe-button' ), $button->title ) ?>
 					</strong>
 				</p>
 				<p>
-					<?php echo self::get_action_link( $button, __( 'Delete button permanently', 'podlove' ), 'delete', 'button' ) ?>
-					<?php echo self::get_action_link( $button, __( 'Don\'t change anything', 'podlove' ), 'keep', 'button-primary' ) ?>
+					<?php echo self::get_action_link( $button, __( 'Delete button permanently', 'podlove-subscribe-button' ), 'delete', 'button' ) ?>
+					<?php echo self::get_action_link( $button, __( 'Don\'t change anything', 'podlove-subscribe-button' ), 'keep', 'button-primary' ) ?>
 				</p>
 			</div>
 			<?php
@@ -28,7 +28,7 @@ class Buttons {
 		?>
 		<div class="wrap">
 			<?php screen_icon( 'podlove-button' ); ?>
-			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php echo __( 'Add New', 'podlove' ); ?></a></h2>
+			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php echo __( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
 			<?php
 			
 			switch ( $action ) {
@@ -94,7 +94,7 @@ class Buttons {
 	/**
 	 * Helper method: redirect to a certain page.
 	 */
-	public function redirect( $action, $button_id = NULL, $params = array(), $network = FALSE ) {
+	public static function redirect( $action, $button_id = NULL, $params = array(), $network = FALSE ) {
 		$page    = ( $network ? '/network/settings' : 'options-general' ) . '.php?page=' . filter_input(INPUT_GET, 'page');
 		$show    = ( $button_id ) ? '&button=' . $button_id : '';
 		$action  = '&action=' . $action;
@@ -126,8 +126,8 @@ class Buttons {
 			$button = new \PodloveSubscribeButton\Model\Button;
 		}
 		
-		echo '<h3>' . __( 'New Subscribe button', 'podlove' ) . '</h3>'.
-				__( 'Please fill in your Podcast metadata to create a Podlove Subscription button', 'podlove' );
+		echo '<h3>' . __( 'New Subscribe button', 'podlove-subscribe-button' ) . '</h3>'.
+				__( 'Please fill in your Podcast metadata to create a Podlove Subscription button', 'podlove-subscribe-button' );
 		self::form_template( $button, 'create' );
 	}
 
@@ -138,7 +138,7 @@ class Buttons {
 			$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
 		}
 		
-		echo '<h3>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove' ), $button->title ) . '</h3>';
+		echo '<h3>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove-subscribe-button' ), $button->title ) . '</h3>';
 		self::form_template( $button, 'save' );
 	}
 

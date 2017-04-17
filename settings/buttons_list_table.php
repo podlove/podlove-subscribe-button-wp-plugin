@@ -21,8 +21,8 @@ class Button_List_Table extends \WP_List_Table {
 	function column_name( $button ) {
 
 		$actions = array(
-			'edit'   => Settings\Buttons::get_action_link( $button, __( 'Edit', 'podlove' ), 'edit' ),
-			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove' ), 'confirm_delete' )
+			'edit'   => Settings\Buttons::get_action_link( $button, __( 'Edit', 'podlove-subscribe-button' ), 'edit' ),
+			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove-subscribe-button' ), 'confirm_delete' )
 		);
 	
 		return sprintf('%1$s %2$s',
@@ -53,8 +53,8 @@ class Button_List_Table extends \WP_List_Table {
 
 	function get_columns(){
 		return array(
-			'name'    => __( 'Title & Shortcode', 'podlove' ),
-			'button_preview'    => __( 'Preview', 'podlove' )
+			'name'    => __( 'Title & Shortcode', 'podlove-subscribe-button' ),
+			'button_preview'    => __( 'Preview', 'podlove-subscribe-button' )
 		);
 	}
 	

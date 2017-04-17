@@ -15,7 +15,7 @@ abstract class Base {
 	private $data = array();
 	
 	public function __set( $name, $value ) {
-		if ( self::has_property( $name ) ) {
+		if ( static::has_property( $name ) ) {
 			$this->set_property( $name, $value );
 		} else {
 			$this->$name = $value;
@@ -27,7 +27,7 @@ abstract class Base {
 	}
 	
 	public function __get( $name ) {
-		if ( self::has_property( $name ) ) {
+		if ( static::has_property( $name ) ) {
 			return $this->get_property( $name );
 		} elseif ( property_exists( $this, $name ) ) {
 			return $this->$name;
@@ -53,6 +53,22 @@ abstract class Base {
 
 		return $property;
 	}
+
+	/**
+	 * Retrieves the database table name.
+	 * 
+	 * The name is derived from the namespace an class name. Additionally, it
+	 * is prefixed with the global WordPress database table prefix.
+	 * @todo cache
+	 * 
+	 * @return string database table name
+	 */
+	public static function table_name() {
+		global $wpdb;
+		
+		// prefix with $wpdb prefix
+		return $wpdb->prefix . static::name();
+	}
 	
 	/**
 	 * Define a property with name and type.
@@ -66,8 +82,8 @@ abstract class Base {
 	public static function property( $name, $type, $args = array() ) {
 		$class = get_called_class();
 		
-		if ( ! isset( self::$properties[ $class ] ) ) {
-			self::$properties[ $class ] = array();
+		if ( ! isset( static::$properties[ $class ] ) ) {
+			static::$properties[ $class ] = array();
 		}
 
 		// "id" columns and those ending on "_id" get an index by default
@@ -77,7 +93,7 @@ abstract class Base {
 			$index = $args['index'];
 		}
 		
-		self::$properties[ $class ][] = array(
+		static::$properties[ $class ][] = array(
 			'name'  => $name,
 			'type'  => $type,
 			'index' => $index,
@@ -94,11 +110,11 @@ abstract class Base {
 	private static function properties() {
 		$class = get_called_class();
 		
-		if ( ! isset( self::$properties[ $class ] ) ) {
-			self::$properties[ $class ] = array();
+		if ( ! isset( static::$properties[ $class ] ) ) {
+			static::$properties[ $class ] = array();
 		}
 		
-		return self::$properties[ $class ];
+		return static::$properties[ $class ];
 	}
 	
 	/**
@@ -108,7 +124,7 @@ abstract class Base {
 	 * @return bool True if the property exists, else false.
 	 */
 	public static function has_property( $name ) {
-		return in_array( $name, self::property_names() );
+		return in_array( $name, static::property_names() );
 	}
 	
 	/**
@@ -117,7 +133,7 @@ abstract class Base {
 	 * @return array property names
 	 */
 	public static function property_names() {
-		return array_map( function ( $p ) { return $p['name']; } , self::properties() );
+		return array_map( function ( $p ) { return $p['name']; } , static::properties() );
 	}
 	
 	/**
@@ -126,7 +142,7 @@ abstract class Base {
 	 * @return bool True if there is at least one entry, else false.
 	 */
 	public static function has_entries() {
-		return self::count() > 0;
+		return static::count() > 0;
 	}
 	
 	/**
@@ -137,7 +153,7 @@ abstract class Base {
 	public static function count() {
 		global $wpdb;
 		
-		$sql = 'SELECT COUNT(*) FROM ' . self::table_name();
+		$sql = 'SELECT COUNT(*) FROM ' . static::table_name();
 		return (int) $wpdb->get_var( $sql );
 	}
 
@@ -148,14 +164,14 @@ abstract class Base {
 		$model = new $class();
 		$model->flag_as_not_new();
 		
-		$row = $wpdb->get_row( 'SELECT * FROM ' . self::table_name() . ' WHERE id = ' . (int) $id );
+		$row = $wpdb->get_row( 'SELECT * FROM ' . static::table_name() . ' WHERE id = ' . (int) $id );
 		
 		if ( ! $row ) {
 			return NULL;
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = self::unserialize_property($value);
+			$model->$property = static::unserialize_property($value);
 		}
 		
 		return $model;
@@ -168,7 +184,7 @@ abstract class Base {
 		$models = array();
 		
 		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . self::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\''
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\''
 		);
 		
 		if ( ! $rows ) {
@@ -179,7 +195,7 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = self::unserialize_property($value);
+				$model->$property = static::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -195,7 +211,7 @@ abstract class Base {
 		$model->flag_as_not_new();
 		
 		$row = $wpdb->get_row(
-			'SELECT * FROM ' . self::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\' LIMIT 0,1'
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\' LIMIT 0,1'
 		);
 		
 		if ( ! $row ) {
@@ -203,7 +219,7 @@ abstract class Base {
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = self::unserialize_property($value);
+			$model->$property = static::unserialize_property($value);
 		}
 		
 		return $model;
@@ -216,7 +232,7 @@ abstract class Base {
 		$models = array();
 		
 		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . self::table_name() . ' WHERE ' . $where
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where
 		);
 		
 		if ( ! $rows ) {
@@ -227,7 +243,7 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = self::unserialize_property($value);
+				$model->$property = static::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -243,7 +259,7 @@ abstract class Base {
 		$model->flag_as_not_new();
 		
 		$row = $wpdb->get_row(
-			'SELECT * FROM ' . self::table_name() . ' WHERE ' . $where . ' LIMIT 0,1'
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where . ' LIMIT 0,1'
 		);
 		
 		if ( ! $row ) {
@@ -251,7 +267,7 @@ abstract class Base {
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = self::unserialize_property($value);
+			$model->$property = static::unserialize_property($value);
 		}
 		
 		return $model;
@@ -268,12 +284,13 @@ abstract class Base {
 		$class = get_called_class();
 		$models = array();
 		
-		$rows = $wpdb->get_results( 'SELECT * FROM ' . self::table_name() . ' ' . $sql_suffix );
+		$rows = $wpdb->get_results( 'SELECT * FROM ' . static::table_name() . ' ' . $sql_suffix );
+
 		foreach ( $rows as $row ) {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = self::unserialize_property($value);
+				$model->$property = static::unserialize_property($value);
 			}
 			$models[] = $model;
 		}
@@ -350,7 +367,7 @@ abstract class Base {
 
 		$sql = sprintf(
 			"UPDATE %s SET %s = '%s' WHERE id = %s",
-			self::table_name(),
+			static::table_name(),
 			$attribute,
 			mysqli_real_escape_string($value),
 			$this->id
@@ -372,13 +389,13 @@ abstract class Base {
 			$this->set_defaults();
 
 			$sql = 'INSERT INTO '
-			     . self::table_name()
+			     . static::table_name()
 			     . ' ( '
-			     . implode( ',', self::property_names() )
+			     . implode( ',', static::property_names() )
 			     . ' ) '
 			     . 'VALUES'
 			     . ' ( '
-			     . implode( ',', array_map( array( $this, 'property_name_to_sql_value' ), self::property_names() ) )
+			     . implode( ',', array_map( array( $this, 'property_name_to_sql_value' ), static::property_names() ) )
 			     . ' );'
 			;
 			$success = $wpdb->query( $sql );
@@ -386,9 +403,9 @@ abstract class Base {
 				$this->id = $wpdb->insert_id;
 			}
 		} else {
-			$sql = 'UPDATE ' . self::table_name()
+			$sql = 'UPDATE ' . static::table_name()
 			     . ' SET '
-			     . implode( ',', array_map( array( $this, 'property_name_to_sql_update_statement' ), self::property_names() ) )
+			     . implode( ',', array_map( array( $this, 'property_name_to_sql_update_statement' ), static::property_names() ) )
 			     . ' WHERE id = ' . $this->id
 			;
 
@@ -437,7 +454,7 @@ abstract class Base {
 		global $wpdb;
 		
 		$sql = 'DELETE FROM '
-		     . self::table_name()
+		     . static::table_name()
 		     . ' WHERE id = ' . $this->id;
 
 		$rows_affected = $wpdb->query( $sql );
@@ -478,11 +495,11 @@ abstract class Base {
 		global $wpdb;
 		
 		$property_sql = array();
-		foreach ( self::properties() as $property )
+		foreach ( static::properties() as $property )
 			$property_sql[] = "`{$property['name']}` {$property['type']}";
 		
 		$sql = 'CREATE TABLE IF NOT EXISTS '
-		     . self::table_name()
+		     . static::table_name()
 		     . ' ('
 		     . implode( ',', $property_sql )
 		     . ' ) CHARACTER SET utf8;'
@@ -490,7 +507,7 @@ abstract class Base {
 		
 		$wpdb->query( $sql );
 
-		self::build_indices();
+		static::build_indices();
 	}
 	
 	/**
@@ -503,35 +520,19 @@ abstract class Base {
 	public static function build_indices() {
 		global $wpdb;
 
-		$indices_sql = 'SHOW INDEX FROM `' . self::table_name() . '`';
+		$indices_sql = 'SHOW INDEX FROM `' . static::table_name() . '`';
 		$indices = $wpdb->get_results( $indices_sql );
 		$index_columns = array_map( function($index){ return $index->Column_name; }, $indices );
 
-		foreach ( self::properties() as $property ) {
+		foreach ( static::properties() as $property ) {
 
 			if ( $property['index'] && ! in_array( $property['name'], $index_columns ) ) {
 				$length = isset($property['index_length']) ? '(' . (int) $property['index_length'] . ')' : '';
 				$unique = isset($property['unique']) && $property['unique'] ? 'UNIQUE' : '';
-				$sql = 'ALTER TABLE `' . self::table_name() . '` ADD ' . $unique . ' INDEX `' . $property['name'] . '` (' . $property['name'] . $length . ')';
+				$sql = 'ALTER TABLE `' . static::table_name() . '` ADD ' . $unique . ' INDEX `' . $property['name'] . '` (' . $property['name'] . $length . ')';
 				$wpdb->query( $sql );
 			}
 		}
-	}
-
-	/**
-	 * Retrieves the database table name.
-	 * 
-	 * The name is derived from the namespace an class name. Additionally, it
-	 * is prefixed with the global WordPress database table prefix.
-	 * @todo cache
-	 * 
-	 * @return string database table name
-	 */
-	public static function table_name() {
-		global $wpdb;
-		
-		// prefix with $wpdb prefix
-		return $wpdb->prefix . self::name();
 	}
 
 	/**
