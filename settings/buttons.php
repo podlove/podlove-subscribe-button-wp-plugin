@@ -142,7 +142,7 @@ class Buttons {
 	}
 
 	public static function view_template() {
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 		?>
 		<p><?php _e('This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove'); ?></p>
 		<p><?php _e('Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove'); ?></p>
@@ -215,7 +215,7 @@ class Buttons {
 		// Enqueue Scripts for Media Manager
 		wp_enqueue_media();
 		// Adjust if is_network
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 		?>
 		<form method="post" action="<?php echo ( $is_network === TRUE ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
 			<input type="hidden" value="<?php echo $button->id; ?>" name="podlove_button[id]" />
@@ -327,7 +327,7 @@ class Buttons {
 
 	public static function get_action_link( $button, $title, $action = 'edit', $type = 'link' ) {
 		return sprintf(
-			'<a href="?page=%s&action=%s&button=%s&network='.get_current_screen()->is_network.'"%s>' . $title . '</a>',
+			'<a href="?page=%s&action=%s&button=%s&network='.is_network_admin().'"%s>' . $title . '</a>',
 			filter_input(INPUT_GET, 'page'),
 			$action,
 			$button->id,
