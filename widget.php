@@ -9,7 +9,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	public function __construct() {
 		parent::__construct(
 					'podlove_subscribe_button_wp_plugin_widget',
-					( self::is_podlove_publisher_active() ? 'Podlove Subscribe Button' : 'Podlove Subscribe Button (WordPress plugin)' ),
+			 		__( 'Podlove Subscribe Button', 'podlove-subscribe-button' ),
 					array( 'description' => __( 'Adds a Podlove Subscribe Button to your Sidebar', 'podlove-subscribe-button' ), )
 				);
 	}
