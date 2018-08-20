@@ -16,13 +16,6 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 	public static $widget_settings = array('infotext', 'title', 'size', 'style', 'format', 'autowidth', 'button', 'color');
 
-	public static function is_podlove_publisher_active() {
-		if ( is_plugin_active("podlove-publisher/plugin.php") )
-			return true;
-
-		return false;
-	}
-
 	public function widget( $args, $instance ) {
 		// Fetch the (network)button by it's name
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($instance['button']) )
