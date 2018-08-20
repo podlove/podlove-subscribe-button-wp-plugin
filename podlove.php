@@ -9,6 +9,7 @@
  * License:     MIT
  * License URI: license.txt
  * Text Domain: podlove-subscribe-button
+ * Domain Path: /languages
  */
 
 $correct_php_version = version_compare( phpversion(), "5.3", ">=" );
