@@ -37,7 +37,7 @@ require('version.php');
 // Helper functions
 require('helper.php');
 
-add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
+add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu' ), 25 );
 if ( is_multisite() )
 	add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu') );
 
@@ -72,13 +72,24 @@ add_action( 'plugins_loaded', function () {
 class PodloveSubscribeButton {
 
 	public static function admin_menu() {
-		add_options_page(
+		if ( self::is_publisher_active() ) {
+			add_submenu_page(
+				'podlove_settings_handle',
+				'Subscribe Button Options',
+				'Subscribe Button',
+				'manage_options',
+				'podlove_subscribe_button',
+				array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
+			);
+		} else {
+			add_options_page(
 				'Podlove Subscribe Button Options',
 				'Podlove Subscribe Button',
 				'manage_options',
 				'podlove-subscribe-button',
-				array( 'PodloveSubscribeButton\Settings\Buttons', 'page')
+				array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
 			);
+		}
 	}
 
 	public static function admin_network_menu() {
@@ -187,4 +198,13 @@ class PodloveSubscribeButton {
 
 		return get_option('podlove_subscribe_button_default_autowidth', 'on');
 	}
+
+	public static function is_publisher_active() {
+		if ( is_plugin_active( 'podlove-podcasting-plugin-for-wordpress/podlove.php' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
