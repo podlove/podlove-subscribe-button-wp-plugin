@@ -70,7 +70,9 @@ class PodloveSubscribeButton {
 
 	public static function enqueue_assets( $hook ) {
 
-		if ( $hook != 'settings_page_podlove-subscribe-button' ) {
+		$pages = array( 'settings_page_podlove-subscribe-button', 'widgets.php' );
+
+		if ( ! in_array( $hook, $pages )  ) {
 			return;
 		}
 
