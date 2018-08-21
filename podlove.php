@@ -89,7 +89,6 @@ class PodloveSubscribeButton {
 			'cancel'        => __( 'Cancel', 'podlove-subscribe-button' ),
 			'media_library' => __( 'Media Library', 'podlove-subscribe-button' ),
 			'use_for'       => __( 'Use for Podcast Cover Art', 'podlove-subscribe-button' ),
-			'media_library' => __( 'Media Library', 'podlove-subscribe-button' ),
 		);
 		wp_localize_script( 'podlove-subscribe-button-admin-tools', 'i18n', $js_translations );
 		wp_enqueue_script( 'podlove-subscribe-button-admin-tools' );
