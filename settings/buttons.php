@@ -7,7 +7,7 @@ class Buttons {
 	public static function page() {
 
 		$action = null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL;
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 
 		if ( $action == 'confirm_delete' && null !== filter_input(INPUT_GET, 'button') ) {
 			$button = ( $is_network === TRUE ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( (int) filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( (int) filter_input(INPUT_GET, 'button') ) );
@@ -27,10 +27,9 @@ class Buttons {
 		}
 		?>
 		<div class="wrap">
-			<?php screen_icon( 'podlove-button' ); ?>
 			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php echo __( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
 			<?php
-			
+
 			switch ( $action ) {
 				case 'new':   self::new_template();  break;
 				case 'edit':  self::edit_template(); break;
@@ -38,7 +37,7 @@ class Buttons {
 				default:      self::view_template(); break;
 			}
 			?>
-		</div>	
+		</div>
 		<?php
 	}
 
@@ -53,7 +52,7 @@ class Buttons {
 
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') ) );
 		$button->update_attributes( $post['podlove_button'] );
-		
+
 		if ( isset($post['submit_and_stay']) ) {
 			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
 		} else {
@@ -65,7 +64,7 @@ class Buttons {
 	 */
 	public static function create() {
 		global $wpdb;
-		
+
 		$post = filter_input_array(INPUT_POST);
 
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? new \PodloveSubscribeButton\Model\NetworkButton : new \PodloveSubscribeButton\Model\Button );
@@ -77,7 +76,7 @@ class Buttons {
 			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
 		}
 	}
-	
+
 	/**
 	 * Process form: delete a format
 	 */
@@ -88,7 +87,7 @@ class Buttons {
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') ) );
 		$button->delete();
 
-		self::redirect( 'index', NULL, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );	
+		self::redirect( 'index', NULL, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
 	}
 
 	/**
@@ -100,16 +99,16 @@ class Buttons {
 		$action  = '&action=' . $action;
 
 		array_walk( $params, function(&$value, $key) { $value = "&$key=$value"; } );
-		
+
 		wp_redirect( admin_url( $page . $show . $action . implode( '', $params ) ) );
 	}
-	
+
 	public static function process_form() {
 		if ( null === filter_input(INPUT_GET, 'button') )
 			return;
 
 		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL );
-		
+
 		if ( $action === 'save' ) {
 			self::save();
 		} elseif ( $action === 'create' ) {
@@ -125,7 +124,7 @@ class Buttons {
 		} else {
 			$button = new \PodloveSubscribeButton\Model\Button;
 		}
-		
+
 		echo '<h3>' . __( 'New Subscribe button', 'podlove-subscribe-button' ) . '</h3>'.
 				__( 'Please fill in your Podcast metadata to create a Podlove Subscription button', 'podlove-subscribe-button' );
 		self::form_template( $button, 'create' );
@@ -137,13 +136,13 @@ class Buttons {
 		} else {
 			$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') );
 		}
-		
+
 		echo '<h3>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove-subscribe-button' ), $button->title ) . '</h3>';
 		self::form_template( $button, 'save' );
 	}
 
 	public static function view_template() {
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 		?>
 		<p><?php _e('This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove'); ?></p>
 		<p><?php _e('Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove'); ?></p>
@@ -155,7 +154,7 @@ class Buttons {
 
 		// Get the global button settings (with fallback to default values)
 		$settings = \PodloveSubscribeButton\Model\Button::get_global_setting_with_fallback();
-		
+
 		if ( ! $is_network ) :
 		?>
 		<h3><?php _e('Default Settings', 'podlove'); ?></h3>
@@ -216,7 +215,7 @@ class Buttons {
 		// Enqueue Scripts for Media Manager
 		wp_enqueue_media();
 		// Adjust if is_network
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 		?>
 		<form method="post" action="<?php echo ( $is_network === TRUE ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
 			<input type="hidden" value="<?php echo $button->id; ?>" name="podlove_button[id]" />
@@ -262,14 +261,14 @@ class Buttons {
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
 							<a id="Podlove_cover_image_select" class="button" href="#">Select</a>
-							<br /><img src="<?php echo $button->cover; ?>" alt="" style="width: 200px" /> 
+							<br /><img src="<?php echo $button->cover; ?>" alt="" style="width: 200px" />
 							<script type="text/javascript">
 								(function($) {
 									$("#podlove-button-cover").on( 'change', function() {
 										url = $(this).val();
 										$(this).parent().find("img").attr("src", url);
 									} );
-								})(jQuery);								
+								})(jQuery);
 							</script>
 						</td>
 					</tr>
@@ -309,7 +308,7 @@ class Buttons {
 						</td>
 						<td>
 							<select class="regular-text podlove-media-format" name="podlove_button[feeds][{{id}}][format]">
-								<?php 
+								<?php
 									foreach (\PodloveSubscribeButton\MediaTypes::$audio as $id => $audio) {
 										echo "<option value='".$id."'>".$audio['title']."</option>\n";
 									}
@@ -328,7 +327,7 @@ class Buttons {
 
 	public static function get_action_link( $button, $title, $action = 'edit', $type = 'link' ) {
 		return sprintf(
-			'<a href="?page=%s&action=%s&button=%s&network='.get_current_screen()->is_network.'"%s>' . $title . '</a>',
+			'<a href="?page=%s&action=%s&button=%s&network='.is_network_admin().'"%s>' . $title . '</a>',
 			filter_input(INPUT_GET, 'page'),
 			$action,
 			$button->id,

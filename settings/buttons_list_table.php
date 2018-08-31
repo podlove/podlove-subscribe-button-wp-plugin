@@ -35,7 +35,7 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds )
 			return;
 
-		$is_network = get_current_screen()->is_network;
+		$is_network = is_network_admin();
 
 		return "<div class='podlove-button-preview-container'>"
 			. $button->render(
@@ -70,9 +70,8 @@ class Button_List_Table extends \WP_List_Table {
 		
 		// retrieve data
 		// TODO select data for current page only
-		$screen = get_current_screen();
-		$data = ( $screen->is_network ? \PodloveSubscribeButton\Model\NetworkButton::all() : \PodloveSubscribeButton\Model\Button::all() );
-		
+		$data = ( is_network_admin() ? \PodloveSubscribeButton\Model\NetworkButton::all() : \PodloveSubscribeButton\Model\Button::all() );
+
 		// get current page
 		$current_page = $this->get_pagenum();
 		// get total items
