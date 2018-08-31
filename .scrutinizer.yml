@@ -13,7 +13,7 @@ build:
             tests:
                 override:
                 - php-scrutinizer-run
-                - phpcs-run --ignore=*/tests/*,*/vendor/*,*/wordpress/* ~/build/
+                - phpcs-run --ignore=*/tests/*,*/vendor/*,*/wordpress/*,*/fonts/* ~/build/
                 - js-scrutinizer-run
 checks:
     php:
@@ -134,6 +134,7 @@ coding_style:
 
 filter:
     excluded_paths:
+    - fonts/
     - languages/
     - js/spectrum/
     - tests/
