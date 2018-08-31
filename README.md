@@ -13,4 +13,4 @@ This is a WordPress plugin that brings the [Podlove Subcribe Button](http://podl
 
 
 ## License
-MIT
+[MIT](https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE) Copyright (c) 2014 Podlove
