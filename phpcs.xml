@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset>
+	<file>.</file>
+	<rule ref="PSR1">
+		<exclude name="PSR1.Classes.ClassDeclaration"/>
+		<exclude name="PSR1.Files.SideEffects"/>
+	</rule>
+	<rule ref="WordPress"/>
+	<rule ref="Squiz.CSS.ClassDefinitionClosingBraceSpace"/>
+	<rule ref="Squiz.WhiteSpace.FunctionClosingBraceSpace"/>
+	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+	<rule ref="Squiz.PHP.EmbeddedPhp"/>
+</ruleset>
