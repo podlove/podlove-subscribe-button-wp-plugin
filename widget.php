@@ -9,7 +9,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	public function __construct() {
 		parent::__construct(
 					'podlove_subscribe_button_wp_plugin_widget',
-					( self::is_podlove_publisher_active() ? 'Podlove Subscribe Button' : 'Podlove Subscribe Button (WordPress plugin)' ),
+					( self::is_podlove_publisher_active() ? 'Podlove Subscribe Button (WordPress plugin)' : 'Podlove Subscribe Button' ),
 					array( 'description' => __( 'Adds a Podlove Subscribe Button to your Sidebar', 'podlove-subscribe-button' ), )
 				);
 	}
@@ -17,8 +17,9 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	public static $widget_settings = array('infotext', 'title', 'size', 'style', 'format', 'autowidth', 'button', 'color');
 
 	public static function is_podlove_publisher_active() {
-		if ( is_plugin_active("podlove-publisher/plugin.php") )
+		if ( is_plugin_active("podlove-podcasting-plugin-for-wordpress/podlove.php") ) {
 			return true;
+		}
 
 		return false;
 	}
