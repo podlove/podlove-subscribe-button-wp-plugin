@@ -25,6 +25,9 @@ checks:
         avoid_superglobals: true
         security_vulnerabilities: true
         no_exit: false
+        no_trailing_whitespace: true
+        remove_extra_empty_lines: true
+        fix_line_ending: true
     javascript: true
 
 coding_style:
