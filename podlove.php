@@ -3,7 +3,7 @@
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.3.3
+ * Version:     1.3.4
  * Author:      Podlove
  * Author URI:  http://podlove.org
  * License:     MIT

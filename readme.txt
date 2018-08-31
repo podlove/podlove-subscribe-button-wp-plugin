@@ -5,7 +5,7 @@ Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -133,6 +133,10 @@ Consult the information provided on [the technical information page](https://pod
 
 
 == Changelog ==
+
+### 1.3.4 (2018-09-05)
+* FIXED detection of Publisher plugin (widget naming)
+* FIXED deprecated WP core functions removed
 
 ### 1.3.3
 * Enhanced Support for translation
