@@ -44,17 +44,17 @@ class Button extends Base {
 	 * @param  string $name
 	 * @return object||FALSE
 	 */
-	public static function get_button_by_name($name) {
-		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property('name', $name) ) {
+	public static function get_button_by_name( $name ) {
+		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property( 'name', $name ) ) {
 			return $button;
 		}
 
-		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property('name', $name) ) {
+		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property( 'name', $name ) ) {
 			$network_button->id = $network_button->id . 'N';
 			return $network_button;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -62,9 +62,9 @@ class Button extends Base {
 	 * @param  array
 	 * @return array
 	 */
-	public static function get_global_setting_with_fallback( $settings=array() ) {
-		foreach (self::$properties as $property => $default) {
-			$settings[$property] = ( get_option('podlove_subscribe_button_default_' . $property) ? get_option('podlove_subscribe_button_default_' . $property) : $default );
+	public static function get_global_setting_with_fallback( $settings = array() ) {
+		foreach ( self::$properties as $property => $default ) {
+			$settings[ $property ] = ( get_option( 'podlove_subscribe_button_default_' . $property ) ? get_option( 'podlove_subscribe_button_default_' . $property ) : $default );
 		}
 
 		return $settings;
@@ -81,9 +81,9 @@ class Button extends Base {
 	 * @param  boolean $buttonid
 	 * @return string
 	 */
-	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE, $language='en' ) {
+	public function render( $size = 'big', $autowidth = 'on', $style = 'filled', $format = 'rectangle', $color = '#599677', $hide = FALSE, $buttonid = FALSE, $language = 'en' ) {
 		$button_styling = array_merge(
-				$this->get_button_styling($size, $autowidth, $style, $format, $color),
+				$this->get_button_styling( $size, $autowidth, $style, $format, $color ),
 				array(
 						'hide' => $hide,
 						'buttonid' => $buttonid,
@@ -97,7 +97,7 @@ class Button extends Base {
 				'subtitle' => $this->subtitle,
 				'description' => $this->description,
 				'cover' => $this->cover,
-				'feeds' => $this->get_feeds_as_array($this->feeds)
+				'feeds' => $this->get_feeds_as_array( $this->feeds )
 			), $button_styling );
 	}
 
@@ -105,20 +105,20 @@ class Button extends Base {
 	 * Provides the feed as an array in the required format
 	 * @return array
 	 */
-	private function get_feeds_as_array( $feeds=array() ) {
-		foreach ($feeds as $feed) {
-			if ( isset(\PodloveSubscribeButton\MediaTypes::$audio[$feed['format']]['extension']) ) {
+	private function get_feeds_as_array( $feeds = array() ) {
+		foreach ( $feeds as $feed ) {
+			if ( isset( \PodloveSubscribeButton\MediaTypes::$audio[ $feed[ 'format' ] ][ 'extension' ] ) ) {
 				$new_feed = array(
 						'type' => 'audio',
-						'format' => \PodloveSubscribeButton\MediaTypes::$audio[$feed['format']]['extension'],
-						'url' => $feed['url'],
+						'format' => \PodloveSubscribeButton\MediaTypes::$audio[ $feed[ 'format' ] ][ 'extension' ],
+						'url' => $feed[ 'url' ],
 						'variant' => 'high'
 					);
 
-				if ( isset($feed['itunesfeedid']) && $feed['itunesfeedid'] > 0 )
-					$new_feed['directory-url-itunes'] = "https://itunes.apple.com/podcast/id" . $feed['itunesfeedid'];
+				if ( isset( $feed[ 'itunesfeedid' ] ) && $feed[ 'itunesfeedid' ] > 0 )
+					$new_feed[ 'directory-url-itunes' ] = "https://itunes.apple.com/podcast/id" . $feed[ 'itunesfeedid' ];
 
-				$feeds[] = $new_feed;
+				$feeds[ ] = $new_feed;
 			}
 		}
 
@@ -132,15 +132,15 @@ class Button extends Base {
 	 * @param  string $data_attributes
 	 * @return string 
 	 */
-	private function provide_button_html($podcast_data, $button_styling, $data_attributes="") {
+	private function provide_button_html( $podcast_data, $button_styling, $data_attributes = "" ) {
 		// Create data attributes for Button
-		foreach ($button_styling as $attribute => $value) {
+		foreach ( $button_styling as $attribute => $value ) {
 			$data_attributes .= 'data-' . $attribute . '="' . $value . '" ';
 		}
 
 		return"
 			<script>
-				podcastData".$this->id . " = ".json_encode($podcast_data)."
+				podcastData".$this->id . " = " . json_encode( $podcast_data ) . "
 			</script>
 			<script 
 				class=\"podlove-subscribe-button\" 
@@ -158,15 +158,15 @@ class Button extends Base {
 	 * @param  string $color
 	 * @return array
 	 */
-	public function get_button_styling($size, $autowidth, $style, $format, $color) {
+	public function get_button_styling( $size, $autowidth, $style, $format, $color ) {
 
 		return array(
 				// $attribute => $value
-				'size' => ( $size == 'default' ? get_option('podlove_subscribe_button_default_size', $size) : $size )
-			 	. self::interpret_autowidth_attribute($autowidth),
-				'style' => ( $style == 'default' ? get_option('podlove_subscribe_button_default_style', $style) : $style ),
-				'format' => ( $format == 'default' ? get_option('podlove_subscribe_button_default_format', $format) : $format ),
-				'color' => ( isset($color) ? $color : get_option('podlove_subscribe_button_default_color', $color) ),
+				'size' => ( $size == 'default' ? get_option( 'podlove_subscribe_button_default_size', $size ) : $size )
+			 	. self::interpret_autowidth_attribute( $autowidth ),
+				'style' => ( $style == 'default' ? get_option( 'podlove_subscribe_button_default_style', $style ) : $style ),
+				'format' => ( $format == 'default' ? get_option( 'podlove_subscribe_button_default_format', $format ) : $format ),
+				'color' => ( isset( $color ) ? $color : get_option( 'podlove_subscribe_button_default_color', $color ) ),
 				'json-data' => 'podcastData' . $this->id
 			);
 	}
@@ -176,8 +176,8 @@ class Button extends Base {
 	 * @param  string $autowidth
 	 * @return string
 	 */
-	private static function interpret_autowidth_attribute($autowidth) {
-		if ( $autowidth == 'default' && get_option('podlove_subscribe_button_default_autowidth') !== 'on' )
+	private static function interpret_autowidth_attribute( $autowidth ) {
+		if ( $autowidth == 'default' && get_option( 'podlove_subscribe_button_default_autowidth' ) !== 'on' )
 			return '';
 
 		if ( $autowidth !== 'default' && $autowidth !== 'on' )

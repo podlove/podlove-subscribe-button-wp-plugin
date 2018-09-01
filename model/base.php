@@ -32,7 +32,7 @@ abstract class Base {
 		} elseif ( property_exists( $this, $name ) ) {
 			return $this->$name;
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 	
@@ -40,16 +40,16 @@ abstract class Base {
 		if ( isset( $this->data[ $name ] ) ) {
 			return $this->data[ $name ];
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 
-	private static function unserialize_property($property) {
-		if ( ! isset($property) )
+	private static function unserialize_property( $property ) {
+		if ( ! isset( $property ) )
 			return;
 
-		if ( $unserialized_string = is_serialized($property) )
-			return unserialize($property);
+		if ( $unserialized_string = is_serialized( $property ) )
+			return unserialize( $property );
 
 		return $property;
 	}
@@ -89,16 +89,16 @@ abstract class Base {
 		// "id" columns and those ending on "_id" get an index by default
 		$index = $name == 'id' || stripos( $name, '_id' );
 		// but if the argument is set, it overrides the default
-		if (isset($args['index'])) {
-			$index = $args['index'];
+		if ( isset( $args[ 'index' ] ) ) {
+			$index = $args[ 'index' ];
 		}
 		
-		static::$properties[ $class ][] = array(
+		static::$properties[ $class ][ ] = array(
 			'name'  => $name,
 			'type'  => $type,
 			'index' => $index,
-			'index_length' => isset($args['index_length']) ? $args['index_length'] : null,
-			'unique' => isset($args['unique']) ? $args['unique'] : null
+			'index_length' => isset( $args[ 'index_length' ] ) ? $args[ 'index_length' ] : null,
+			'unique' => isset( $args[ 'unique' ] ) ? $args[ 'unique' ] : null
 		);
 	}
 	
@@ -133,7 +133,7 @@ abstract class Base {
 	 * @return array property names
 	 */
 	public static function property_names() {
-		return array_map( function ( $p ) { return $p['name']; } , static::properties() );
+		return array_map( function( $p ) { return $p[ 'name' ]; } , static::properties() );
 	}
 	
 	/**
@@ -167,11 +167,11 @@ abstract class Base {
 		$row = $wpdb->get_row( 'SELECT * FROM ' . static::table_name() . ' WHERE id = ' . (int) $id );
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = static::unserialize_property($value);
+			$model->$property = static::unserialize_property( $value );
 		}
 		
 		return $model;
@@ -184,7 +184,7 @@ abstract class Base {
 		$models = array();
 		
 		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\''
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property . ' = \'' . $value . '\''
 		);
 		
 		if ( ! $rows ) {
@@ -195,9 +195,9 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = static::unserialize_property($value);
+				$model->$property = static::unserialize_property( $value );
 			}
-			$models[] = $model;
+			$models[ ] = $model;
 		}
 		
 		return $models;
@@ -211,15 +211,15 @@ abstract class Base {
 		$model->flag_as_not_new();
 		
 		$row = $wpdb->get_row(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\' LIMIT 0,1'
+			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property . ' = \'' . $value . '\' LIMIT 0,1'
 		);
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = static::unserialize_property($value);
+			$model->$property = static::unserialize_property( $value );
 		}
 		
 		return $model;
@@ -243,9 +243,9 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = static::unserialize_property($value);
+				$model->$property = static::unserialize_property( $value );
 			}
-			$models[] = $model;
+			$models[ ] = $model;
 		}
 		
 		return $models;
@@ -263,11 +263,11 @@ abstract class Base {
 		);
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
-			$model->$property = static::unserialize_property($value);
+			$model->$property = static::unserialize_property( $value );
 		}
 		
 		return $model;
@@ -290,9 +290,9 @@ abstract class Base {
 			$model = new $class();
 			$model->flag_as_not_new();
 			foreach ( $row as $property => $value ) {
-				$model->$property = static::unserialize_property($value);
+				$model->$property = static::unserialize_property( $value );
 			}
-			$models[] = $model;
+			$models[ ] = $model;
 		}
 		
 		return $models;
@@ -322,18 +322,18 @@ abstract class Base {
 		if ( ! is_array( $attributes ) )
 			return false;
 
-		$request = filter_input_array(INPUT_POST); // Do this for security reasons
+		$request = filter_input_array( INPUT_POST ); // Do this for security reasons
 			
 		foreach ( $attributes as $key => $value ) {
-			if ( is_array($value) ) {
-				$this->{$key} = serialize($value);
+			if ( is_array( $value ) ) {
+				$this->{$key} = serialize( $value );
 			} else {
-				$this->{$key} = esc_sql($value);
+				$this->{$key} = esc_sql( $value );
 			}
 		}
 		
-		if ( isset( $request['checkboxes'] ) && is_array( $request['checkboxes'] ) ) {
-			foreach ( $request['checkboxes'] as $checkbox ) {
+		if ( isset( $request[ 'checkboxes' ] ) && is_array( $request[ 'checkboxes' ] ) ) {
+			foreach ( $request[ 'checkboxes' ] as $checkbox ) {
 				if ( isset( $attributes[ $checkbox ] ) && $attributes[ $checkbox ] === 'on' ) {
 					$this->$checkbox = 1;
 				} else {
@@ -345,8 +345,8 @@ abstract class Base {
 		// @todo this is the wrong place to do this!
 		// The feed password is the only "passphrase" which is saved. It is not encrypted!
 		// However, we keep this function for later use
-		if ( isset( $request['passwords'] ) && is_array( $request['passwords'] ) ) {
-			foreach ( $request['passwords'] as $password ) {
+		if ( isset( $request[ 'passwords' ] ) && is_array( $request[ 'passwords' ] ) ) {
+			foreach ( $request[ 'passwords' ] as $password ) {
 				$this->$password = $attributes[ $password ];
 			}
 		}
@@ -360,7 +360,7 @@ abstract class Base {
 	 * @param  mixed  $value
 	 * @return (bool) query success
 	 */
-	public function update_attribute($attribute, $value) {
+	public function update_attribute( $attribute, $value ) {
 		global $wpdb;
 
 		$this->$attribute = $value;
@@ -369,7 +369,7 @@ abstract class Base {
 			"UPDATE %s SET %s = '%s' WHERE id = %s",
 			static::table_name(),
 			$attribute,
-			mysqli_real_escape_string($value),
+			mysqli_real_escape_string( $value ),
 			$this->id
 		);
 
@@ -414,8 +414,8 @@ abstract class Base {
 
 		$this->is_new = false;
 
-		do_action('podlove_model_save', $this);
-		do_action('podlove_model_change', $this);
+		do_action( 'podlove_model_save', $this );
+		do_action( 'podlove_model_change', $this );
 
 		return $success;
 	}
@@ -433,7 +433,7 @@ abstract class Base {
 			return;
 
 		foreach ( $defaults as $property => $value ) {
-			if ( $this->$property === NULL )
+			if ( $this->$property === null )
 				$this->$property = $value;
 		}
 
@@ -459,8 +459,8 @@ abstract class Base {
 
 		$rows_affected = $wpdb->query( $sql );
 
-	    do_action('podlove_model_delete', $this);
-	    do_action('podlove_model_change', $this);
+	    do_action( 'podlove_model_delete', $this );
+	    do_action( 'podlove_model_change', $this );
 
 		return $rows_affected !== false;
 	}
@@ -469,7 +469,7 @@ abstract class Base {
 		global $wpdb;
 
 		if ( $this->$p !== NULL && $this->$p !== '' ) {
-			return sprintf( "%s = '%s'", $p, ( is_array($this->$p) ? serialize($this->$p) : $this->$p ) );
+			return sprintf( "%s = '%s'", $p, ( is_array( $this->$p ) ? serialize( $this->$p ) : $this->$p ) );
 		} else {
 			return "$p = NULL";
 		}
@@ -478,7 +478,7 @@ abstract class Base {
 	private function property_name_to_sql_value( $p ) {
 		global $wpdb;
 
-		if ( $this->$p !== NULL && $this->$p !== '' ) {
+		if ( $this->$p !== null && $this->$p !== '' ) {
 			return sprintf( "'%s'", $this->$p );
 		} else {
 			return 'NULL';
@@ -496,7 +496,7 @@ abstract class Base {
 		
 		$property_sql = array();
 		foreach ( static::properties() as $property )
-			$property_sql[] = "`{$property['name']}` {$property['type']}";
+			$property_sql[ ] = "`{$property[ 'name' ]}` {$property[ 'type' ]}";
 		
 		$sql = 'CREATE TABLE IF NOT EXISTS '
 		     . static::table_name()
@@ -522,14 +522,14 @@ abstract class Base {
 
 		$indices_sql = 'SHOW INDEX FROM `' . static::table_name() . '`';
 		$indices = $wpdb->get_results( $indices_sql );
-		$index_columns = array_map( function($index){ return $index->Column_name; }, $indices );
+		$index_columns = array_map( function( $index ) { return $index->Column_name; }, $indices );
 
 		foreach ( static::properties() as $property ) {
 
-			if ( $property['index'] && ! in_array( $property['name'], $index_columns ) ) {
-				$length = isset($property['index_length']) ? '(' . (int) $property['index_length'] . ')' : '';
-				$unique = isset($property['unique']) && $property['unique'] ? 'UNIQUE' : '';
-				$sql = 'ALTER TABLE `' . static::table_name() . '` ADD ' . $unique . ' INDEX `' . $property['name'] . '` (' . $property['name'] . $length . ')';
+			if ( $property[ 'index' ] && ! in_array( $property[ 'name' ], $index_columns ) ) {
+				$length = isset( $property[ 'index_length' ] ) ? '(' . (int) $property[ 'index_length' ] . ')' : '';
+				$unique = isset( $property[ 'unique' ] ) && $property[ 'unique' ] ? 'UNIQUE' : '';
+				$sql = 'ALTER TABLE `' . static::table_name() . '` ADD ' . $unique . ' INDEX `' . $property[ 'name' ] . '` (' . $property[ 'name' ] . $length . ')';
 				$wpdb->query( $sql );
 			}
 		}
