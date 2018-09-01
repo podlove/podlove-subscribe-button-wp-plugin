@@ -1,19 +1,19 @@
 <?php
 namespace PodloveSubscribeButton;
 
-if( ! class_exists( 'WP_List_Table' ) ){
+if ( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
 class Button_List_Table extends \WP_List_Table {
 
-	function __construct(){
+	function __construct() {
 		global $status, $page;
 		        
 		// Set parent defaults
 		parent::__construct( array(
-		    'singular'  => 'feed',   // singular name of the listed records
-		    'plural'    => 'feeds',  // plural name of the listed records
+		    'singular'  => 'feed', // singular name of the listed records
+		    'plural'    => 'feeds', // plural name of the listed records
 		    'ajax'      => false  // does this table support ajax?
 		) );
 	}
@@ -25,7 +25,7 @@ class Button_List_Table extends \WP_List_Table {
 			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove-subscribe-button' ), 'confirm_delete' )
 		);
 	
-		return sprintf('%1$s %2$s',
+		return sprintf( '%1$s %2$s',
 		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button button="' . $button->name . '"]</code>',
 		    /*$3%s*/ $this->row_actions( $actions )
 		);
@@ -41,7 +41,7 @@ class Button_List_Table extends \WP_List_Table {
 			. $button->render(
 					'big',
 					'false',
-					get_option('podlove_subscribe_button_default_style', 'filled'),
+					get_option( 'podlove_subscribe_button_default_style', 'filled' ),
 					'rectangle'
 				) 
 			. "</div>";
@@ -51,7 +51,7 @@ class Button_List_Table extends \WP_List_Table {
 		return $button->id;
 	}
 
-	function get_columns(){
+	function get_columns() {
 		return array(
 			'name'    => __( 'Title & Shortcode', 'podlove-subscribe-button' ),
 			'button_preview'    => __( 'Preview', 'podlove-subscribe-button' )
@@ -77,7 +77,7 @@ class Button_List_Table extends \WP_List_Table {
 		// get total items
 		$total_items = count( $data );
 		// extrage page for current page only
-		$data = array_slice( $data, ( ( $current_page - 1 ) * $per_page ) , $per_page );
+		$data = array_slice( $data, ( ( $current_page - 1 ) * $per_page ), $per_page );
 		// add items to table
 		$this->items = $data;
 		

@@ -46,7 +46,7 @@ add_action( 'admin_init', '\PodloveSubscribeButton\maybe_run_database_migrations
 add_action( 'admin_init', '\PodloveSubscribeButton\run_database_migrations', 5 );
 
 function maybe_run_database_migrations() {
-	$database_version = get_option('podlove_subscribe_button_plugin_database_version');
+	$database_version = get_option( 'podlove_subscribe_button_plugin_database_version' );
 
 	if ( $database_version === false ) {
 		// plugin has just been installed or Plugin Version < 1.3
@@ -55,28 +55,28 @@ function maybe_run_database_migrations() {
 }
 
 function run_database_migrations() {
-	if (get_option('podlove_subscribe_button_plugin_database_version') >= DATABASE_VERSION)
+	if ( get_option( 'podlove_subscribe_button_plugin_database_version' ) >= DATABASE_VERSION )
 		return;
 
-	if (is_multisite()) {
-		set_time_limit(0); // may take a while, depending on network size
-		\PodloveSubscribeButton\for_every_podcast_blog(function() { migrate_for_current_blog(); });
+	if ( is_multisite() ) {
+		set_time_limit( 0 ); // may take a while, depending on network size
+		\PodloveSubscribeButton\for_every_podcast_blog( function() { migrate_for_current_blog(); });
 	} else {
 		migrate_for_current_blog();
 	}
 
-	if (isset($_REQUEST['_wp_http_referer']) && $_REQUEST['_wp_http_referer']) {
-		wp_redirect($_REQUEST['_wp_http_referer']);
+	if ( isset( $_REQUEST[ '_wp_http_referer' ] ) && $_REQUEST[ '_wp_http_referer' ] ) {
+		wp_redirect( $_REQUEST[ '_wp_http_referer' ] );
 		exit;
 	}
 }
 
 function migrate_for_current_blog() {
-	$database_version = get_option('podlove_subscribe_button_plugin_database_version');
+	$database_version = get_option( 'podlove_subscribe_button_plugin_database_version' );
 
-	for ($i = $database_version+1; $i <= DATABASE_VERSION; $i++) { 
-		\PodloveSubscribeButton\run_migrations_for_version($i);
-		update_option('podlove_subscribe_button_plugin_database_version', $i);
+	for ( $i = $database_version + 1; $i <= DATABASE_VERSION; $i++ ) { 
+		\PodloveSubscribeButton\run_migrations_for_version( $i );
+		update_option( 'podlove_subscribe_button_plugin_database_version', $i );
 	}
 }
 
