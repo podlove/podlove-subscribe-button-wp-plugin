@@ -44,15 +44,6 @@ if ( is_multisite() )
 add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
 
-add_action( 'admin_enqueue_scripts', function () {
-	wp_register_style( 'podlove-subscribe-button', plugin_dir_url(__FILE__).'style.css' );
-	wp_enqueue_style( 'podlove-subscribe-button' );
-
-	wp_enqueue_style('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.css');
-	wp_enqueue_script('podlove-subscribe-button-spectrum', plugin_dir_url(__FILE__). 'js/spectrum/spectrum.js', array('jquery'));
-	wp_enqueue_script('podlove-subscribe-button-admin-tools', plugin_dir_url(__FILE__). 'js/admin.js', array('jquery'));
-} );
-
 // Register Settings
 add_action( 'admin_init', function () {
 	$settings = array('size', 'autowidth', 'style', 'format', 'color');
@@ -68,8 +59,42 @@ add_action( 'plugins_loaded', function () {
 	load_plugin_textdomain( 'podlove-subscribe-button' );
 } );
 
+PodloveSubscribeButton::run();
+
 
 class PodloveSubscribeButton {
+
+	public static function run() {
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+	}
+
+	public static function enqueue_assets( $hook ) {
+
+		$pages = array( 'settings_page_podlove-subscribe-button', 'widgets.php' );
+
+		if ( ! in_array( $hook, $pages )  ) {
+			return;
+		}
+
+		// CSS Stylesheet
+		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'style.css', false, '1.3.3' );
+		wp_enqueue_style( 'podlove-subscribe-button' );
+
+		// Spectrum JS
+		wp_enqueue_style( 'podlove-subscribe-button-spectrum', plugin_dir_url( __FILE__ ) . 'js/spectrum/spectrum.css', array(), '1.8.0' );
+		wp_enqueue_script( 'podlove-subscribe-button-spectrum', plugin_dir_url( __FILE__ ) . 'js/spectrum/spectrum.js', array( 'jquery' ), '1.8.0' );
+
+		// Admin JS
+		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), '1.3.3' );
+		$js_translations = array(
+			'select_color'  => __( 'Select Color', 'podlove-subscribe-button' ),
+			'cancel'        => __( 'Cancel', 'podlove-subscribe-button' ),
+			'media_library' => __( 'Media Library', 'podlove-subscribe-button' ),
+			'use_for'       => __( 'Use for Podcast Cover Art', 'podlove-subscribe-button' ),
+		);
+		wp_localize_script( 'podlove-subscribe-button-admin-tools', 'i18n', $js_translations );
+		wp_enqueue_script( 'podlove-subscribe-button-admin-tools' );
+	}
 
 	public static function admin_menu() {
 		add_options_page(

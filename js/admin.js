@@ -7,8 +7,8 @@
 			palette: [ '#599677' ],
 			showPalette: true,
 			showSelectionPalette: false,
-			chooseText: "Select Color",
-			cancelText: "Cancel",
+			chooseText: i18n.select_color,
+			cancelText: i18n.cancel,
 		});
 	}
 
@@ -18,12 +18,12 @@
 
 		$("#Podlove_cover_image_select").on( 'click', function(event) {
 			podlove_cover_image_selector = wp.media.frames.customHeader = wp.media( {
-					title: "Media Library",
+					title: i18n.media_library,
 					library: {
 						type: 'image'
 					},
 					button: {
-						text: "Use for Podcast Cover Art"
+						text: i18n.use_for
 			   		},
 			   		multiple: false
 			    } );
