@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Podlove Subscribe Button
- * Plugin URI:  http://wordpress.org/extend/plugins/podlove-subscribe-button/
+ * Plugin URI:  https://wordpress.org/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
- * Version:     1.3.4
+ * Version:     1.4.0-beta
  * Author:      Podlove
- * Author URI:  http://podlove.org
+ * Author URI:  https://podlove.org/
  * License:     MIT
  * License URI: license.txt
  * Text Domain: podlove-subscribe-button
@@ -63,8 +63,15 @@ add_action( 'plugins_loaded', function () {
 
 PodloveSubscribeButton::run();
 
-
+/**
+ * Class PodloveSubscribeButton
+ */
 class PodloveSubscribeButton {
+
+	/**
+	 * @var string current plugin version
+	 */
+	public static $version = '1.4.0-beta';
 
 	public static function run() {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
@@ -79,7 +86,7 @@ class PodloveSubscribeButton {
 		}
 
 		// CSS Stylesheet
-		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'style.css', false, '1.3.3' );
+		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'style.css', false, self::$version );
 		wp_enqueue_style( 'podlove-subscribe-button' );
 
 		// Spectrum JS
@@ -87,7 +94,7 @@ class PodloveSubscribeButton {
 		wp_enqueue_script( 'podlove-subscribe-button-spectrum', plugin_dir_url( __FILE__ ) . 'js/spectrum/spectrum.js', array( 'jquery' ), '1.8.0' );
 
 		// Admin JS
-		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), '1.3.3' );
+		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), self::$version );
 		$js_translations = array(
 			'select_color'  => __( 'Select Color', 'podlove-subscribe-button' ),
 			'cancel'        => __( 'Cancel', 'podlove-subscribe-button' ),
