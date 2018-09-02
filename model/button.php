@@ -11,31 +11,31 @@ class Button extends Base {
 		'style'     => 'filled',
 		'format'    => 'rectangle',
 		'hide'      => 'false',
-		'buttonid'  => ''
+		'buttonid'  => '',
 		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
 	public static $style = array(
 		'filled'    => 'Filled',
 		'outline'   => 'Outline',
-		'frameless' => 'Frameless'
+		'frameless' => 'Frameless',
 	);
 
 	public static $format = array(
 		'rectangle' => 'Rectangle',
 		'square'    => 'Square',
-		'cover'     => 'Cover'
+		'cover'     => 'Cover',
 	);
 
 	public static $width = array(
 		'on'  => 'Yes',
-		'off' => 'No'
+		'off' => 'No',
 	);
 
 	public static $size = array(
 		'small'  => 'Small',
 		'medium' => 'Medium',
-		'big'    => 'Big'
+		'big'    => 'Big',
 	);
 
 
@@ -88,7 +88,7 @@ class Button extends Base {
 			array(
 				'hide'     => $hide,
 				'buttonid' => $buttonid,
-				'language' => $language
+				'language' => $language,
 			)
 		);
 
@@ -98,10 +98,11 @@ class Button extends Base {
 				'subtitle'    => $this->subtitle,
 				'description' => $this->description,
 				'cover'       => $this->cover,
-				'feeds'       => $this->get_feeds_as_array( $this->feeds )
+				'feeds'       => $this->get_feeds_as_array( $this->feeds ),
 			),
 			$button_styling
 		);
+
 	}
 
 	/**
@@ -128,6 +129,7 @@ class Button extends Base {
 		}
 
 		return $feeds;
+
 	}
 
 	/**
@@ -152,6 +154,7 @@ class Button extends Base {
 				src=\"https://cdn.podlove.org/subscribe-button/javascripts/app.js\" " . $data_attributes . ">
 			</script>
 		";
+
 	}
 
 	/**
@@ -174,6 +177,7 @@ class Button extends Base {
 				'color' => ( isset( $color ) ? $color : get_option( 'podlove_subscribe_button_default_color', $color ) ),
 				'json-data' => 'podcastData' . $this->id
 			);
+
 	}
 
 	/**
@@ -189,8 +193,10 @@ class Button extends Base {
 			return '';
 
 		return ' auto';
+
 	}
-}
+
+} // END class
 
 Button::property( 'id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY' );
 Button::property( 'name', 'VARCHAR(255)' );
