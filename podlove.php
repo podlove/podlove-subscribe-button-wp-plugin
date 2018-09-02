@@ -171,9 +171,9 @@ class PodloveSubscribeButton {
 		}
 
 		if ( isset($args['hide']) && $args['hide'] == 'true' ) {
-			$hide = TRUE;
+			$hide = true;
 		} else {
-			$hide = FALSE;
+			$hide = false;
 		}
 
 		// Render button
@@ -184,7 +184,7 @@ class PodloveSubscribeButton {
 		if ( isset($args[$key]) )
 			return $args[$key];
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -192,7 +192,7 @@ class PodloveSubscribeButton {
 	 * @param  string $attribute_value
 	 * @return string
 	 */
-	private static function get_attribute($attribute=NULL, $attribute_value=NULL) {
+	private static function get_attribute($attribute=null, $attribute_value=null) {
 		if ( isset($attribute_value) && ctype_alnum($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
@@ -205,7 +205,7 @@ class PodloveSubscribeButton {
 	 * @param  string $width_attribute
 	 * @return string
 	 */
-	private static function interpret_width_attribute( $width_attribute = NULL ) {
+	private static function interpret_width_attribute( $width_attribute = null ) {
 		if ( $width_attribute == 'auto' )
 			return 'on';
 		if ( $width_attribute && $width_attribute !== 'auto' )

@@ -32,7 +32,7 @@ abstract class Base {
 		} elseif ( property_exists( $this, $name ) ) {
 			return $this->$name;
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 	
@@ -40,7 +40,7 @@ abstract class Base {
 		if ( isset( $this->data[ $name ] ) ) {
 			return $this->data[ $name ];
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 
@@ -167,7 +167,7 @@ abstract class Base {
 		$row = $wpdb->get_row( 'SELECT * FROM ' . static::table_name() . ' WHERE id = ' . (int) $id );
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
@@ -215,7 +215,7 @@ abstract class Base {
 		);
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
@@ -263,7 +263,7 @@ abstract class Base {
 		);
 		
 		if ( ! $row ) {
-			return NULL;
+			return null;
 		}
 		
 		foreach ( $row as $property => $value ) {
@@ -433,7 +433,7 @@ abstract class Base {
 			return;
 
 		foreach ( $defaults as $property => $value ) {
-			if ( $this->$property === NULL )
+			if ( $this->$property === null )
 				$this->$property = $value;
 		}
 
@@ -468,7 +468,7 @@ abstract class Base {
 	private function property_name_to_sql_update_statement( $p ) {
 		global $wpdb;
 
-		if ( $this->$p !== NULL && $this->$p !== '' ) {
+		if ( $this->$p !== null && $this->$p !== '' ) {
 			return sprintf( "%s = '%s'", $p, ( is_array($this->$p) ? serialize($this->$p) : $this->$p ) );
 		} else {
 			return "$p = NULL";
@@ -478,7 +478,7 @@ abstract class Base {
 	private function property_name_to_sql_value( $p ) {
 		global $wpdb;
 
-		if ( $this->$p !== NULL && $this->$p !== '' ) {
+		if ( $this->$p !== null && $this->$p !== '' ) {
 			return sprintf( "'%s'", $this->$p );
 		} else {
 			return 'NULL';
