@@ -35,19 +35,23 @@ class Button_List_Table extends \WP_List_Table {
 	}
 
 	public function column_button_preview( $button ) {
-		if ( ! $button->feeds )
-			return;
 
-		$is_network = is_network_admin();
+		if ( ! $button->feeds ) {
+			return '<code>' . __( 'No preview. Please set a feed.', 'podlove-subscribe-button' ) . '</code>';
+		} else {
 
-		return "<div class='podlove-button-preview-container'>"
-		       . $button->render(
+			$preview  = "<div class='podlove-button-preview-container'>";
+			$preview .= $button->render(
 				'big',
 				'false',
 				get_option( 'podlove_subscribe_button_default_style', 'filled' ),
 				'rectangle'
-			)
-		       . "</div>";
+			);
+			$preview .= "</div>";
+
+			return $preview;
+
+		}
 
 	}
 
@@ -58,7 +62,7 @@ class Button_List_Table extends \WP_List_Table {
 	public function get_columns() {
 		return array(
 			'name'           => __( 'Title & Shortcode', 'podlove-subscribe-button' ),
-			'button_preview' => __( 'Preview', 'podlove-subscribe-button' )
+			'button_preview' => __( 'Preview', 'podlove-subscribe-button' ),
 		);
 	}
 
