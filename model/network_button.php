@@ -5,7 +5,7 @@ class NetworkButton extends Button {
 
 	public static function table_name() {
 		global $wpdb;
-		
+
 		// prefix with $wpdb prefix
 		return $wpdb->base_prefix . self::name();
 	}

@@ -3,6 +3,7 @@
 namespace PodloveSubscribeButton;
 
 function for_every_podcast_blog( $callback ) {
+
 	global $wpdb;
 
 	$plugin  = basename( \PodloveSubscribeButton\PLUGIN_DIR ) . '/' . \PodloveSubscribeButton\PLUGIN_FILE_NAME;
@@ -18,4 +19,5 @@ function for_every_podcast_blog( $callback ) {
 		}
 		restore_current_blog();
 	}
+
 }

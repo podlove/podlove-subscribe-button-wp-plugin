@@ -5,37 +5,37 @@ class Button extends Base {
 
 	public static $properties = array(
 		// $property => $default value
-		'size' => 'big',
-		'color' => '#599677',
+		'size'      => 'big',
+		'color'     => '#599677',
 		'autowidth' => 'on',
-		'style' => 'filled',
-		'format' => 'rectangle',
-		'hide' => 'false',
-		'buttonid' => ''
+		'style'     => 'filled',
+		'format'    => 'rectangle',
+		'hide'      => 'false',
+		'buttonid'  => ''
 		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
 	public static $style = array(
-		'filled' => 'Filled',
-		'outline' => 'Outline',
+		'filled'    => 'Filled',
+		'outline'   => 'Outline',
 		'frameless' => 'Frameless'
 	);
 
 	public static $format = array(
 		'rectangle' => 'Rectangle',
-		'square' => 'Square',
-		'cover' => 'Cover'
+		'square'    => 'Square',
+		'cover'     => 'Cover'
 	);
 
 	public static $width = array(
-		'on' => 'Yes',
+		'on'  => 'Yes',
 		'off' => 'No'
 	);
 
 	public static $size = array(
-		'small' => 'Small',
+		'small'  => 'Small',
 		'medium' => 'Medium',
-		'big' => 'Big'
+		'big'    => 'Big'
 	);
 
 
@@ -55,10 +55,11 @@ class Button extends Base {
 		}
 
 		return false;
+
 	}
 
 	/**
-	 * Returns either global buttons settings or the default settings 
+	 * Returns either global buttons settings or the default settings
 	 * @param  array
 	 * @return array
 	 */
@@ -83,25 +84,27 @@ class Button extends Base {
 	 */
 	public function render( $size = 'big', $autowidth = 'on', $style = 'filled', $format = 'rectangle', $color = '#599677', $hide = false, $buttonid = false, $language = 'en' ) {
 		$button_styling = array_merge(
-				$this->get_button_styling( $size, $autowidth, $style, $format, $color ),
-				array(
-						'hide' => $hide,
-						'buttonid' => $buttonid,
-						'language' => $language
-					)
-			);
+			$this->get_button_styling( $size, $autowidth, $style, $format, $color ),
+			array(
+				'hide'     => $hide,
+				'buttonid' => $buttonid,
+				'language' => $language
+			)
+		);
 
 		return $this->provide_button_html(
 			array(
-				'title' => $this->title,
-				'subtitle' => $this->subtitle,
+				'title'       => $this->title,
+				'subtitle'    => $this->subtitle,
 				'description' => $this->description,
-				'cover' => $this->cover,
-				'feeds' => $this->get_feeds_as_array( $this->feeds )
-			), $button_styling );
+				'cover'       => $this->cover,
+				'feeds'       => $this->get_feeds_as_array( $this->feeds )
+			),
+			$button_styling
+		);
 	}
 
-	/** 
+	/**
 	 * Provides the feed as an array in the required format
 	 * @return array
 	 */
@@ -109,28 +112,30 @@ class Button extends Base {
 		foreach ( $feeds as $feed ) {
 			if ( isset( \PodloveSubscribeButton\MediaTypes::$audio[ $feed[ 'format' ] ][ 'extension' ] ) ) {
 				$new_feed = array(
-						'type' => 'audio',
-						'format' => \PodloveSubscribeButton\MediaTypes::$audio[ $feed[ 'format' ] ][ 'extension' ],
-						'url' => $feed[ 'url' ],
-						'variant' => 'high'
-					);
+					'type'    => 'audio',
+					'format'  => \PodloveSubscribeButton\MediaTypes::$audio[ $feed['format'] ]['extension'],
+					'url'     => $feed['url'],
+					'variant' => 'high',
+				);
 
-				if ( isset( $feed[ 'itunesfeedid' ] ) && $feed[ 'itunesfeedid' ] > 0 )
-					$new_feed[ 'directory-url-itunes' ] = "https://itunes.apple.com/podcast/id" . $feed[ 'itunesfeedid' ];
+				if ( isset( $feed[ 'itunesfeedid' ] ) && $feed[ 'itunesfeedid' ] > 0 ) {
+					$new_feed['directory-url-itunes'] = "https://itunes.apple.com/podcast/id" . $feed['itunesfeedid'];
+				}
 
-				$feeds[ ] = $new_feed;
+				$feeds[] = $new_feed;
+
 			}
 		}
 
 		return $feeds;
 	}
 
-	/** 
+	/**
 	 * Provides the HTML source of the Subscribe Button
 	 * @param  array $podcast_data
 	 * @param  array $button_styling
 	 * @param  string $data_attributes
-	 * @return string 
+	 * @return string
 	 */
 	private function provide_button_html( $podcast_data, $button_styling, $data_attributes = "" ) {
 		// Create data attributes for Button

@@ -158,23 +158,26 @@ class PodloveSubscribeButton {
 	public static function build_models() {
 		// Build Databases
 		\PodloveSubscribeButton\Model\Button::build();
-		if ( is_multisite() )
+
+		if ( is_multisite() ) {
 			\PodloveSubscribeButton\Model\NetworkButton::build();
+		}
 
 		// Set Button "default" values
 		$default_values = array(
-				'size' => 'big',
-				'autowidth' => 'on',
-				'color' => '#599677',
-				'style' => 'filled',
-				'format' => 'rectangle'
-			);
+			'size'      => 'big',
+			'autowidth' => 'on',
+			'color'     => '#599677',
+			'style'     => 'filled',
+			'format'    => 'rectangle'
+		);
 
 		foreach ( $default_values as $option => $default_value ) {
 			if ( ! get_option( 'podlove_subscribe_button_default_' . $option ) ) {
 				update_option( 'podlove_subscribe_button_default_' . $option, $default_value );
 			}
 		}
+
 	}
 
 	public static function shortcode( $args ) {
@@ -190,10 +193,10 @@ class PodloveSubscribeButton {
 
 		// Get button styling and options
 		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback( $args, 'width' ) );
-		$size = self::get_attribute( 'size', self::get_array_value_with_fallback( $args, 'size' ) );
-		$style = self::get_attribute( 'style', self::get_array_value_with_fallback( $args, 'style' ) );
-		$format = self::get_attribute( 'format', self::get_array_value_with_fallback( $args, 'format' ) );
-		$color = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
+		$size      = self::get_attribute( 'size', self::get_array_value_with_fallback( $args, 'size' ) );
+		$style     = self::get_attribute( 'style', self::get_array_value_with_fallback( $args, 'style' ) );
+		$format    = self::get_attribute( 'format', self::get_array_value_with_fallback( $args, 'format' ) );
+		$color     = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
 
 		if ( isset( $args[ 'language' ] ) ) {
 			$language = $args[ 'language' ];
@@ -215,13 +218,16 @@ class PodloveSubscribeButton {
 
 		// Render button
 		return $button->render( $size, $autowidth, $style, $format, $color, $hide, $buttonid, $language );
+
 	}
 
 	public static function get_array_value_with_fallback( $args, $key ) {
-		if ( isset( $args[ $key ] ) )
+		if ( isset( $args[ $key ] ) ) {
 			return $args[ $key ];
+		}
 
 		return false;
+
 	}
 
 	/**
@@ -235,19 +241,26 @@ class PodloveSubscribeButton {
 		} else {
 			return get_option( 'podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[ $attribute ] );
 		}
+
 	}
 
 	/**
 	 * Interprets the provided width attribute and return either auto- or a specific width
+	 *
 	 * @param  string $width_attribute
 	 * @return string
 	 */
 	private static function interpret_width_attribute( $width_attribute = null ) {
-		if ( $width_attribute == 'auto' )
+		if ( $width_attribute == 'auto' ) {
 			return 'on';
-		if ( $width_attribute && $width_attribute !== 'auto' )
+		}
+
+		if ( $width_attribute && $width_attribute !== 'auto' ) {
 			return 'off';
+		}
 
 		return get_option( 'podlove_subscribe_button_default_autowidth', 'on' );
+
 	}
-}
+
+} // END class

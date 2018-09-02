@@ -335,4 +335,4 @@ class Buttons {
 		);
 	}
 
-}
+} // END class
