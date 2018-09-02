@@ -80,10 +80,10 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
 				      name="<?php echo $this->get_field_name( 'button' ); ?>">
 				<?php if ( isset($network_buttons) && count($network_buttons) > 0 ) : ?>
-					<optgroup label="<?php _e('Local', 'podlove'); ?>">
+					<optgroup label="<?php _e('Local', 'podlove-subscribe-button' ); ?>">
 						<?php $buttons_as_options($buttons); ?>
 					</optgroup>
-					<optgroup label="<?php _e('Network', 'podlove'); ?>">
+					<optgroup label="<?php _e('Network', 'podlove-subscribe-button' ); ?>">
 						<?php $buttons_as_options($network_buttons); ?>
 					</optgroup>
 				<?php else : 
@@ -93,31 +93,31 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 			<?php
 			$customize_options = array(
-					'size' => array(
-							'name' => 'Size',
-							'options' => \PodloveSubscribeButton\Model\Button::$size
-						),
-					'style' => array(
-							'name' => 'Style',
-							'options' => \PodloveSubscribeButton\Model\Button::$style
-						),
-					'format' => array(
-							'name' => 'Format',
-							'options' => \PodloveSubscribeButton\Model\Button::$format
-						),
-					'autowidth' => array(
-							'name' => 'Autowidth',
-							'options' => \PodloveSubscribeButton\Model\Button::$width
-						)
-				);
+				'size'      => array(
+					'name'    => __( 'Size', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$size
+				),
+				'style'     => array(
+					'name'    => __( 'Style', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$style
+				),
+				'format'    => array(
+					'name'    => __( 'Format', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$format
+				),
+				'autowidth' => array(
+					'name'    => __( 'Autowidth', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$width
+				)
+			);
 
 			foreach ($customize_options as $slug => $properties) : ?>
-				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php _e( $properties['name'], 'podlove-subscribe-button' ); ?></label> 
+				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php echo $properties['name']; ?></label>
 				<select class="widefat" id="<?php echo $this->get_field_id( $slug ); ?>" name="<?php echo $this->get_field_name( $slug ); ?>">
-					<option value="default" <?php echo ( $$slug == 'default' ? 'selected="selected"' : '' ); ?>><?php _e( 'Default ' . $properties['name'], 'podlove-subscribe-button' ) ?></option>
+					<option value="default" <?php echo ( $$slug == 'default' ? 'selected="selected"' : '' ); ?>><?php printf( __( 'Default %s', 'podlove-subscribe-button' ), $properties['name'] ) ?></option>
 					<optgroup>
 						<?php foreach ( $properties['options'] as $property => $name ) : ?>
-						<option value="<?php echo $property; ?>" <?php echo ( $$slug == $property ? 'selected="selected"' : '' ); ?>><?php _e( $name, 'podlove-subscribe-button' ) ?></option>
+						<option value="<?php echo $property; ?>" <?php echo ( $$slug == $property ? 'selected="selected"' : '' ); ?>><?php echo $name; ?></option>
 						<?php endforeach; ?>
 					</optgroup>
 				</select>

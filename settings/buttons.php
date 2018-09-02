@@ -15,19 +15,19 @@ class Buttons {
 			<div class="updated">
 				<p>
 					<strong>
-						<?php echo sprintf( __( 'You selected to delete the button "%s". Please confirm this action.', 'podlove-subscribe-button' ), $button->title ) ?>
+						<?php printf( __( 'You selected to delete the button "%s". Please confirm this action.', 'podlove-subscribe-button' ), $button->title ) ?>
 					</strong>
 				</p>
 				<p>
 					<?php echo self::get_action_link( $button, __( 'Delete button permanently', 'podlove-subscribe-button' ), 'delete', 'button' ) ?>
-					<?php echo self::get_action_link( $button, __( 'Don\'t change anything', 'podlove-subscribe-button' ), 'keep', 'button-primary' ) ?>
+					<?php echo self::get_action_link( $button, __( "Don't change anything", 'podlove-subscribe-button' ), 'keep', 'button-primary' ) ?>
 				</p>
 			</div>
 			<?php
 		}
 		?>
 		<div class="wrap">
-			<h2><?php echo __( 'Podcast Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php echo __( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
+			<h2><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
 			<?php
 
 			switch ( $action ) {
@@ -144,9 +144,9 @@ class Buttons {
 	public static function view_template() {
 		$is_network = is_network_admin();
 		?>
-		<p><?php _e('This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove'); ?></p>
-		<p><?php _e('Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove'); ?></p>
-		<p><?php _e('If you want to display the button inside a page or article, you can also use the <code>[podlove-subscribe-button]</code> shortcode anywhere.', 'podlove'); ?></p>
+		<p><?php _e('This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove-subscribe-button' ); ?></p>
+		<p><?php _e('Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove-subscribe-button' ); ?></p>
+		<p><?php _e('If you want to display the button inside a page or article, you can also use the <code>[podlove-subscribe-button]</code> shortcode anywhere.', 'podlove-subscribe-button' ); ?></p>
 		<?php
 		$table = new \PodloveSubscribeButton\Button_List_Table;
 		$table->prepare_items();
@@ -157,13 +157,13 @@ class Buttons {
 
 		if ( ! $is_network ) :
 		?>
-		<h3><?php _e('Default Settings', 'podlove'); ?></h3>
+		<h3><?php _e('Default Settings', 'podlove-subscribe-button' ); ?></h3>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'podlove-subscribe-button' ); ?>
 			<?php do_settings_sections( 'podlove-subscribe-button' ); ?>
 			<table class="form-table">
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e('Size', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e('Size', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_size" id="podlove_subscribe_button_default_size">
 						<?php foreach (\PodloveSubscribeButton\Model\Button::$size as $value => $description) : ?>
@@ -173,19 +173,19 @@ class Buttons {
 				</td>
 				</tr>
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e('Autowidth', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e('Autowidth', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
 					<input type="checkbox" name="podlove_subscribe_button_default_autowidth" id="podlove_subscribe_button_default_autowidth" <?php echo ( $settings['autowidth'] == 'on' ? 'checked' : '' ) ?> />
 				</td>
 				</tr>
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e('Color', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e('Color', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
 					<input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color" value="<?php echo $settings['color'] ?>" />
 				</td>
 				</tr>
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Style', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e('Style', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
 						<?php foreach (\PodloveSubscribeButton\Model\Button::$style as $value => $description) : ?>
@@ -195,7 +195,7 @@ class Buttons {
 				</td>
 				</tr>
 				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e('Format', 'podlove'); ?></label></th>
+				<th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e('Format', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
 					<select name="podlove_subscribe_button_default_format" id="podlove_subscribe_button_default_format">
 						<?php foreach (\PodloveSubscribeButton\Model\Button::$format as $value => $description) : ?>
@@ -223,16 +223,16 @@ class Buttons {
 					<tbody>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_name"><?php _e('Button ID', 'podlove'); ?></label>
+							<label for="podlove_button_name"><?php _e('Button ID', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
-							<br /><span class="description"><?php _e('The ID will be used as in internal identifier for shortcodes.', 'podlove'); ?></span>
+							<br /><span class="description"><?php _e('The ID will be used as in internal identifier for shortcodes.', 'podlove-subscribe-button' ); ?></span>
 						</td>
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_title"><?php _e('Podcast Title', 'podlove'); ?></label>
+							<label for="podlove_button_title"><?php _e('Podcast Title', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
@@ -240,7 +240,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_subtitle"><?php _e('Podcast Subtitle', 'podlove'); ?></label>
+							<label for="podlove_button_subtitle"><?php _e('Podcast Subtitle', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
@@ -248,7 +248,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove_button_description"><?php _e('Podcast Description', 'podlove'); ?></label>
+							<label for="podlove_button_description"><?php _e('Podcast Description', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
@@ -256,7 +256,7 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="podlove-button-cover"><?php _e('Podcast Image URL', 'podlove'); ?></label>
+							<label for="podlove-button-cover"><?php _e('Podcast Image URL', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
@@ -274,29 +274,29 @@ class Buttons {
 					</tr>
 					<tr>
 						<td scope="row">
-							<label for="feeds_table"><?php _e('Podcast Feeds', 'podlove'); ?></label>
+							<label for="feeds_table"><?php _e('Podcast Feeds', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
 							<table id="feeds_table" class="podlove_alternating" border="0" cellspacing="0">
 								<thead>
 									<tr>
-										<th><?php _e('URL', 'podlove'); ?></th>
-										<th><?php _e('iTunes feed ID', 'podlove'); ?></th>
-										<th><?php _e('Media format', 'podlove'); ?></th>
-										<th><?php _e('Actions', 'podlove'); ?></th>
+										<th><?php _e('URL', 'podlove-subscribe-button' ); ?></th>
+										<th><?php _e('iTunes feed ID', 'podlove-subscribe-button' ); ?></th>
+										<th><?php _e('Media format', 'podlove-subscribe-button' ); ?></th>
+										<th><?php _e('Actions', 'podlove-subscribe-button' ); ?></th>
 									</tr>
 								</thead>
 								<tbody id="feeds_table_body">
 								</tbody>
 							</table>
 							<input type="button" class="button add_feed" value="+" />
-							<p><span class="description"><?php _e('Provide all Feeds with their corresponding Media File Type. The Subscribe Button will then automatically provide the most suitable feed to the subscriber with respect to their Podcast Client.', 'podlove'); ?></span></p>
+							<p><span class="description"><?php _e('Provide all Feeds with their corresponding Media File Type. The Subscribe Button will then automatically provide the most suitable feed to the subscriber with respect to their Podcast Client.', 'podlove-subscribe-button' ); ?></span></p>
 						</td>
 					</tr>
 					</tbody>
 				</table>
-				<input name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'podlove'); ?>" type="submit" />
-				<input type="submit" name="submit_and_stay" id="submit_and_stay" class="button" value="<?php _e('Save Changes and Continue Editing', 'podlove'); ?>"  />
+				<input name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'podlove-subscribe-button' ); ?>" type="submit" />
+				<input type="submit" name="submit_and_stay" id="submit_and_stay" class="button" value="<?php _e('Save Changes and Continue Editing', 'podlove-subscribe-button' ); ?>"  />
 
 				<script type="text/template" id="feed_line_template">
 					<tr>
