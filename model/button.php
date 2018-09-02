@@ -54,7 +54,7 @@ class Button extends Base {
 			return $network_button;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Button extends Base {
 	 * @param  boolean $buttonid
 	 * @return string
 	 */
-	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = FALSE, $buttonid = FALSE, $language='en' ) {
+	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = false, $buttonid = false, $language='en' ) {
 		$button_styling = array_merge(
 				$this->get_button_styling($size, $autowidth, $style, $format, $color),
 				array(

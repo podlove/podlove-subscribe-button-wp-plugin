@@ -6,11 +6,11 @@ class Buttons {
 
 	public static function page() {
 
-		$action = null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL;
+		$action = null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : null;
 		$is_network = is_network_admin();
 
 		if ( $action == 'confirm_delete' && null !== filter_input(INPUT_GET, 'button') ) {
-			$button = ( $is_network === TRUE ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( (int) filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( (int) filter_input(INPUT_GET, 'button') ) );
+			$button = ( $is_network === true ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( (int) filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( (int) filter_input(INPUT_GET, 'button') ) );
 			?>
 			<div class="updated">
 				<p>
@@ -54,9 +54,9 @@ class Buttons {
 		$button->update_attributes( $post['podlove_button'] );
 
 		if ( isset($post['submit_and_stay']) ) {
-			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? true : false ) );
 		} else {
-			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? true : false ) );
 		}
 	}
 	/**
@@ -71,9 +71,9 @@ class Buttons {
 		$button->update_attributes( $post['podlove_button'] );
 
 		if ( isset($post['submit_and_stay']) ) {
-			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+			self::redirect( 'edit', $button->id, array( 'network' => filter_input(INPUT_GET, 'network') ), ( filter_input(INPUT_GET, 'network') === '1' ? true : false ) );
 		} else {
-			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+			self::redirect( 'index', $button->id, array(), ( filter_input(INPUT_GET, 'network') === '1' ? true : false ) );
 		}
 	}
 
@@ -87,13 +87,13 @@ class Buttons {
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') ) );
 		$button->delete();
 
-		self::redirect( 'index', NULL, array(), ( filter_input(INPUT_GET, 'network') === '1' ? TRUE : FALSE ) );
+		self::redirect( 'index', null, array(), ( filter_input(INPUT_GET, 'network') === '1' ? true : false ) );
 	}
 
 	/**
 	 * Helper method: redirect to a certain page.
 	 */
-	public static function redirect( $action, $button_id = NULL, $params = array(), $network = FALSE ) {
+	public static function redirect( $action, $button_id = null, $params = array(), $network = false ) {
 		$page    = ( $network ? '/network/settings' : 'options-general' ) . '.php?page=' . filter_input(INPUT_GET, 'page');
 		$show    = ( $button_id ) ? '&button=' . $button_id : '';
 		$action  = '&action=' . $action;
@@ -107,7 +107,7 @@ class Buttons {
 		if ( null === filter_input(INPUT_GET, 'button') )
 			return;
 
-		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : NULL );
+		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : null );
 
 		if ( $action === 'save' ) {
 			self::save();
@@ -217,7 +217,7 @@ class Buttons {
 		// Adjust if is_network
 		$is_network = is_network_admin();
 		?>
-		<form method="post" action="<?php echo ( $is_network === TRUE ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
+		<form method="post" action="<?php echo ( $is_network === true ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
 			<input type="hidden" value="<?php echo $button->id; ?>" name="podlove_button[id]" />
 			<table class="form-table" border="0" cellspacing="0">
 					<tbody>
