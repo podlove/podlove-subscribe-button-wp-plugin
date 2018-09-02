@@ -39,27 +39,7 @@ require('version.php');
 // Helper functions
 require('helper.php');
 
-add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu') );
-if ( is_multisite() )
-	add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu') );
-
-add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
-
-// Register Settings
-add_action( 'admin_init', function () {
-	$settings = array('size', 'autowidth', 'style', 'format', 'color');
-
-	foreach ($settings as $setting) {
-		register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
-	}
-} );
-
-add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
-
-add_action( 'plugins_loaded', function () {
-	load_plugin_textdomain( 'podlove-subscribe-button', false, dirname(plugin_basename( __FILE__)) . '/languages/');
-} );
 
 PodloveSubscribeButton::run();
 
@@ -74,7 +54,21 @@ class PodloveSubscribeButton {
 	public static $version = '1.4.0-beta';
 
 	public static function run() {
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+		add_action( 'plugins_loaded', array( __CLASS__, 'load_translations' ) );
+		add_action( 'init', array( __CLASS__, 'register_shortcode' ) );
+		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
+		self::menu();
+
+	}
+
+	public static function menu() {
+		add_action( 'admin_menu', array( 'PodloveSubscribeButton', 'admin_menu' ) );
+
+		if ( is_network_admin() ) {
+			add_action( 'network_admin_menu', array( 'PodloveSubscribeButton', 'admin_network_menu' ) );
+		}
+
 	}
 
 	public static function enqueue_assets( $hook ) {
@@ -103,27 +97,55 @@ class PodloveSubscribeButton {
 		);
 		wp_localize_script( 'podlove-subscribe-button-admin-tools', 'i18n', $js_translations );
 		wp_enqueue_script( 'podlove-subscribe-button-admin-tools' );
+
 	}
 
 	public static function admin_menu() {
 		add_options_page(
-				'Podlove Subscribe Button Options',
-				'Podlove Subscribe Button',
-				'manage_options',
-				'podlove-subscribe-button',
-				array( 'PodloveSubscribeButton\Settings\Buttons', 'page')
-			);
+			'Podlove Subscribe Button Options',
+			'Podlove Subscribe Button',
+			'manage_options',
+			'podlove-subscribe-button',
+			array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
+		);
+
 	}
 
 	public static function admin_network_menu() {
 		add_submenu_page(
-				'settings.php',
-				'Podlove Subscribe Button Options',
-				'Podlove Subscribe Button',
-				'manage_options',
-				'podlove-subscribe-button',
-				array( 'PodloveSubscribeButton\Settings\Buttons', 'page')
-			);
+			'settings.php',
+			'Podlove Subscribe Button Options',
+			'Podlove Subscribe Button',
+			'manage_options',
+			'podlove-subscribe-button',
+			array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
+		);
+
+	}
+
+	public static function load_translations() {
+		load_plugin_textdomain( 'podlove-subscribe-button', false, dirname(plugin_basename( __FILE__)) . '/languages/' );
+
+	}
+
+	public static function register_settings() {
+		$settings = array(
+			'size',
+			'autowidth',
+			'style',
+			'format',
+			'color',
+		);
+
+		foreach ( $settings as $setting ) {
+			register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+		}
+
+	}
+
+	public static function register_shortcode() {
+		add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
+
 	}
 
 	public static function build_models() {
@@ -219,6 +241,6 @@ class PodloveSubscribeButton {
 		if ( $width_attribute && $width_attribute !== 'auto' )
 			return 'off';
 
-		return get_option('podlove_subscribe_button_default_autowidth', 'on');
+		return get_option( 'podlove_subscribe_button_default_autowidth', 'on' );
 	}
 }
