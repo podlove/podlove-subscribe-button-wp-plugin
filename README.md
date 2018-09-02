@@ -10,7 +10,12 @@ This is a WordPress plugin that brings the [Podlove Subcribe Button](http://podl
 
 ## Development
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/podlove/podlove-subscribe-button-wp-plugin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/podlove/podlove-subscribe-button-wp-plugin/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/podlove/podlove-subscribe-button-wp-plugin/badges/build.png?b=master)](https://scrutinizer-ci.com/g/podlove/podlove-subscribe-button-wp-plugin/build-status/master)
+
+Developers: [Podlove Team + Contributors](https://github.com/podlove/podlove-subscribe-button-wp-plugin/graphs/contributors)
 
 
 ## License
-[MIT](https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE) Copyright (c) 2014 Podlove
+[MIT](https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE)
+
+Copyright (c) 2014-2018 Podlove
