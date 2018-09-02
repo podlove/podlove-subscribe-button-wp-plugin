@@ -93,23 +93,23 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 			<?php
 			$customize_options = array(
-					'size' => array(
-							'name' => __( 'Size', 'podlove-subscribe-button' ),
-							'options' => \PodloveSubscribeButton\Model\Button::$size
-						),
-					'style' => array(
-							'name' => __( 'Style', 'podlove-subscribe-button' ),
-							'options' => \PodloveSubscribeButton\Model\Button::$style
-						),
-					'format' => array(
-							'name' => __( 'Format', 'podlove-subscribe-button' ),
-							'options' => \PodloveSubscribeButton\Model\Button::$format
-						),
-					'autowidth' => array(
-							'name' => __( 'Autowidth', 'podlove-subscribe-button' ),
-							'options' => \PodloveSubscribeButton\Model\Button::$width
-						)
-				);
+				'size'      => array(
+					'name'    => __( 'Size', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$size
+				),
+				'style'     => array(
+					'name'    => __( 'Style', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$style
+				),
+				'format'    => array(
+					'name'    => __( 'Format', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$format
+				),
+				'autowidth' => array(
+					'name'    => __( 'Autowidth', 'podlove-subscribe-button' ),
+					'options' => \PodloveSubscribeButton\Model\Button::$width
+				)
+			);
 
 			foreach ($customize_options as $slug => $properties) : ?>
 				<label for="<?php echo $this->get_field_id( $slug ); ?>"><?php echo $properties['name']; ?></label>
