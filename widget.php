@@ -138,7 +138,5 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 
 		return $instance;
 	}
-}
-add_action( 'widgets_init', function() {
-     register_widget( '\PodloveSubscribeButton\Podlove_Subscribe_Button_Widget' );
-});
+
+} // END class

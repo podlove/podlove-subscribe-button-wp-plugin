@@ -59,7 +59,13 @@ class PodloveSubscribeButton {
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
 		add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+		add_action( 'widgets_init', array( __CLASS__, 'widgets' ) );
 		self::menu();
+
+	}
+
+	public static function widgets() {
+		register_widget( '\PodloveSubscribeButton\Podlove_Subscribe_Button_Widget' );
 
 	}
 
