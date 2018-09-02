@@ -4,7 +4,7 @@ namespace PodloveSubscribeButton;
 
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-class Podlove_Subscribe_Button_Widget extends \WP_Widget {
+class Widget extends \WP_Widget {
 
 	public function __construct() {
 		parent::__construct(

@@ -65,7 +65,7 @@ class PodloveSubscribeButton {
 	}
 
 	public static function widgets() {
-		register_widget( '\PodloveSubscribeButton\Podlove_Subscribe_Button_Widget' );
+		register_widget( '\PodloveSubscribeButton\Widget' );
 
 	}
 
