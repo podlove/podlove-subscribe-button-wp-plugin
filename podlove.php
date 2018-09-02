@@ -22,22 +22,22 @@ if ( ! $correct_php_version ) {
 }
 
 // Constants
-require('constants.php');
-require('settings/buttons.php');
+require( 'constants.php' );
+require( 'settings/buttons.php' );
 // Models
-require('model/base.php');
-require('model/button.php');
-require('model/network_button.php');
+require( 'model/base.php' );
+require( 'model/button.php' );
+require( 'model/network_button.php' );
 // Table
-require('settings/buttons_list_table.php');
+require( 'settings/buttons_list_table.php' );
 // Media Types
-require('media_types.php');
+require( 'media_types.php' );
 // Widget
-require('widget.php');
+require( 'widget.php' );
 // Version control
-require('version.php');
+require( 'version.php' );
 // Helper functions
-require('helper.php');
+require( 'helper.php' );
 
 register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
 
@@ -75,7 +75,7 @@ class PodloveSubscribeButton {
 
 		$pages = array( 'settings_page_podlove-subscribe-button', 'widgets.php' );
 
-		if ( ! in_array( $hook, $pages )  ) {
+		if ( ! in_array( $hook, $pages ) ) {
 			return;
 		}
 
@@ -124,7 +124,7 @@ class PodloveSubscribeButton {
 	}
 
 	public static function load_translations() {
-		load_plugin_textdomain( 'podlove-subscribe-button', false, dirname(plugin_basename( __FILE__)) . '/languages/' );
+		load_plugin_textdomain( 'podlove-subscribe-button', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	}
 
@@ -163,56 +163,56 @@ class PodloveSubscribeButton {
 				'format' => 'rectangle'
 			);
 
-		foreach ($default_values as $option => $default_value) {
-			if ( ! get_option('podlove_subscribe_button_default_' . $option ) ) {
-				update_option('podlove_subscribe_button_default_' . $option, $default_value);
+		foreach ( $default_values as $option => $default_value ) {
+			if ( ! get_option( 'podlove_subscribe_button_default_' . $option ) ) {
+				update_option( 'podlove_subscribe_button_default_' . $option, $default_value );
 			}
 		}
 	}
 
 	public static function shortcode( $args ) {
-		if ( ! $args || ! isset($args['button']) ) {
-			return __('You need to create a Button first and provide its ID.', 'podlove-subscribe-button');
+		if ( ! $args || ! isset( $args[ 'button' ] ) ) {
+			return __( 'You need to create a Button first and provide its ID.', 'podlove-subscribe-button' );
 		} else {
-			$buttonid = $args['button'];
+			$buttonid = $args[ 'button' ];
 		}
 
 		// Fetch the (network)button by it's name
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
-			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), $args['button'] );
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name( $args[ 'button' ] ) )
+			return sprintf( __( 'Oops. There is no button with the ID "%s".', 'podlove-subscribe-button' ), $args[ 'button' ] );
 
 		// Get button styling and options
-		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback($args, 'width') );
-		$size = self::get_attribute( 'size', self::get_array_value_with_fallback($args, 'size') );
-		$style = self::get_attribute( 'style', self::get_array_value_with_fallback($args, 'style') );
-		$format = self::get_attribute( 'format', self::get_array_value_with_fallback($args, 'format') );
-		$color = self::get_attribute( 'color', self::get_array_value_with_fallback($args, 'color') );
+		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback( $args, 'width' ) );
+		$size = self::get_attribute( 'size', self::get_array_value_with_fallback( $args, 'size' ) );
+		$style = self::get_attribute( 'style', self::get_array_value_with_fallback( $args, 'style' ) );
+		$format = self::get_attribute( 'format', self::get_array_value_with_fallback( $args, 'format' ) );
+		$color = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
 
-		if ( isset($args['language']) ) {
-			$language = $args['language'];
+		if ( isset( $args[ 'language' ] ) ) {
+			$language = $args[ 'language' ];
 		} else {
 			$language = 'en';
 		}
 
-		if ( isset($args['color']) ) {
-			$color = $args['color'];
+		if ( isset( $args[ 'color' ] ) ) {
+			$color = $args[ 'color' ];
 		} else {
-			$color = get_option('podlove_subscribe_button_default_color', '#599677');
+			$color = get_option( 'podlove_subscribe_button_default_color', '#599677' );
 		}
 
-		if ( isset($args['hide']) && $args['hide'] == 'true' ) {
+		if ( isset( $args[ 'hide' ] ) && $args[ 'hide' ] == 'true' ) {
 			$hide = true;
 		} else {
 			$hide = false;
 		}
 
 		// Render button
-		return $button->render($size, $autowidth, $style, $format, $color, $hide, $buttonid, $language);
+		return $button->render( $size, $autowidth, $style, $format, $color, $hide, $buttonid, $language );
 	}
 
-	public static function get_array_value_with_fallback($args, $key) {
-		if ( isset($args[$key]) )
-			return $args[$key];
+	public static function get_array_value_with_fallback( $args, $key ) {
+		if ( isset( $args[ $key ] ) )
+			return $args[ $key ];
 
 		return false;
 	}
@@ -222,11 +222,11 @@ class PodloveSubscribeButton {
 	 * @param  string $attribute_value
 	 * @return string
 	 */
-	private static function get_attribute($attribute=null, $attribute_value=null) {
-		if ( isset($attribute_value) && ctype_alnum($attribute_value) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
+	private static function get_attribute( $attribute = null, $attribute_value = null ) {
+		if ( isset( $attribute_value ) && ctype_alnum( $attribute_value ) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
-			return get_option('podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[$attribute]);
+			return get_option( 'podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[ $attribute ] );
 		}
 	}
 
