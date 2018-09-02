@@ -9,7 +9,7 @@ class Button_List_Table extends \WP_List_Table {
 
 	function __construct(){
 		global $status, $page;
-		        
+
 		// Set parent defaults
 		parent::__construct( array(
 		    'singular'  => 'feed',   // singular name of the listed records
@@ -17,14 +17,14 @@ class Button_List_Table extends \WP_List_Table {
 		    'ajax'      => false  // does this table support ajax?
 		) );
 	}
-	
+
 	function column_name( $button ) {
 
 		$actions = array(
 			'edit'   => Settings\Buttons::get_action_link( $button, __( 'Edit', 'podlove-subscribe-button' ), 'edit' ),
 			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove-subscribe-button' ), 'confirm_delete' )
 		);
-	
+
 		return sprintf('%1$s %2$s',
 		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button button="' . $button->name . '"]</code>',
 		    /*$3%s*/ $this->row_actions( $actions )
@@ -32,21 +32,27 @@ class Button_List_Table extends \WP_List_Table {
 	}
 
 	function column_button_preview( $button ) {
-		if ( ! $button->feeds )
-			return;
 
-		$is_network = is_network_admin();
+		if ( ! $button->feeds ) {
+			return '<code>' . __( 'No preview. Please set a feed.', 'podlove-subscribe-button' ) . '</code>';
+		} else {
 
-		return "<div class='podlove-button-preview-container'>"
-			. $button->render(
-					'big',
-					'false',
-					get_option('podlove_subscribe_button_default_style', 'filled'),
-					'rectangle'
-				) 
-			. "</div>";
+			$preview = "<div class='podlove-button-preview-container'>";
+			$preview .= $button->render(
+				'big',
+				'false',
+				get_option( 'podlove_subscribe_button_default_style', 'filled' ),
+				'rectangle'
+			);
+			$preview .= "</div>";
+
+			return $preview;
+
+		}
+
 	}
-	
+
+
 	function column_id( $button ) {
 		return $button->id;
 	}
@@ -54,20 +60,20 @@ class Button_List_Table extends \WP_List_Table {
 	function get_columns(){
 		return array(
 			'name'    => __( 'Title & Shortcode', 'podlove-subscribe-button' ),
-			'button_preview'    => __( 'Preview', 'podlove-subscribe-button' )
+			'button_preview'    => __( 'Preview', 'podlove-subscribe-button' ),
 		);
 	}
-	
+
 	function prepare_items() {
 		// number of items per page
 		$per_page = 1000;
-		
+
 		// define column headers
 		$columns = $this->get_columns();
 		$hidden = array();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-		
+
 		// retrieve data
 		// TODO select data for current page only
 		$data = ( is_network_admin() ? \PodloveSubscribeButton\Model\NetworkButton::all() : \PodloveSubscribeButton\Model\Button::all() );
@@ -80,7 +86,7 @@ class Button_List_Table extends \WP_List_Table {
 		$data = array_slice( $data, ( ( $current_page - 1 ) * $per_page ) , $per_page );
 		// add items to table
 		$this->items = $data;
-		
+
 		// register pagination options & calculations
 		$this->set_pagination_args( array(
 		    'total_items' => $total_items,
