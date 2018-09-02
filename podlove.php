@@ -81,15 +81,10 @@ class PodloveSubscribeButton {
 		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'style.css', false, '1.3.3' );
 		wp_enqueue_style( 'podlove-subscribe-button' );
 
-		// Spectrum JS
-		wp_enqueue_style( 'podlove-subscribe-button-spectrum', plugin_dir_url( __FILE__ ) . 'js/spectrum/spectrum.css', array(), '1.8.0' );
-		wp_enqueue_script( 'podlove-subscribe-button-spectrum', plugin_dir_url( __FILE__ ) . 'js/spectrum/spectrum.js', array( 'jquery' ), '1.8.0' );
-
 		// Admin JS
-		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), '1.3.3' );
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery', 'wp-color-picker' ), '1.3.3' );
 		$js_translations = array(
-			'select_color'  => __( 'Select Color', 'podlove-subscribe-button' ),
-			'cancel'        => __( 'Cancel', 'podlove-subscribe-button' ),
 			'media_library' => __( 'Media Library', 'podlove-subscribe-button' ),
 			'use_for'       => __( 'Use for Podcast Cover Art', 'podlove-subscribe-button' ),
 		);

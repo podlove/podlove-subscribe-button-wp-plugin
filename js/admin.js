@@ -1,15 +1,7 @@
 (function($) {
 
 	function podlove_init_color_buttons() {
-		$(".podlove_subscribe_button_color").spectrum({
-			preferredFormat: 'hex',
-			showInput: true,
-			palette: [ '#599677' ],
-			showPalette: true,
-			showSelectionPalette: false,
-			chooseText: i18n.select_color,
-			cancelText: i18n.cancel,
-		});
+        $('.podlove_subscribe_button_color').wpColorPicker();
 	}
 
 	$( document ).ready( function() {
