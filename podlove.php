@@ -15,8 +15,9 @@
 $correct_php_version = version_compare( phpversion(), "5.3", ">=" );
 
 if ( ! $correct_php_version ) {
-	_e("Podlove Subscribe Button Plugin requires <strong>PHP 5.3</strong> or higher.<br>", 'podlove-subscribe-button');
-	echo __("You are running PHP ", 'podlove-subscribe-button') . phpversion();
+	printf( __( 'Podlove Subscribe Button Plugin requires %s or higher.<br>', 'podlove-subscribe-button' ), '<code>PHP 5.3</code>' );
+	echo '<br />';
+	printf( __( 'You are running %s', 'podlove-subscribe-button' ), '<code>PHP ' . phpversion() . '</code>' );
 	exit;
 }
 
