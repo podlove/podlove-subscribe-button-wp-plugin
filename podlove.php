@@ -109,8 +109,8 @@ class PodloveSubscribeButton {
 
 	public static function admin_menu() {
 		add_options_page(
-			'Podlove Subscribe Button Options',
-			'Podlove Subscribe Button',
+			__( 'Podlove Subscribe Button Options', 'podlove-subscribe-button' ),
+			__( 'Podlove Subscribe Button', 'podlove-subscribe-button' ),
 			'manage_options',
 			'podlove-subscribe-button',
 			array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
@@ -121,8 +121,8 @@ class PodloveSubscribeButton {
 	public static function admin_network_menu() {
 		add_submenu_page(
 			'settings.php',
-			'Podlove Subscribe Button Options',
-			'Podlove Subscribe Button',
+			__( 'Podlove Subscribe Button Options', 'podlove-subscribe-button' ),
+			__( 'Podlove Subscribe Button', 'podlove-subscribe-button' ),
 			'manage_options',
 			'podlove-subscribe-button',
 			array( 'PodloveSubscribeButton\Settings\Buttons', 'page' )
