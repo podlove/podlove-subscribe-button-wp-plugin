@@ -1,5 +1,12 @@
 <?php
 /**
+ * @author    Podlove <podlove@podlove.org>
+ * @copyright Copyright (c) 2014-2018, Podlove
+ * @license   https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE MIT
+ * @package   Podlove\PodloveSubscribeButton
+ */
+
+/**
  * Version management for database migrations.
  *
  * Database changes require special care:

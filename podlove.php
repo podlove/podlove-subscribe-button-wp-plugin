@@ -1,5 +1,13 @@
 <?php
 /**
+ * @author    Podlove <podlove@podlove.org>
+ * @copyright Copyright (c) 2014-2018, Podlove
+ * @license   https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE MIT
+ * @package   Podlove\PodloveSubscribeButton
+ * @version   1.4.0-beta
+ */
+
+/**
  * Plugin Name: Podlove Subscribe Button
  * Plugin URI:  https://wordpress.org/plugins/podlove-subscribe-button/
  * Description: Brings the Podlove Subscribe Button to your WordPress installation.
