@@ -182,6 +182,13 @@ class PodloveSubscribeButton {
 
 	}
 
+	/**
+	 * Add the shortcode
+	 *
+	 * @param $args
+	 *
+	 * @return string|void
+	 */
 	public static function shortcode( $args ) {
 		if ( ! $args || ! isset( $args[ 'button' ] ) ) {
 			return __( 'You need to create a Button first and provide its ID.', 'podlove-subscribe-button' );

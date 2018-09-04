@@ -5,6 +5,8 @@
  * @package   Podlove\PodloveSubscribeButton
  */
 
+/** global: wp, i18n */
+
 (function($) {
 
 	function podlove_init_color_buttons() {
@@ -23,7 +25,7 @@
 	$( document ).ready( function() {
 
 		$("#Podlove_cover_image_select").on( 'click', function(event) {
-			podlove_cover_image_selector = wp.media.frames.customHeader = wp.media( {
+			var podlove_cover_image_selector = wp.media.frames.customHeader = wp.media( {
 					title: i18n.media_library,
 					library: {
 						type: 'image'
