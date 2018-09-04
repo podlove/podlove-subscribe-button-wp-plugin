@@ -7,7 +7,7 @@ Tested up to: 4.9.8
 Requires PHP: 5.3
 Stable tag: 1.3.4
 License: MIT
-License URI: http://opensource.org/licenses/MIT
+License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
 Podlove Subscribe button allows your users to easily select a podcast feed and pass it along to their favorite podcast app.
 
@@ -137,6 +137,7 @@ Consult the information provided on [the technical information page](https://pod
 ### 1.3.4 (2018-09-05)
 * FIXED detection of Publisher plugin (widget naming)
 * FIXED deprecated WP core functions removed
+* FIXED fix select button for widget
 
 ### 1.3.3
 * Enhanced Support for translation
