@@ -9,7 +9,6 @@
  * License:     MIT
  * License URI: license.txt
  * Text Domain: podlove-subscribe-button
- * Domain Path: /languages
  */
 
 $correct_php_version = version_compare( phpversion(), "5.3", ">=" );
@@ -126,7 +125,7 @@ class PodloveSubscribeButton {
 	}
 
 	public static function load_translations() {
-		load_plugin_textdomain( 'podlove-subscribe-button', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'podlove-subscribe-button' );
 
 	}
 
