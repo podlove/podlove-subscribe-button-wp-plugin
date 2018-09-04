@@ -21,3 +21,17 @@ function for_every_podcast_blog( $callback ) {
 	}
 
 }
+
+/**
+ * Check if `Podlove Publisher` is installed + activated
+ *
+ * @return bool
+ */
+function is_podlove_publisher_active() {
+	if ( is_plugin_active( "podlove-podcasting-plugin-for-wordpress/podlove.php" ) ) {
+		return true;
+	}
+
+	return false;
+
+}
