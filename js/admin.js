@@ -1,20 +1,19 @@
 (function($) {
 
 	function podlove_init_color_buttons() {
-		$(".podlove_subscribe_button_color").spectrum({
-			preferredFormat: 'hex',
-			showInput: true,
-			palette: [ '#599677' ],
-			showPalette: true,
-			showSelectionPalette: false,
-			chooseText: i18n.select_color,
-			cancelText: i18n.cancel,
-		});
+        jQuery(document).ready( function($) {
+            var params = {
+                change: function(e, ui) {
+                    $( e.target ).val( ui.color.toString() );
+                    $( e.target ).trigger('change'); // enable widget "Save" button
+                },
+            }
+
+            $('.podlove_subscribe_button_color').not('[id*="__i__"]').wpColorPicker( params );
+        })
 	}
 
 	$( document ).ready( function() {
-
-		podlove_init_color_buttons();
 
 		$("#Podlove_cover_image_select").on( 'click', function(event) {
 			podlove_cover_image_selector = wp.media.frames.customHeader = wp.media( {
