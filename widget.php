@@ -61,20 +61,20 @@ class Widget extends \WP_Widget {
 	}
 
 	public function form( $instance ) {
-		foreach ( self::$widget_settings as $setting ) {
-			$$setting = isset( $instance[ $setting ] ) ? $instance[ $setting ] : '';
-		}
+		$title     = isset( $instance[ 'title' ] )     ? $instance[ 'title' ]     : '';
+		$button    = isset( $instance[ 'button' ] )    ? $instance[ 'button' ]    : '';
+		$size      = isset( $instance[ 'size' ] )      ? $instance[ 'size' ]      : 'big';
+		$style     = isset( $instance[ 'style' ] )     ? $instance[ 'style' ]     : 'filled';
+		$format    = isset( $instance[ 'format' ] )    ? $instance[ 'format' ]    : 'cover';
+		$autowidth = isset( $instance[ 'autowidth' ] ) ? $instance[ 'autowidth' ] : true;
+		$infotext  = isset( $instance[ 'infotext' ] )  ? $instance[ 'infotext' ]  : '';
+		$color     = isset( $instance[ 'color' ] )     ? $instance[ 'color' ]     : '#75ad91';
 
 		$buttons = \PodloveSubscribeButton\Model\Button::all();
 		if ( is_multisite() ) {
 			$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
 		}
-
-		$buttons_as_options = function( $buttons ) {
-			foreach ( $buttons as $subscribebutton ) {
-				echo "<option value='" . $subscribebutton->name . "' " . ( $subscribebutton->name == $button ? 'selected=\"selected\"' : '' ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
-			}
-		} ?>
+		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'podlove-subscribe-button' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" />
@@ -89,19 +89,27 @@ class Widget extends \WP_Widget {
 				}
 			</style>
 			<label for="<?php echo $this->get_field_id( 'button' ); ?>"><?php _e( 'Button', 'podlove-subscribe-button' ); ?></label>
-			<select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
-				      name="<?php echo $this->get_field_name( 'button' ); ?>">
+            <select class="widefat" id="<?php echo $this->get_field_id( 'button' ); ?>"
+                    name="<?php echo $this->get_field_name( 'button' ); ?>">
 				<?php if ( isset( $network_buttons ) && count( $network_buttons ) > 0 ) : ?>
-					<optgroup label="<?php _e( 'Local', 'podlove-subscribe-button' ); ?>">
-						<?php $buttons_as_options( $buttons ); ?>
-					</optgroup>
-					<optgroup label="<?php _e( 'Network', 'podlove-subscribe-button' ); ?>">
-						<?php $buttons_as_options( $network_buttons ); ?>
-					</optgroup>
+                    <optgroup label="<?php _e( 'Local', 'podlove-subscribe-button' ); ?>">
+						<?php
+						foreach ( $buttons as $subscribebutton ) {
+							echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+						} ?>
+                    </optgroup>
+                    <optgroup label="<?php _e( 'Network', 'podlove-subscribe-button' ); ?>">
+						<?php
+						foreach ( $network_buttons as $subscribebutton ) {
+							echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+						} ?>
+                    </optgroup>
 				<?php else :
-					$buttons_as_options( $buttons );
-				 endif; ?>
-			</select>
+					foreach ( $buttons as $subscribebutton ) {
+						echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+					}
+				endif; ?>
+            </select>
 			<?php
 			$customize_options = array(
 				'size'      => array(
