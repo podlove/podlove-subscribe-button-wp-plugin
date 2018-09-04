@@ -33,7 +33,7 @@ class Buttons {
 		}
 		?>
 		<div class="wrap">
-			<h2><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input( INPUT_GET, 'page' ); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
+			<h1><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input( INPUT_GET, 'page' ); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h1>
 			<?php
 
 			switch ( $action ) {
@@ -131,7 +131,7 @@ class Buttons {
 			$button = new \PodloveSubscribeButton\Model\Button;
 		}
 
-		echo '<h3>' . __( 'New Subscribe button', 'podlove-subscribe-button' ) . '</h3>' .
+		echo '<h2>' . __( 'New Subscribe button', 'podlove-subscribe-button' ) . '</h2>' .
 				__( 'Please fill in your Podcast metadata to create a Podlove Subscription button', 'podlove-subscribe-button' );
 		self::form_template( $button, 'create' );
 	}
@@ -143,7 +143,7 @@ class Buttons {
 			$button = \PodloveSubscribeButton\Model\Button::find_by_id( filter_input( INPUT_GET, 'button' ) );
 		}
 
-		echo '<h3>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove-subscribe-button' ), $button->title ) . '</h3>';
+		echo '<h2>' . sprintf( __( 'Edit Subscribe button: %s', 'podlove-subscribe-button' ), $button->title ) . '</h2>';
 		self::form_template( $button, 'save' );
 	}
 
@@ -228,42 +228,42 @@ class Buttons {
 			<table class="form-table" border="0" cellspacing="0">
 					<tbody>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="podlove_button_name"><?php _e( 'Button ID', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo $button->name; ?>" />
-							<br /><span class="description"><?php _e( 'The ID will be used as in internal identifier for shortcodes.', 'podlove-subscribe-button' ); ?></span>
-						</td>
+                            <p class="description"><?php _e( 'The ID will be used as in internal identifier for shortcodes.', 'podlove-subscribe-button' ); ?></p>
+                        </td>
 					</tr>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="podlove_button_title"><?php _e( 'Podcast Title', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo $button->title; ?>" />
 						</td>
 					</tr>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="podlove_button_subtitle"><?php _e( 'Podcast Subtitle', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo $button->subtitle; ?>" />
 						</td>
 					</tr>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="podlove_button_description"><?php _e( 'Podcast Description', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo $button->description; ?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="podlove-button-cover"><?php _e( 'Podcast Image URL', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo $button->cover; ?>" />
 							<a id="Podlove_cover_image_select" class="button" href="#">Select</a>
@@ -279,9 +279,9 @@ class Buttons {
 						</td>
 					</tr>
 					<tr>
-						<td scope="row">
+						<th scope="row">
 							<label for="feeds_table"><?php _e( 'Podcast Feeds', 'podlove-subscribe-button' ); ?></label>
-						</td>
+						</th>
 						<td>
 							<table id="feeds_table" class="podlove_alternating" border="0" cellspacing="0">
 								<thead>
