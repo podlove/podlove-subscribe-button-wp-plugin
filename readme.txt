@@ -1,5 +1,5 @@
 === Podlove Subscribe button ===
-Contributors: chemiker
+Contributors: chemiker, cfoellmann
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
