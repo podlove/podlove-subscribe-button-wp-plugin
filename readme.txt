@@ -5,7 +5,7 @@ Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: MIT
 License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
@@ -134,7 +134,11 @@ Consult the information provided on [the technical information page](https://pod
 
 == Changelog ==
 
-### 1.3.4 (2018-09-05)
+### 1.3.5 (2018-09-dd)
+* Replaced the spectrum color selector with WP Color Picker
+* FIXED multiple color pickers when adding a widget
+
+### 1.3.4
 * FIXED detection of Publisher plugin (widget naming)
 * FIXED deprecated WP core functions removed
 * FIXED fix select button for widget
