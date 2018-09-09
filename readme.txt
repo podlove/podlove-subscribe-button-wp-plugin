@@ -1,5 +1,5 @@
 === Podlove Subscribe button ===
-Contributors: chemiker
+Contributors: chemiker, cfoellmann
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
@@ -31,7 +31,7 @@ Podlove is an open source initiative to improve the overall podcasting infrastru
 
 Podlove currently provides:
 
-* [***Podlove Podcast Publisher***](https://publisher.podlove.org) - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts 
+* [***Podlove Podcast Publisher***](https://publisher.podlove.org) - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts
 * ***Podlove Web Player*** - a podcast-optimized HTML5 web player with chapter support
 * [***Podlove Subscribe Button***](https://subscribe-button.podlove.org) - a centrally hosted universal podcast subscribe button for the web
 
@@ -134,9 +134,16 @@ Consult the information provided on [the technical information page](https://pod
 
 == Changelog ==
 
-### 1.3.4 (2018-09-05)
+### 1.4.0 (YYYY-MM-DD)
+
+### 1.3.5 (2018-09-09)
+* Replaced the spectrum color selector with WP Color Picker
+* FIXED multiple color pickers when adding a widget
+
+### 1.3.4 (unreleased)
 * FIXED detection of Publisher plugin (widget naming)
 * FIXED deprecated WP core functions removed
+* FIXED fix select button for widget
 
 ### 1.3.3
 * Enhanced Support for translation
@@ -173,7 +180,7 @@ Consult the information provided on [the technical information page](https://pod
 * Smaller Bugfix: Build tables on plugin-activation only
 
 ### 1.1
-* Network Support - If you run a WordPress Multisite Installation you can create network-wide available Buttons 
+* Network Support - If you run a WordPress Multisite Installation you can create network-wide available Buttons
 * Default Settings for Size and Autowidth
 * UI enhancements
 
