@@ -134,11 +134,11 @@ Consult the information provided on [the technical information page](https://pod
 
 == Changelog ==
 
-### 1.3.5 (2018-09-dd)
+### 1.3.5 (2018-09-09)
 * Replaced the spectrum color selector with WP Color Picker
 * FIXED multiple color pickers when adding a widget
 
-### 1.3.4
+### 1.3.4 (unreleased)
 * FIXED detection of Publisher plugin (widget naming)
 * FIXED deprecated WP core functions removed
 * FIXED fix select button for widget
