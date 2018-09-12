@@ -90,7 +90,7 @@ class PodloveSubscribeButton {
 		}
 
 		// CSS Stylesheet
-		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'style.css', false, self::$version );
+		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'css/style.css', false, self::$version );
 		wp_enqueue_style( 'podlove-subscribe-button' );
 
 		// Admin JS

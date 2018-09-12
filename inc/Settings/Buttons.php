@@ -283,13 +283,13 @@ class Buttons {
 							<label for="feeds_table"><?php _e( 'Podcast Feeds', 'podlove-subscribe-button' ); ?></label>
 						</th>
 						<td>
-							<table id="feeds_table" class="podlove_alternating" border="0" cellspacing="0">
+							<table id="feeds_table" class="podlove_alternating widefat striped">
 								<thead>
 									<tr>
-										<th><?php _e( 'URL', 'podlove-subscribe-button' ); ?></th>
-										<th><?php _e( 'iTunes feed ID', 'podlove-subscribe-button' ); ?></th>
-										<th><?php _e( 'Media format', 'podlove-subscribe-button' ); ?></th>
-										<th><?php _e( 'Actions', 'podlove-subscribe-button' ); ?></th>
+										<th scope="col" id="url" class="manage-column column-primary"><?php _e( 'URL', 'podlove-subscribe-button' ); ?></th>
+										<th scope="col" id="itunes_id" class="manage-column"><?php _e( 'iTunes feed ID', 'podlove-subscribe-button' ); ?></th>
+										<th scope="col" id="format" class="manage-column"><?php _e( 'Media format', 'podlove-subscribe-button' ); ?></th>
+										<th scope="col" id="action" class="manage-column"><?php _e( 'Actions', 'podlove-subscribe-button' ); ?></th>
 									</tr>
 								</thead>
 								<tbody id="feeds_table_body">

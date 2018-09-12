@@ -1,22 +1,5 @@
 table.podlove_alternating th {
-	font-weight: bold;
-	padding: 1px;
-}
-
-table.podlove_alternating {
-	width: 100%;
-	border-bottom: 1px solid #999;
-}
-table.podlove_alternating th {
-	text-align: left;
-	border-bottom: 1px solid #999;
-}
-table.podlove_alternating td {
-	padding: 5px;
-	height: 24px;
-}
-table.podlove_alternating tr:nth-child(even) {
-	background: #EAEAEA;
+	padding: 8px 10px !important;
 }
 
 div.podlove-button-preview-container {
@@ -25,11 +8,11 @@ div.podlove-button-preview-container {
 
 @font-face {
 	font-family: 'Podlove';
-	src:url('fonts/Podlove.eot');
-	src:url('fonts/Podlove.eot?#iefix') format('embedded-opentype'),
-		url('fonts/Podlove.woff') format('woff'),
-		url('fonts/Podlove.ttf') format('truetype'),
-		url('fonts/Podlove.svg#Podlove') format('svg');
+	src:url('../fonts/Podlove.eot');
+	src:url('../fonts/Podlove.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Podlove.woff') format('woff'),
+		url('../fonts/Podlove.ttf') format('truetype'),
+		url('../fonts/Podlove.svg#Podlove') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -47,7 +30,7 @@ div.podlove-button-preview-container {
 }
 
 .podlove-icon-remove {
-	font-family: 'Podlove';
+	font-family: 'dashicons';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -56,8 +39,9 @@ div.podlove-button-preview-container {
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	color: red;
+	cursor: pointer;
 }
 
 .podlove-icon-remove:before {
-	content: "\f00d";
+    content: "\f182";
 }
