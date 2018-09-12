@@ -69,7 +69,7 @@ function run_database_migrations() {
 
 	if ( is_multisite() ) {
 		set_time_limit( 0 ); // may take a while, depending on network size
-		\PodloveSubscribeButton\for_every_podcast_blog( function() { migrate_for_current_blog(); });
+		\PodloveSubscribeButton\Helpers::for_every_podcast_blog( function() { migrate_for_current_blog(); });
 	} else {
 		migrate_for_current_blog();
 	}

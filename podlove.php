@@ -39,8 +39,6 @@ require( 'constants.php' );
 require( 'media_types.php' );
 // Version control
 require( 'version.php' );
-// Helper functions
-require( 'helper.php' );
 
 register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
 
@@ -90,12 +88,12 @@ class PodloveSubscribeButton {
 		}
 
 		// CSS Stylesheet
-		wp_register_style( 'podlove-subscribe-button', plugin_dir_url( __FILE__ ) . 'css/style.css', false, self::$version );
+		wp_register_style( 'podlove-subscribe-button', \PodloveSubscribeButton\Helpers::get_url( '' ) . 'css/style.css' , false, self::$version );
 		wp_enqueue_style( 'podlove-subscribe-button' );
 
 		// Admin JS
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_register_script( 'podlove-subscribe-button-admin-tools', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery', 'wp-color-picker' ), self::$version );
+		wp_register_script( 'podlove-subscribe-button-admin-tools', \PodloveSubscribeButton\Helpers::get_url( '' ) . 'js/admin.js', array( 'jquery', 'wp-color-picker' ), self::$version );
 		$js_translations = array(
 			'media_library' => __( 'Media Library', 'podlove-subscribe-button' ),
 			'use_for'       => __( 'Use for Podcast Cover Art', 'podlove-subscribe-button' ),
@@ -266,6 +264,10 @@ class PodloveSubscribeButton {
 
 		return get_option( 'podlove_subscribe_button_default_autowidth', 'on' );
 
+	}
+
+	public static function plugin_file() {
+		return __FILE__;
 	}
 
 } // END class
