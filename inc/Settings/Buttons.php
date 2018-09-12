@@ -315,7 +315,7 @@ class Buttons {
 						<td>
 							<select class="regular-text podlove-media-format" name="podlove_button[feeds][{{id}}][format]">
 								<?php
-									foreach ( \PodloveSubscribeButton\MediaTypes::$audio as $id => $audio ) {
+									foreach ( \PodloveSubscribeButton\Defaults::media_types() as $id => $audio ) {
 										echo "<option value='" . $id . "'>" . $audio[ 'title' ] . "</option>\n";
 									}
 								?>

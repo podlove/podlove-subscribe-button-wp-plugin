@@ -118,15 +118,15 @@ class Button extends Base {
 	 */
 	private function get_feeds_as_array( $feeds = array() ) {
 		foreach ( $feeds as $feed ) {
-			if ( isset( \PodloveSubscribeButton\MediaTypes::$audio[ $feed[ 'format' ] ][ 'extension' ] ) ) {
+			if ( isset( \PodloveSubscribeButton\Defaults::media_types()[ $feed['format'] ]['extension'] ) ) {
 				$new_feed = array(
 					'type'    => 'audio',
-					'format'  => \PodloveSubscribeButton\MediaTypes::$audio[ $feed['format'] ]['extension'],
+					'format'  => \PodloveSubscribeButton\Defaults::media_types()[ $feed['format'] ]['extension'],
 					'url'     => $feed['url'],
 					'variant' => 'high',
 				);
 
-				if ( isset( $feed[ 'itunesfeedid' ] ) && $feed[ 'itunesfeedid' ] > 0 ) {
+				if ( isset( $feed['itunesfeedid'] ) && $feed['itunesfeedid'] > 0 ) {
 					$new_feed['directory-url-itunes'] = "https://itunes.apple.com/podcast/id" . $feed['itunesfeedid'];
 				}
 
