@@ -136,6 +136,7 @@ class PodloveSubscribeButton {
 			'style',
 			'format',
 			'color',
+			'language',
 		);
 
 		foreach ( $settings as $setting ) {

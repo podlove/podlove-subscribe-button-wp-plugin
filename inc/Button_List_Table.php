@@ -55,7 +55,8 @@ class Button_List_Table extends \WP_List_Table {
 				\PodloveSubscribeButton::get_option( 'format' ),
 				\PodloveSubscribeButton::get_option( 'color' ),
 				false,
-				false
+				false,
+				\PodloveSubscribeButton::get_option( 'language' )
 			);
 			$preview .= "</div>";
 

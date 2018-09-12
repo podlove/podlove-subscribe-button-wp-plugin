@@ -8,6 +8,8 @@
 
 namespace PodloveSubscribeButton\Model;
 
+use PodloveSubscribeButton\Defaults;
+
 class Button extends Base {
 
 	public static $properties = array(
@@ -22,34 +24,10 @@ class Button extends Base {
 		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
-	public static $style = array(
-		'filled'    => 'Filled',
-		'outline'   => 'Outline',
-		'frameless' => 'Frameless',
-	);
-
-	public static $format = array(
-		'rectangle' => 'Rectangle',
-		'square'    => 'Square',
-		'cover'     => 'Cover',
-	);
-
-	public static $width = array(
-		'on'  => 'Yes',
-		'off' => 'No',
-	);
-
-	public static $size = array(
-		'small'  => 'Small',
-		'medium' => 'Medium',
-		'big'    => 'Big',
-	);
-
-
 	/**
 	 * Fetches a Button or Network Button with a specific name
 	 * @param  string $name
-	 * @return object||FALSE
+	 * @return object|false
 	 */
 	public static function get_button_by_name( $name ) {
 		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property( 'name', $name ) ) {
@@ -71,7 +49,7 @@ class Button extends Base {
 	 * @return array
 	 */
 	public static function get_global_setting_with_fallback( $settings = array() ) {
-		foreach ( self::$properties as $property => $default ) {
+		foreach ( Defaults::options() as $property => $default ) {
 			$settings[ $property ] = ( get_option( 'podlove_subscribe_button_default_' . $property ) ? get_option( 'podlove_subscribe_button_default_' . $property ) : $default );
 		}
 

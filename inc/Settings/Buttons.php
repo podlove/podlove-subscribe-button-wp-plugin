@@ -8,6 +8,8 @@
 
 namespace PodloveSubscribeButton\Settings;
 
+use PodloveSubscribeButton\Defaults;
+
 class Buttons {
 
 	public static function page() {
@@ -167,51 +169,63 @@ class Buttons {
 		<form method="post" action="options.php">
 			<?php settings_fields( 'podlove-subscribe-button' ); ?>
 			<?php do_settings_sections( 'podlove-subscribe-button' ); ?>
-			<table class="form-table">
-				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e( 'Size', 'podlove-subscribe-button' ); ?></label></th>
-				<td>
-					<select name="podlove_subscribe_button_default_size" id="podlove_subscribe_button_default_size">
-						<?php foreach ( \PodloveSubscribeButton\Model\Button::$size as $value => $description ) : ?>
-							<option value="<?php echo $value; ?>" <?php echo ( $settings[ 'size' ] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</td>
-				</tr>
-				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e( 'Autowidth', 'podlove-subscribe-button' ); ?></label></th>
-				<td>
-					<input type="checkbox" name="podlove_subscribe_button_default_autowidth" id="podlove_subscribe_button_default_autowidth" <?php echo ( $settings[ 'autowidth' ] == 'on' ? 'checked' : '' ) ?> />
-				</td>
-				</tr>
-				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e( 'Color', 'podlove-subscribe-button' ); ?></label></th>
-				<td>
-					<input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color" value="<?php echo $settings[ 'color' ] ?>" />
-				</td>
-				</tr>
-				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e( 'Style', 'podlove-subscribe-button' ); ?></label></th>
-				<td>
-					<select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
-						<?php foreach ( \PodloveSubscribeButton\Model\Button::$style as $value => $description ) : ?>
-							<option value="<?php echo $value; ?>" <?php echo ( $settings[ 'style' ] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</td>
-				</tr>
-				<tr valign="top">
-				<th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e( 'Format', 'podlove-subscribe-button' ); ?></label></th>
-				<td>
-					<select name="podlove_subscribe_button_default_format" id="podlove_subscribe_button_default_format">
-						<?php foreach ( \PodloveSubscribeButton\Model\Button::$format as $value => $description ) : ?>
-							<option value="<?php echo $value; ?>" <?php echo ( $settings[ 'format' ] == $value ? "selected" : '' ); ?>><?php echo $description; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</td>
-				</tr>
-			</table>
-			<?php submit_button(); ?>
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_size"><?php _e( 'Size', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <select name="podlove_subscribe_button_default_size" id="podlove_subscribe_button_default_size">
+							<?php foreach ( \PodloveSubscribeButton\Defaults::button( 'size' ) as $value => $description ) : ?>
+                                <option value="<?php echo $value; ?>" <?php selected( $settings['size'], $value ); ?>><?php echo $description; ?></option>
+							<?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_autowidth"><?php _e( 'Autowidth', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <input type="checkbox" name="podlove_subscribe_button_default_autowidth"
+                               id="podlove_subscribe_button_default_autowidth" <?php checked( $settings['autowidth'], 'on' ); ?> />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e( 'Color', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color"
+                               value="<?php echo $settings['color'] ?>"/>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_style"><?php _e( 'Style', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <select name="podlove_subscribe_button_default_style" id="podlove_subscribe_button_default_style">
+							<?php foreach ( \PodloveSubscribeButton\Defaults::button( 'style' ) as $value => $description ) : ?>
+                                <option value="<?php echo $value; ?>" <?php selected( $settings['style'], $value ); ?>><?php echo $description; ?></option>
+							<?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_format"><?php _e( 'Format', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <select name="podlove_subscribe_button_default_format" id="podlove_subscribe_button_default_format">
+							<?php foreach ( \PodloveSubscribeButton\Defaults::button( 'format' ) as $value => $description ) : ?>
+                                <option value="<?php echo $value; ?>" <?php selected( $settings['format'], $value ); ?>><?php echo $description; ?></option>
+							<?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="podlove_subscribe_button_default_language"><?php _e( 'Language', 'podlove-subscribe-button' ); ?></label></th>
+                    <td>
+                        <select name="podlove_subscribe_button_default_language" id="podlove_subscribe_button_default_language">
+							<?php foreach ( \PodloveSubscribeButton\Defaults::button( 'language' ) as $value ) : ?>
+                                <option value="<?php echo $value; ?>" <?php selected( $settings['language'], $value ); ?>><?php echo $value; ?></option>
+							<?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
 		</form>
 		<?php
 		endif;

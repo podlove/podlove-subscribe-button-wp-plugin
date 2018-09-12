@@ -111,20 +111,24 @@ class Widget extends \WP_Widget {
 			$customize_options = array(
 				'size'      => array(
 					'name'    => __( 'Size', 'podlove-subscribe-button' ),
-					'options' => \PodloveSubscribeButton\Model\Button::$size
+					'options' => Defaults::button( 'size' ),
 				),
 				'style'     => array(
 					'name'    => __( 'Style', 'podlove-subscribe-button' ),
-					'options' => \PodloveSubscribeButton\Model\Button::$style
+					'options' => Defaults::button( 'style' ),
 				),
 				'format'    => array(
 					'name'    => __( 'Format', 'podlove-subscribe-button' ),
-					'options' => \PodloveSubscribeButton\Model\Button::$format
+					'options' => Defaults::button( 'format' ),
 				),
 				'autowidth' => array(
 					'name'    => __( 'Autowidth', 'podlove-subscribe-button' ),
-					'options' => \PodloveSubscribeButton\Model\Button::$width
-				)
+					'options' => Defaults::button( 'width' ),
+				),
+				'language'    => array(
+					'name'    => __( 'Language', 'podlove-subscribe-button' ),
+					'options' => Defaults::button( 'language' ),
+				),
 			);
 
 			foreach ( $customize_options as $slug => $properties ) : ?>
