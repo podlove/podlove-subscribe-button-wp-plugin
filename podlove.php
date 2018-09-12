@@ -35,8 +35,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // Constants
 require( 'constants.php' );
-// Media Types
-require( 'media_types.php' );
 // Version control
 require( 'version.php' );
 
