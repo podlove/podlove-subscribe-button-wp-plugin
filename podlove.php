@@ -144,6 +144,12 @@ class PodloveSubscribeButton {
 
 	}
 
+	static function get_option( $key, $default = false ) {
+
+		return \get_option( 'podlove_subscribe_button_default_' . $key, $default );
+
+	}
+
 	public static function register_shortcode() {
 		add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 
@@ -195,7 +201,7 @@ class PodloveSubscribeButton {
 		if ( isset( $args[ 'language' ] ) ) {
 			$language = $args[ 'language' ];
 		} else {
-			$language = 'en';
+			$language = self::get_option( 'language' );
 		}
 
 		if ( isset( $args[ 'color' ] ) ) {
@@ -253,7 +259,7 @@ class PodloveSubscribeButton {
 			return 'off';
 		}
 
-		return get_option( 'podlove_subscribe_button_default_autowidth', 'on' );
+		return self::get_option( 'autowidth', 'on' );
 
 	}
 
