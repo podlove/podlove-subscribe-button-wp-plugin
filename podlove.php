@@ -157,14 +157,7 @@ class PodloveSubscribeButton {
 			\PodloveSubscribeButton\Model\NetworkButton::build();
 		}
 
-		// Set Button "default" values
-		$default_values = array(
-			'size'      => 'big',
-			'autowidth' => 'on',
-			'color'     => '#599677',
-			'style'     => 'filled',
-			'format'    => 'rectangle'
-		);
+		$default_values = \PodloveSubscribeButton\Defaults::options();
 
 		foreach ( $default_values as $option => $default_value ) {
 			if ( ! get_option( 'podlove_subscribe_button_default_' . $option ) ) {
