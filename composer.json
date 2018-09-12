@@ -1,0 +1,25 @@
+{
+    "name": "podlove/podlove-subscribe-button",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Podlove",
+            "homepage": "https://www.podlove.org",
+            "role": "Team"
+        },
+        {
+            "name": "Christian Foellmann",
+            "email": "foellmann@foe-services.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PodloveSubscribeButton\\": "inc/"
+        }
+    }
+}
