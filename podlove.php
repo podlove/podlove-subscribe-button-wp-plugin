@@ -19,13 +19,16 @@
  * Text Domain: podlove-subscribe-button
  */
 
-$correct_php_version = version_compare( phpversion(), "5.3", ">=" );
+/** Check if PHP version is sufficient */
+if ( ! version_compare( phpversion(), '5.3', ">=" ) ) {
 
-if ( ! $correct_php_version ) {
-	printf( __( 'Podlove Subscribe Button Plugin requires %s or higher.<br>', 'podlove-subscribe-button' ), '<code>PHP 5.3</code>' );
-	echo '<br />';
-	printf( __( 'You are running %s', 'podlove-subscribe-button' ), '<code>PHP ' . phpversion() . '</code>' );
-	exit;
+	require_once 'php-version.php';
+	add_action( 'admin_notices', 'podlove_psb_php_notice' );
+	add_action( 'admin_init', function() {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+	} );
+	return;
+
 }
 
 // Constants
