@@ -51,6 +51,35 @@ Class Helpers {
 
 	}
 
+	/**
+	 * Get button compatible language string.
+	 *
+	 * Examples:
+	 *
+	 *  language('de');    // => 'de'
+	 *  language('de_DE'); // => 'de'
+	 *  language('en_GB'); // => 'en'
+	 *
+	 * @param  string $language language identifier
+	 *
+	 * @return string
+	 */
+	static function language( $language ) {
+
+		if ( empty( $language ) ) {
+			$language = get_option( 'WPLANG' );
+		}
+
+		$lang_code = strtolower(explode('_', $language)[0]);
+
+		if ( in_array( $lang_code, \PodloveSubscribeButton\Defaults::button('language' ) ) ) {
+			return $lang_code;
+		} else {
+			return 'en';
+		}
+
+	}
+
 	public static function for_every_podcast_blog( $callback ) {
 
 		global $wpdb;

@@ -101,16 +101,10 @@ class Defaults {
 			'color'     => '#599677',
 			'style'     => 'filled',
 			'format'    => 'rectangle',
-			'language'  => \PodloveSubscribeButton\language( 'de_DE' ),
+			'language'  => \PodloveSubscribeButton\Helpers::language( '' ),
 		);
 
 		return apply_filters( 'podlove_subscribe_button_defaults_options', $options );
-
-	}
-
-	static function get( $type ) {
-
-		return self::$type();
 
 	}
 
