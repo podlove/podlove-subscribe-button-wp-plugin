@@ -20,7 +20,7 @@
  */
 
 /** Check if PHP version is sufficient */
-if ( ! version_compare( phpversion(), '5.3', ">=" ) ) {
+if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
 
 	require_once 'php-version.php';
 	add_action( 'admin_notices', 'podlove_psb_php_notice' );

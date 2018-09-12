@@ -4,7 +4,7 @@ Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPr
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 4.9.8
-Requires PHP: 5.3
+Requires PHP: 5.4
 Stable tag: 1.3.4
 License: MIT
 License URI: http://opensource.org/licenses/MIT
