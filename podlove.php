@@ -207,7 +207,7 @@ class PodloveSubscribeButton {
 		if ( isset( $args[ 'color' ] ) ) {
 			$color = $args[ 'color' ];
 		} else {
-			$color = get_option( 'podlove_subscribe_button_default_color', '#599677' );
+			$color = self::get_option( 'color' );
 		}
 
 		if ( isset( $args[ 'hide' ] ) && $args[ 'hide' ] == 'true' ) {
