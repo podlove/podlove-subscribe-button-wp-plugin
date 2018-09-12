@@ -49,10 +49,13 @@ class Button_List_Table extends \WP_List_Table {
 
 			$preview  = "<div class='podlove-button-preview-container'>";
 			$preview .= $button->render(
-				'big',
-				'false',
-				get_option( 'podlove_subscribe_button_default_style', 'filled' ),
-				'rectangle'
+				\PodloveSubscribeButton::get_option( 'size' ),
+				\PodloveSubscribeButton::get_option( 'autowidth' ),
+				\PodloveSubscribeButton::get_option( 'style' ),
+				\PodloveSubscribeButton::get_option( 'format' ),
+				\PodloveSubscribeButton::get_option( 'color' ),
+				false,
+				false
 			);
 			$preview .= "</div>";
 
