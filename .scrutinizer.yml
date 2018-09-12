@@ -139,7 +139,6 @@ filter:
     excluded_paths:
     - fonts/
     - languages/
-    - js/spectrum/
     - tests/
     - vendor/
     dependency_paths:
