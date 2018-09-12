@@ -13,14 +13,14 @@ abstract class Base {
 	 * Property dictionary for all tables
 	 */
 	private static $properties = array();
-	
+
 	private $is_new = true;
-	
+
 	/**
 	 * Contains property values
 	 */
 	private $data = array();
-	
+
 	public function __set( $name, $value ) {
 		if ( static::has_property( $name ) ) {
 			$this->set_property( $name, $value );
@@ -28,11 +28,11 @@ abstract class Base {
 			$this->$name = $value;
 		}
 	}
-	
+
 	private function set_property( $name, $value ) {
 		$this->data[ $name ] = $value;
 	}
-	
+
 	public function __get( $name ) {
 		if ( static::has_property( $name ) ) {
 			return $this->get_property( $name );
@@ -42,7 +42,7 @@ abstract class Base {
 			return null;
 		}
 	}
-	
+
 	private function get_property( $name ) {
 		if ( isset( $this->data[ $name ] ) ) {
 			return $this->data[ $name ];
@@ -63,32 +63,32 @@ abstract class Base {
 
 	/**
 	 * Retrieves the database table name.
-	 * 
+	 *
 	 * The name is derived from the namespace an class name. Additionally, it
 	 * is prefixed with the global WordPress database table prefix.
 	 * @todo cache
-	 * 
+	 *
 	 * @return string database table name
 	 */
 	public static function table_name() {
 		global $wpdb;
-		
+
 		// prefix with $wpdb prefix
 		return $wpdb->prefix . static::name();
 	}
-	
+
 	/**
 	 * Define a property with name and type.
-	 * 
+	 *
 	 * Currently only supports basics.
 	 * @todo enable additional options like NOT NULL, DEFAULT etc.
-	 * 
+	 *
 	 * @param string $name Name of the property / column
-	 * @param string $type mySQL column type 
+	 * @param string $type mySQL column type
 	 */
 	public static function property( $name, $type, $args = array() ) {
 		$class = get_called_class();
-		
+
 		if ( ! isset( static::$properties[ $class ] ) ) {
 			static::$properties[ $class ] = array();
 		}
@@ -99,7 +99,7 @@ abstract class Base {
 		if ( isset( $args[ 'index' ] ) ) {
 			$index = $args[ 'index' ];
 		}
-		
+
 		static::$properties[ $class ][ ] = array(
 			'name'  => $name,
 			'type'  => $type,
@@ -108,96 +108,96 @@ abstract class Base {
 			'unique' => isset( $args[ 'unique' ] ) ? $args[ 'unique' ] : null
 		);
 	}
-	
+
 	/**
 	 * Return a list of property dictionaries.
-	 * 
+	 *
 	 * @return array property list
 	 */
 	private static function properties() {
 		$class = get_called_class();
-		
+
 		if ( ! isset( static::$properties[ $class ] ) ) {
 			static::$properties[ $class ] = array();
 		}
-		
+
 		return static::$properties[ $class ];
 	}
-	
+
 	/**
 	 * Does the given property exist?
-	 * 
+	 *
 	 * @param string $name name of the property to test
 	 * @return bool True if the property exists, else false.
 	 */
 	public static function has_property( $name ) {
 		return in_array( $name, static::property_names() );
 	}
-	
+
 	/**
 	 * Return a list of property names.
-	 * 
+	 *
 	 * @return array property names
 	 */
 	public static function property_names() {
 		return array_map( function( $p ) { return $p[ 'name' ]; } , static::properties() );
 	}
-	
+
 	/**
 	 * Does the table have any entries?
-	 * 
+	 *
 	 * @return bool True if there is at least one entry, else false.
 	 */
 	public static function has_entries() {
 		return static::count() > 0;
 	}
-	
+
 	/**
 	 * Return number of rows in the table.
-	 * 
+	 *
 	 * @return int number of rows
 	 */
 	public static function count() {
 		global $wpdb;
-		
+
 		$sql = 'SELECT COUNT(*) FROM ' . static::table_name();
 		return (int) $wpdb->get_var( $sql );
 	}
 
 	public static function find_by_id( $id ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$model = new $class();
 		$model->flag_as_not_new();
-		
+
 		$row = $wpdb->get_row( 'SELECT * FROM ' . static::table_name() . ' WHERE id = ' . (int) $id );
-		
+
 		if ( ! $row ) {
 			return null;
 		}
-		
+
 		foreach ( $row as $property => $value ) {
 			$model->$property = static::unserialize_property( $value );
 		}
-		
+
 		return $model;
 	}
 
 	public static function find_all_by_property( $property, $value ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$models = array();
-		
+
 		$rows = $wpdb->get_results(
 			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property . ' = \'' . $value . '\''
 		);
-		
+
 		if ( ! $rows ) {
 			return array();
 		}
-		
+
 		foreach ( $rows as $row ) {
 			$model = new $class();
 			$model->flag_as_not_new();
@@ -206,46 +206,46 @@ abstract class Base {
 			}
 			$models[ ] = $model;
 		}
-		
+
 		return $models;
 	}
 
 	public static function find_one_by_property( $property, $value ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$model = new $class();
 		$model->flag_as_not_new();
-		
+
 		$row = $wpdb->get_row(
 			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property . ' = \'' . $value . '\' LIMIT 0,1'
 		);
-		
+
 		if ( ! $row ) {
 			return null;
 		}
-		
+
 		foreach ( $row as $property => $value ) {
 			$model->$property = static::unserialize_property( $value );
 		}
-		
+
 		return $model;
 	}
 
 	public static function find_all_by_where( $where ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$models = array();
-		
+
 		$rows = $wpdb->get_results(
 			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where
 		);
-		
+
 		if ( ! $rows ) {
 			return array();
 		}
-		
+
 		foreach ( $rows as $row ) {
 			$model = new $class();
 			$model->flag_as_not_new();
@@ -254,43 +254,43 @@ abstract class Base {
 			}
 			$models[ ] = $model;
 		}
-		
+
 		return $models;
 	}
-	
+
 	public static function find_one_by_where( $where ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$model = new $class();
 		$model->flag_as_not_new();
-		
+
 		$row = $wpdb->get_row(
 			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where . ' LIMIT 0,1'
 		);
-		
+
 		if ( ! $row ) {
 			return null;
 		}
-		
+
 		foreach ( $row as $property => $value ) {
 			$model->$property = static::unserialize_property( $value );
 		}
-		
+
 		return $model;
 	}
 	/**
 	 * Retrieve all entries from the table.
 	 *
 	 * @param  string $sql_suffix optional SQL, appended after FROM clause
-	 * @return array list of model objects
+	 * @return array list of Model objects
 	 */
 	public static function all( $sql_suffix = '' ) {
 		global $wpdb;
-		
+
 		$class = get_called_class();
 		$models = array();
-		
+
 		$rows = $wpdb->get_results( 'SELECT * FROM ' . static::table_name() . ' ' . $sql_suffix );
 
 		foreach ( $rows as $row ) {
@@ -301,17 +301,17 @@ abstract class Base {
 			}
 			$models[ ] = $model;
 		}
-		
+
 		return $models;
 	}
-	
+
 	/**
 	 * True if not yet saved to database. Else false.
 	 */
 	public function is_new() {
 		return $this->is_new;
 	}
-	
+
 	public function flag_as_not_new() {
 		$this->is_new = false;
 	}
@@ -320,7 +320,7 @@ abstract class Base {
 	 * Rails-ish update_attributes for easy form handling.
 	 *
 	 * Takes an array of form values and takes care of serializing it.
-	 * 
+	 *
 	 * @param  array $attributes
 	 * @return bool
 	 */
@@ -330,7 +330,7 @@ abstract class Base {
 			return false;
 
 		$request = filter_input_array( INPUT_POST ); // Do this for security reasons
-			
+
 		foreach ( $attributes as $key => $value ) {
 			if ( is_array( $value ) ) {
 				$this->{$key} = serialize( $value );
@@ -338,7 +338,7 @@ abstract class Base {
 				$this->{$key} = esc_sql( $value );
 			}
 		}
-		
+
 		if ( isset( $request[ 'checkboxes' ] ) && is_array( $request[ 'checkboxes' ] ) ) {
 			foreach ( $request[ 'checkboxes' ] as $checkbox ) {
 				if ( isset( $attributes[ $checkbox ] ) && $attributes[ $checkbox ] === 'on' ) {
@@ -362,7 +362,7 @@ abstract class Base {
 
 	/**
 	 * Update and save a single attribute.
-	 * 	
+	 *
 	 * @param  string $attribute attribute name
 	 * @param  mixed  $value
 	 * @return (bool) query success
@@ -382,10 +382,10 @@ abstract class Base {
 
 		return $wpdb->query( $sql );
 	}
-	
+
 	/**
 	 * Saves changes to database.
-	 * 
+	 *
 	 * @todo use wpdb::insert()
 	 */
 	public function save() {
@@ -429,11 +429,11 @@ abstract class Base {
 
 	/**
 	 * Sets default values.
-	 * 
+	 *
 	 * @return array
 	 */
 	private function set_defaults() {
-		
+
 		$defaults = $this->default_values();
 
 		if ( ! is_array( $defaults ) || empty( $defaults ) )
@@ -448,18 +448,18 @@ abstract class Base {
 
 	/**
 	 * Return default values for properties.
-	 * 
-	 * Can be overridden by inheriting model classes.
-	 * 
+	 *
+	 * Can be overridden by inheriting Model classes.
+	 *
 	 * @return array
 	 */
 	public function default_values() {
 		return array();
 	}
-	
+
 	public function delete() {
 		global $wpdb;
-		
+
 		$sql = 'DELETE FROM '
 		     . static::table_name()
 		     . ' WHERE id = ' . $this->id;
@@ -481,7 +481,7 @@ abstract class Base {
 			return "$p = NULL";
 		}
 	}
-	
+
 	private function property_name_to_sql_value( $p ) {
 		global $wpdb;
 
@@ -491,32 +491,32 @@ abstract class Base {
 			return 'NULL';
 		}
 	}
-	
+
 	/**
 	 * Create database table based on defined properties.
-	 * 
+	 *
 	 * Automatically includes an id column as auto incrementing primary key.
-	 * @todo allow model changes
+	 * @todo allow Model changes
 	 */
 	public static function build() {
 		global $wpdb;
-		
+
 		$property_sql = array();
 		foreach ( static::properties() as $property )
 			$property_sql[ ] = "`{$property[ 'name' ]}` {$property[ 'type' ]}";
-		
+
 		$sql = 'CREATE TABLE IF NOT EXISTS '
 		     . static::table_name()
 		     . ' ('
 		     . implode( ',', $property_sql )
 		     . ' ) CHARACTER SET utf8;'
 		;
-		
+
 		$wpdb->query( $sql );
 
 		static::build_indices();
 	}
-	
+
 	/**
 	 * Convention based index generation.
 	 *

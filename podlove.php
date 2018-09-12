@@ -31,19 +31,12 @@ if ( ! version_compare( phpversion(), '5.3', ">=" ) ) {
 
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Constants
 require( 'constants.php' );
-require( 'settings/buttons.php' );
-// Models
-require( 'model/base.php' );
-require( 'model/button.php' );
-require( 'model/network_button.php' );
-// Table
-require( 'settings/buttons_list_table.php' );
 // Media Types
 require( 'media_types.php' );
-// Widget
-require( 'widget.php' );
 // Version control
 require( 'version.php' );
 // Helper functions
