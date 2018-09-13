@@ -30,18 +30,6 @@ div.podlove-button-preview-container {
 }
 
 .podlove-icon-remove {
-	font-family: 'dashicons';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
 	color: red;
 	cursor: pointer;
-}
-
-.podlove-icon-remove:before {
-    content: "\f182";
 }

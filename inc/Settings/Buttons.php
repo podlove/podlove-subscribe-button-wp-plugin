@@ -362,7 +362,7 @@ class Buttons {
 								?>
 							</select>
 						</td>
-						<td><i class="clickable podlove-icon-remove"></i></td>
+						<td><span class="dashicons dashicons-trash clickable podlove-icon-remove"></span></td>
 					</tr>
 				</script>
 				<script type="text/javascript">
