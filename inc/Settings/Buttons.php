@@ -36,18 +36,49 @@ class Buttons {
 		?>
 		<div class="wrap">
 			<h1><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input( INPUT_GET, 'page' ); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h1>
-			<?php
-
-			switch ( $action ) {
-				case 'new':   self::new_template(); break;
-				case 'edit':  self::edit_template(); break;
-				case 'index': self::view_template(); break;
-				default:      self::view_template(); break;
-			}
-			?>
-		</div>
+            <div id="poststuff">
+                <div id="post-body" class="columns-2">
+                    <div id="post-body-content">
+	                    <?php
+	                    switch ( $action ) {
+		                    case 'new':   self::new_template(); break;
+		                    case 'edit':  self::edit_template(); break;
+		                    case 'index': self::view_template(); break;
+		                    default:      self::view_template(); break;
+	                    }
+	                    ?>
+                    </div>
+                    <div id="postbox-container-1" class="postbox-container">
+                        <?php self::sidebar(); ?>
+                    </div>
+                </div>
+            </div>
+		</div><!-- .wrap -->
 		<?php
 	}
+
+	public static function sidebar() { ?>
+        <div id="submitdiv" class="postbox">
+            <h2 class="ui-sortable-handle"><span>Podlove Subscribe Button <code><?php echo \PodloveSubscribeButton::$version; ?></code></span></h2>
+            <div class="inside">
+                <div id="minor-publishing" style="padding:0 10px;">
+                    <p><?php _e( 'This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove-subscribe-button' ); ?></p>
+                    <p><?php _e( 'Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove-subscribe-button' ); ?></p>
+                    <p><?php _e( 'If you want to display the button inside a page or article, you can also use the <code>[podlove-subscribe-button]</code> shortcode anywhere.', 'podlove-subscribe-button' ); ?></p>
+                </div>
+                <div id="major-publishing-actions">
+                    <ul>
+                        <li><a href="https://wordpress.org/plugins/podlove-subscribe-button/" target="_blank">WordPress.org</a></li>
+                        <li>Podlove Project</li>
+                        <li>Community</li>
+                        <li>Donate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php
+
+    }
 
 	/**
 	 * Process form: save/update a format
@@ -150,12 +181,8 @@ class Buttons {
 	}
 
 	public static function view_template() {
+
 		$is_network = is_network_admin();
-		?>
-		<p><?php _e( 'This plugin allows easy inclusion of the Podlove Subscribe Button. Put it in your sidebar with a simple widget or include the button in pages and/or posts with a simple shortcode.', 'podlove-subscribe-button' ); ?></p>
-		<p><?php _e( 'Start by adding a button for each of your podcasts here. You can then add the button to your sidebar by adding the <a href="widgets.php">Podlove Subscribe Button widget</a>.', 'podlove-subscribe-button' ); ?></p>
-		<p><?php _e( 'If you want to display the button inside a page or article, you can also use the <code>[podlove-subscribe-button]</code> shortcode anywhere.', 'podlove-subscribe-button' ); ?></p>
-		<?php
 		$table = new \PodloveSubscribeButton\Button_List_Table;
 		$table->prepare_items();
 		$table->display();
