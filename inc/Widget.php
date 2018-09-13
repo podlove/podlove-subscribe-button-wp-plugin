@@ -21,6 +21,7 @@ class Widget extends \WP_Widget {
 		'autowidth',
 		'button',
 		'color',
+        'language'
 	);
 
 	public function __construct() {
@@ -46,7 +47,10 @@ class Widget extends \WP_Widget {
 			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'autowidth' ),
 			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'style' ),
 			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'format' ),
-			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'color' )
+			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'color' ),
+			false,
+            false,
+			\PodloveSubscribeButton::get_array_value_with_fallback( $instance, 'language' )
 		);
 
 		if ( strlen( $instance[ 'infotext' ] ) ) {
@@ -66,6 +70,7 @@ class Widget extends \WP_Widget {
 		$autowidth = isset( $instance[ 'autowidth' ] ) ? $instance[ 'autowidth' ] : true;
 		$infotext  = isset( $instance[ 'infotext' ] )  ? $instance[ 'infotext' ]  : '';
 		$color     = isset( $instance[ 'color' ] )     ? $instance[ 'color' ]     : '#75ad91';
+		$language  = isset( $instance[ 'language' ] )  ? $instance[ 'language' ]  : Defaults::options()['language'];
 
 		$buttons = \PodloveSubscribeButton\Model\Button::all();
 		if ( is_multisite() ) {
@@ -127,7 +132,7 @@ class Widget extends \WP_Widget {
 				),
 				'language'    => array(
 					'name'    => __( 'Language', 'podlove-subscribe-button' ),
-					'options' => Defaults::button( 'language' ),
+					'options' => array_combine( Defaults::button( 'language' ), Defaults::button( 'language' ) ),
 				),
 			);
 

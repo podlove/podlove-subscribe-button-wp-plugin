@@ -197,18 +197,17 @@ class PodloveSubscribeButton {
 		$size      = self::get_attribute( 'size', self::get_array_value_with_fallback( $args, 'size' ) );
 		$style     = self::get_attribute( 'style', self::get_array_value_with_fallback( $args, 'style' ) );
 		$format    = self::get_attribute( 'format', self::get_array_value_with_fallback( $args, 'format' ) );
-		$color     = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
 
 		if ( isset( $args[ 'language' ] ) ) {
 			$language = $args[ 'language' ];
 		} else {
-			$language = self::get_option( 'language' );
+			$language = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'language' ) );
 		}
 
 		if ( isset( $args[ 'color' ] ) ) {
 			$color = $args[ 'color' ];
 		} else {
-			$color = self::get_option( 'color' );
+			$color = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
 		}
 
 		if ( isset( $args[ 'hide' ] ) && $args[ 'hide' ] == 'true' ) {

@@ -190,3 +190,4 @@ Button::property( 'subtitle', 'VARCHAR(255)' );
 Button::property( 'description', 'TEXT' );
 Button::property( 'cover', 'VARCHAR(255)' );
 Button::property( 'feeds', 'TEXT' );
+Button::property( 'language', 'VARCHAR(2)' );

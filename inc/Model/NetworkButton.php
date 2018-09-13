@@ -26,3 +26,4 @@ NetworkButton::property( 'subtitle', 'VARCHAR(255)' );
 NetworkButton::property( 'description', 'TEXT' );
 NetworkButton::property( 'cover', 'VARCHAR(255)' );
 NetworkButton::property( 'feeds', 'TEXT' );
+NetworkButton::property( 'language', 'VARCHAR(2)' );
