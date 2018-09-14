@@ -30,11 +30,11 @@ class Button extends Base {
 	 * @return object|false
 	 */
 	public static function get_button_by_name( $name ) {
-		if ( $button = \PodloveSubscribeButton\Model\Button::find_one_by_property( 'name', $name ) ) {
+		if ( $button = Button::find_one_by_property( 'name', $name ) ) {
 			return $button;
 		}
 
-		if ( $network_button = \PodloveSubscribeButton\Model\NetworkButton::find_one_by_property( 'name', $name ) ) {
+		if ( $network_button = NetworkButton::find_one_by_property( 'name', $name ) ) {
 			$network_button->id = $network_button->id . 'N';
 			return $network_button;
 		}
@@ -96,10 +96,10 @@ class Button extends Base {
 	 */
 	private function get_feeds_as_array( $feeds = array() ) {
 		foreach ( $feeds as $feed ) {
-			if ( isset( \PodloveSubscribeButton\Defaults::media_types()[ $feed['format'] ]['extension'] ) ) {
+			if ( isset( Defaults::media_types()[ $feed['format'] ]['extension'] ) ) {
 				$new_feed = array(
 					'type'    => 'audio',
-					'format'  => \PodloveSubscribeButton\Defaults::media_types()[ $feed['format'] ]['extension'],
+					'format'  => Defaults::media_types()[ $feed['format'] ]['extension'],
 					'url'     => $feed['url'],
 					'variant' => 'high',
 				);

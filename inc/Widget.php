@@ -35,7 +35,7 @@ class Widget extends \WP_Widget {
 
 	public function widget( $args, $instance ) {
 		// Fetch the (network)button by it's name
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name( $instance[ 'button' ] ) ) {
+		if ( ! $button = Model\Button::get_button_by_name( $instance[ 'button' ] ) ) {
 			return sprintf( __( 'Oops. There is no button with the ID "%s".', 'podlove-subscribe-button' ), $args['button'] );
 		}
 
