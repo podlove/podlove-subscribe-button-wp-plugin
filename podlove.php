@@ -20,13 +20,30 @@
  */
 
 /** Check if PHP version is sufficient */
-if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
+if ( ! version_compare( phpversion(), '15.4', ">=" ) ) {
 
-	require_once 'php-version.php';
-	add_action( 'admin_notices', 'podlove_psb_php_notice' );
-	add_action( 'admin_init', function() {
+	function podlove_psb_php_notice() {
+		?>
+		<div id="message" class="error">
+			<p>
+				<strong>The Podlove Subscribe Button Plugin could not be activated</strong>
+			</p>
+			<p>
+				The Podlove Subscribe Button Plugin requires <code>PHP 5.3</code> or higher.<br>
+				You are running <code>PHP <?php echo phpversion(); ?></code>.<br>
+				Please ask your hoster how to upgrade to an up-to-date PHP version.
+			</p>
+		</div>
+		<?php
+	}
+
+	function podlove_psb_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-	} );
+	}
+
+	add_action( 'admin_notices', 'podlove_psb_php_notice' );
+	add_action( 'admin_init', 'podlove_psb_deactivate' );
+
 	return;
 
 }
