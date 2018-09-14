@@ -5,7 +5,7 @@ Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 4.9.8
 Requires PHP: 5.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -37,14 +37,14 @@ Podlove currently provides:
 
 ### Other Resources
 
-* Podlove Project: https://podlove.org/
-* Podlove Community: https://community.podlove.org/
-* Documentation: https://docs.podlove.org/
-* Donate: https://podlove.org/donations/
+* [Podlove Project](https://podlove.org/)
+* [Podlove Community](https://community.podlove.org/)
+* [Documentation](https://docs.podlove.org/)
+* [Donate](https://podlove.org/donations/)
 
 == Installation ==
 
-###  Install the plugin
+### Install the plugin
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -98,6 +98,21 @@ Displays a small, frameless square button with using data from button configurat
 
 Yes and No. If you simply want to display a Subscribe Button for your Podcast you publish with the Podlove Publisher you do not need this plugin as the Publisher itself provides this functionality. If you want to display multiple Subscribe Buttons you can use the Subscribe Button plugin.
 
+### How do I use the plugin in a WordPress network installation?
+
+You have three options:
+
+1. Activate on a single blog/site which provides functionality to that site only. No config or data is accessible on a network-level
+2. Activate on the main blog/site ( blog id=1: Access it on `<your-domain.com>/wp-admin/network/site-info.php?id=1` ) of your network:
+  * Provides network-level options
+  * Allows for network-wide subscribe buttons
+  * The plugin needs to be activated on each blog/site you need the functionality on
+  * NO baggage on the blogs/sites you have the plugin NOT activated
+3. Activate 'network-wide'
+  * Provides network-level options
+  * Allows for network-wide subscribe buttons
+  * Subscribe Button functionality is active for ALL sites in your network and CANNOT be deactivated for specific sites
+
 ### Where do I create those "Network-wide" Buttons?
 
 You can find the Panel in the Networks Settings Section
@@ -135,6 +150,9 @@ Consult the information provided on [the technical information page](https://pod
 == Changelog ==
 
 ### 1.4.0 (YYYY-MM-DD)
+* ADDED select for `language` parameter
+* ENHANCED admin UI to use WordPress core styling
+* REQUIREMENT bumped to PHP 5.4
 
 ### 1.3.5 (2018-09-09)
 * Replaced the spectrum color selector with WP Color Picker
