@@ -68,10 +68,21 @@ class Buttons {
                 </div>
                 <div id="major-publishing-actions">
                     <ul>
-                        <li><a href="https://wordpress.org/plugins/podlove-subscribe-button/" target="_blank">WordPress.org</a></li>
-                        <li>Podlove Project</li>
-                        <li>Community</li>
-                        <li>Donate</li>
+                        <li>
+                            <a href="https://subscribe-button.podlove.org/">Podlove Subscribe Button</a>
+                        </li>
+                        <li>
+                            <a href="https://podlove.org" target="_blank">Podlove Initiative</a>
+                        </li>
+                        <li>
+                            <a href="https://community.podlove.org/" target="_blank">Podlove Community</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.podlove.org" target="_blank">Documentation &amp; Guides</a>
+                        </li>
+                        <li>
+                            <a href="https://podlove.org/donations/" target="_blank">Donate</a>
+                        </li>
                     </ul>
                 </div>
             </div>
