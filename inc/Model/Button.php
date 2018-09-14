@@ -21,7 +21,8 @@ class Button extends Base {
 		'format'    => 'rectangle',
 		'hide'      => 'false',
 		'buttonid'  => '',
-		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
+		'language'  => 'en',
+		// Note: the field 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
 	/**

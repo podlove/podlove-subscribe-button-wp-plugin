@@ -201,7 +201,7 @@ class PodloveSubscribeButton {
 		if ( isset( $args[ 'language' ] ) ) {
 			$language = $args[ 'language' ];
 		} else {
-			$language = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'language' ) );
+			$language = self::get_attribute( 'language', self::get_array_value_with_fallback( $args, 'language' ) );
 		}
 
 		if ( isset( $args[ 'color' ] ) ) {
