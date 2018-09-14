@@ -38,7 +38,9 @@ require( 'constants.php' );
 // Version control
 require( 'version.php' );
 
-register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_models' ) );
+register_activation_hook(   __FILE__, array( 'PodloveSubscribeButton\Setup', 'activation' ) );
+register_deactivation_hook( __FILE__, array( 'PodloveSubscribeButton\Setup', 'deactivation' ) );
+register_uninstall_hook(    __FILE__, array( 'PodloveSubscribeButton\Setup', 'uninstall' ) );
 
 PodloveSubscribeButton::run();
 
@@ -156,23 +158,7 @@ class PodloveSubscribeButton {
 
 	}
 
-	public static function build_models() {
-		// Build Databases
-		\PodloveSubscribeButton\Model\Button::build();
 
-		if ( is_multisite() ) {
-			\PodloveSubscribeButton\Model\NetworkButton::build();
-		}
-
-		$default_values = \PodloveSubscribeButton\Defaults::options();
-
-		foreach ( $default_values as $option => $default_value ) {
-			if ( ! get_option( 'podlove_subscribe_button_default_' . $option ) ) {
-				update_option( 'podlove_subscribe_button_default_' . $option, $default_value );
-			}
-		}
-
-	}
 
 	/**
 	 * Add the shortcode

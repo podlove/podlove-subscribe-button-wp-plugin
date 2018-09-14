@@ -557,4 +557,9 @@ abstract class Base {
 
 		return $table_name;
 	}
+
+	public static function destroy() {
+		global $wpdb;
+		$wpdb->query( 'DROP TABLE ' . static::table_name() );
+	}
 }
