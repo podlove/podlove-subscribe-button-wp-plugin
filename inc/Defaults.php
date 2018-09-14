@@ -89,7 +89,7 @@ class Defaults {
 			)
 		);
 
-		return apply_filters( 'podlove_subscribe_button_defaults_media_types', $media_types );
+		return apply_filters( 'podlove_psb_defaults_media_types', $media_types );
 
 	}
 
@@ -104,7 +104,7 @@ class Defaults {
 			'language'  => \PodloveSubscribeButton\Helpers::language( '' ),
 		);
 
-		return apply_filters( 'podlove_subscribe_button_defaults_options', $options );
+		return apply_filters( 'podlove_psb_defaults_options', $options );
 
 	}
 

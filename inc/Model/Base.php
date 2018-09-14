@@ -421,8 +421,8 @@ abstract class Base {
 
 		$this->is_new = false;
 
-		do_action( 'podlove_model_save', $this );
-		do_action( 'podlove_model_change', $this );
+		do_action( 'podlove_psb_model_save', $this );
+		do_action( 'podlove_psb_model_change', $this );
 
 		return $success;
 	}
@@ -466,8 +466,8 @@ abstract class Base {
 
 		$rows_affected = $wpdb->query( $sql );
 
-	    do_action( 'podlove_model_delete', $this );
-	    do_action( 'podlove_model_change', $this );
+	    do_action( 'podlove_psb_model_delete', $this );
+	    do_action( 'podlove_psb_model_change', $this );
 
 		return $rows_affected !== false;
 	}
