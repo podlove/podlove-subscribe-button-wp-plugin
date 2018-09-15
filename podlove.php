@@ -20,7 +20,7 @@
  */
 
 /** Check if PHP version is sufficient */
-if ( ! version_compare( phpversion(), '15.4', ">=" ) ) {
+if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
 
 	function podlove_psb_php_notice() {
 		?>
