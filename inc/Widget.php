@@ -72,9 +72,9 @@ class Widget extends \WP_Widget {
 		$color     = isset( $instance[ 'color' ] )     ? $instance[ 'color' ]     : '#75ad91';
 		$language  = isset( $instance[ 'language' ] )  ? $instance[ 'language' ]  : Defaults::options()['language'];
 
-		$buttons = \PodloveSubscribeButton\Model\Button::all();
+		$buttons = Model\Button::all();
 		if ( is_multisite() ) {
-			$network_buttons = \PodloveSubscribeButton\Model\NetworkButton::all();
+			$network_buttons = Model\NetworkButton::all();
 		}
 		?>
 		<p>

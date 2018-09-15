@@ -8,7 +8,7 @@
 
 namespace PodloveSubscribeButton\Settings;
 
-use PodloveSubscribeButton\Defaults;
+use PodloveSubscribeButton\Helpers;
 
 class Buttons {
 
