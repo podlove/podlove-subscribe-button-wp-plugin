@@ -162,13 +162,15 @@ class PodloveSubscribeButton {
 
 	static function get_option( $key, $default = false ) {
 
-		return \get_option( 'podlove_subscribe_button_default_' . $key, $default );
+		/** @todo after option reformat */
+		$options = \get_option( 'podlove_psb_defaults' );
+		// ! isset( $key ) -> $default;
 
+        return $options[ $key ];
 	}
 
 	public static function register_shortcode() {
 		add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
-
 	}
 
 
@@ -238,7 +240,8 @@ class PodloveSubscribeButton {
 		if ( isset( $attribute_value ) && ctype_alnum( $attribute_value ) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
-			return get_option( 'podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[ $attribute ] );
+		    $default = get_option( 'podlove_psb_defaults', \PodloveSubscribeButton\Defaults::options() );
+			return $default[ $attribute ];
 		}
 
 	}

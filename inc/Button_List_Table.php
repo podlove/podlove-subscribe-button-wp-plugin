@@ -42,28 +42,26 @@ class Button_List_Table extends \WP_List_Table {
 	}
 
 	public function column_button_preview( $button ) {
-
 		if ( ! $button->feeds ) {
 			return '<code>' . __( 'No preview. Please set a feed.', 'podlove-subscribe-button' ) . '</code>';
 		} else {
+			$options = get_option( 'podlove_psb_defaults' );
 
 			$preview  = "<div class='podlove-button-preview-container'>";
 			$preview .= $button->render(
-				\PodloveSubscribeButton::get_option( 'size' ),
-				\PodloveSubscribeButton::get_option( 'autowidth' ),
-				\PodloveSubscribeButton::get_option( 'style' ),
-				\PodloveSubscribeButton::get_option( 'format' ),
-				\PodloveSubscribeButton::get_option( 'color' ),
+				$options['size'],
+				$options['autowidth'],
+				$options['style'],
+				$options['format'],
+				$options['color'],
 				false,
 				false,
-				\PodloveSubscribeButton::get_option( 'language' )
+				$options['language']
 			);
 			$preview .= "</div>";
 
 			return $preview;
-
 		}
-
 	}
 
 	public function column_id( $button ) {

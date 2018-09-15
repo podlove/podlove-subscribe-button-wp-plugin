@@ -51,7 +51,7 @@ class Button extends Base {
 	 */
 	public static function get_global_setting_with_fallback( $settings = array() ) {
 		foreach ( Defaults::options() as $property => $default ) {
-			$settings[ $property ] = ( get_option( 'podlove_subscribe_button_default_' . $property ) ? get_option( 'podlove_subscribe_button_default_' . $property ) : $default );
+			$settings[ $property ] = ( get_option( 'podlove_psb_defaults' )[ $property ] ? get_option( 'podlove_psb_defaults' )[ $property ] : $default );
 		}
 
 		return $settings;
@@ -154,15 +154,16 @@ class Button extends Base {
 	 */
 	public function get_button_styling( $size, $autowidth, $style, $format, $color ) {
 
+		$options = get_option( 'podlove_psb_defaults' );
+
 		return array(
-				// $attribute => $value
-				'size' => ( $size == 'default' ? get_option( 'podlove_subscribe_button_default_size', $size ) : $size )
-			 	. self::interpret_autowidth_attribute( $autowidth ),
-				'style' => ( $style == 'default' ? get_option( 'podlove_subscribe_button_default_style', $style ) : $style ),
-				'format' => ( $format == 'default' ? get_option( 'podlove_subscribe_button_default_format', $format ) : $format ),
-				'color' => ( isset( $color ) ? $color : get_option( 'podlove_subscribe_button_default_color', $color ) ),
-				'json-data' => 'podcastData' . $this->id
-			);
+			// $attribute => $value
+			'size'      => ( $size == 'default' ? $options['size'] : $size ) . self::interpret_autowidth_attribute( $autowidth ),
+			'style'     => ( $style == 'default' ? $options['style'] : $style ),
+			'format'    => ( $format == 'default' ? $options['format'] : $format ),
+			'color'     => ( isset( $color ) ? $color : $options['color'] ),
+			'json-data' => 'podcastData' . $this->id
+		);
 
 	}
 
@@ -172,7 +173,7 @@ class Button extends Base {
 	 * @return string
 	 */
 	private static function interpret_autowidth_attribute( $autowidth ) {
-		if ( $autowidth == 'default' && get_option( 'podlove_subscribe_button_default_autowidth' ) !== 'on' )
+		if ( $autowidth == 'default' && get_option( 'podlove_psb_defaults' )['autowidth'] !== 'on' )
 			return '';
 
 		if ( $autowidth !== 'default' && $autowidth !== 'on' )

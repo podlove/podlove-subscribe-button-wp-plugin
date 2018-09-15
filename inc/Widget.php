@@ -62,15 +62,17 @@ class Widget extends \WP_Widget {
 	}
 
 	public function form( $instance ) {
+		$options = get_option( 'podlove_psb_defaults' );
+
 		$title     = isset( $instance[ 'title' ] )     ? $instance[ 'title' ]     : '';
 		$button    = isset( $instance[ 'button' ] )    ? $instance[ 'button' ]    : '';
-		$size      = isset( $instance[ 'size' ] )      ? $instance[ 'size' ]      : 'big';
-		$style     = isset( $instance[ 'style' ] )     ? $instance[ 'style' ]     : 'filled';
-		$format    = isset( $instance[ 'format' ] )    ? $instance[ 'format' ]    : 'cover';
+		$size      = isset( $instance[ 'size' ] )      ? $instance[ 'size' ]      : $options['size'];
+		$style     = isset( $instance[ 'style' ] )     ? $instance[ 'style' ]     : $options['style'];
+		$format    = isset( $instance[ 'format' ] )    ? $instance[ 'format' ]    : $options['format'];
 		$autowidth = isset( $instance[ 'autowidth' ] ) ? $instance[ 'autowidth' ] : true;
 		$infotext  = isset( $instance[ 'infotext' ] )  ? $instance[ 'infotext' ]  : '';
-		$color     = isset( $instance[ 'color' ] )     ? $instance[ 'color' ]     : '#75ad91';
-		$language  = isset( $instance[ 'language' ] )  ? $instance[ 'language' ]  : Defaults::options()['language'];
+		$color     = isset( $instance[ 'color' ] )     ? $instance[ 'color' ]     : $options['color'];
+		$language  = isset( $instance[ 'language' ] )  ? $instance[ 'language' ]  : $options['language'];
 
 		$buttons = Model\Button::all();
 		if ( is_multisite() ) {

@@ -25,7 +25,6 @@ class Setup {
 		} else {
 			self::activate_for_current_blog();
 		}
-
 	}
 
 	public static function activate_for_current_blog() {
@@ -35,13 +34,7 @@ class Setup {
 
 		$default_values = Defaults::options();
 
-//		add_option( 'podlove_psb_defaults', $default_values );
-
-		foreach ( $default_values as $option => $default_value ) {
-			if ( ! get_option( 'podlove_subscribe_button_default_' . $option ) ) {
-				update_option( 'podlove_subscribe_button_default_' . $option, $default_value );
-			}
-		}
+		add_option( 'podlove_psb_defaults', $default_values );
 
 	}
 
@@ -73,14 +66,14 @@ class Setup {
 
 		switch_to_blog( $current_blog );
 
-//		$options = array(
-//			/** 1.4+ */
-//			'podlove_subscribe_button_defaults',
-//		);
-//
-//		foreach ( $options as $option ) {
-//			delete_site_option( $option );
-//		}
+		$options = array(
+			/** 1.4+ */
+			'podlove_psb_defaults',
+		);
+
+		foreach ( $options as $option ) {
+			delete_site_option( $option );
+		}
 
 	}
 
@@ -91,8 +84,7 @@ class Setup {
 
 		$options = array(
 			/** 1.4+ */
-			'podlove_subscribe_button_defaults',
-			'widget_podlove_subscribe_button_wp_plugin_widget',
+			'podlove_psb_defaults',
 			/** 1.3.x */
 			'podlove_subscribe_button_default_size',
 			'podlove_subscribe_button_default_autowidth',
@@ -101,6 +93,7 @@ class Setup {
 			'podlove_subscribe_button_default_format',
 			'podlove_subscribe_button_default_language',
 			'podlove_subscribe_button_plugin_database_version',
+			'widget_podlove_subscribe_button_wp_plugin_widget',
 		);
 
 		foreach ( $options as $option ) {
