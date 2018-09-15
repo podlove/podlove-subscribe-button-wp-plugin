@@ -33,7 +33,7 @@ Class Helpers {
 	 *
 	 * @return string
 	 */
-	public function get_basename() {
+	public static function get_basename() {
 		return plugin_basename( \PodloveSubscribeButton::plugin_file() );
 	} // get_basename()
 
@@ -65,7 +65,6 @@ Class Helpers {
 	 * @return string
 	 */
 	static function language( $language ) {
-
 		if ( empty( $language ) ) {
 			$language = get_option( 'WPLANG' );
 		}
@@ -77,15 +76,12 @@ Class Helpers {
 		} else {
 			return 'en';
 		}
-
 	}
 
 	public static function for_every_podcast_blog( $callback ) {
-
 		global $wpdb;
 
-		/** @todo change to helper functionss */
-		$plugin  = basename( \PodloveSubscribeButton\PLUGIN_DIR ) . '/' . \PodloveSubscribeButton\PLUGIN_FILE_NAME;
+		$plugin  = self::get_basename();
 		$blogids = $wpdb->get_col( "SELECT blog_id FROM " . $wpdb->blogs );
 
 		if ( ! is_array( $blogids ) )
@@ -98,7 +94,6 @@ Class Helpers {
 			}
 			restore_current_blog();
 		}
-
 	}
 
 } // END Class
