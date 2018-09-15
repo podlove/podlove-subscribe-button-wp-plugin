@@ -11,17 +11,8 @@ namespace PodloveSubscribeButton;
 class Setup {
 
 	public static function activation( $network_wide ) {
-
-		global $wpdb;
-
-		if ( $network_wide ) {
-			Model\NetworkButton::build();
-			set_time_limit(0); // may take a while, depending on network size
-			$blogids = $wpdb->get_col( "SELECT blog_id FROM " . $wpdb->blogs );
-			foreach ( $blogids as $blog_id ) {
-				switch_to_blog( $blog_id );
-				self::activate_for_current_blog();
-			}
+		if ( is_multisite() ) {
+			self::activate_for_network( $network_wide );
 		} else {
 			self::activate_for_current_blog();
 		}
@@ -35,6 +26,25 @@ class Setup {
 		$default_values = Defaults::options();
 
 		add_option( 'podlove_psb_defaults', $default_values );
+
+	}
+
+	public static function activate_for_network( $network_wide ) {
+
+		Model\NetworkButton::build();
+
+		if ( $network_wide ) {
+			global $wpdb;
+
+			set_time_limit( 0 ); // may take a while, depending on network size
+			$blogids = $wpdb->get_col( "SELECT blog_id FROM " . $wpdb->blogs );
+			foreach ( $blogids as $blog_id ) {
+				switch_to_blog( $blog_id );
+				self::activate_for_current_blog();
+			}
+		} else {
+			self::activate_for_current_blog();
+		}
 
 	}
 
