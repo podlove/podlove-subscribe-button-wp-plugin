@@ -5,7 +5,7 @@ Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: MIT
 License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
