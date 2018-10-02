@@ -48,10 +48,17 @@ register_activation_hook( __FILE__, array( 'PodloveSubscribeButton', 'build_mode
 
 // Register Settings
 add_action( 'admin_init', function () {
-	$settings = array('size', 'autowidth', 'style', 'format', 'color');
+	$settings = array( 'size', 'autowidth', 'style', 'format', 'color' );
 
-	foreach ($settings as $setting) {
-		register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+	foreach ( $settings as $setting ) {
+		if ( 'autowidth' == $setting ) {
+			$args = array(
+				'sanitize_callback' => array( 'PodloveSubscribeButton', 'sanitize_settings' ),
+			);
+			register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting, $args );
+		} else {
+			register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+		}
 	}
 } );
 
@@ -209,5 +216,13 @@ class PodloveSubscribeButton {
 			return 'off';
 
 		return get_option('podlove_subscribe_button_default_autowidth', 'on');
+	}
+
+	public static function sanitize_settings( $input = null ) {
+		if ( null == $input ) {
+			return 'off';
+		} elseif ( 'on' == $input ) {
+			return $input;
+		}
 	}
 }

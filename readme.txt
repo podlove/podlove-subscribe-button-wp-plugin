@@ -134,6 +134,9 @@ Consult the information provided on [the technical information page](https://pod
 
 == Changelog ==
 
+### 1.3.6 (2018-10-02)
+* FIXED autowidth value not saving to options correctly
+
 ### 1.3.5 (2018-09-09)
 * Replaced the spectrum color selector with WP Color Picker
 * FIXED multiple color pickers when adding a widget
