@@ -16,7 +16,7 @@ Class Helpers {
 
 		return $path . $folder;
 
-	} // End get_path()
+	} // END get_path()
 
 	public static function get_url( $path = '' ) {
 
@@ -24,7 +24,7 @@ Class Helpers {
 
 		return $url;
 
-	} // End get_url()
+	} // END get_url()
 
 	/**
 	 * Get plugin basename
@@ -35,7 +35,7 @@ Class Helpers {
 	 */
 	public static function get_basename() {
 		return plugin_basename( \PodloveSubscribeButton::plugin_file() );
-	} // get_basename()
+	} // END get_basename()
 
 	/**
 	 * Check if `Podlove Publisher` is installed + activated
@@ -43,13 +43,12 @@ Class Helpers {
 	 * @return bool
 	 */
 	public static function is_podlove_publisher_active() {
-		if ( is_plugin_active( "podlove-podcasting-plugin-for-wordpress/podlove.php" ) ) {
+		if ( is_plugin_active( 'podlove-podcasting-plugin-for-wordpress/podlove.php' ) ) {
 			return true;
 		}
 
 		return false;
-
-	}
+	} // END is_podlove_publisher_active()
 
 	/**
 	 * Get button compatible language string.
@@ -64,28 +63,34 @@ Class Helpers {
 	 *
 	 * @return string
 	 */
-	static function language( $language ) {
+	public static function language( $language ) {
 		if ( empty( $language ) ) {
 			$language = get_option( 'WPLANG' );
 		}
 
-		$lang_code = strtolower(explode('_', $language)[0]);
+		$lang_code = strtolower( explode( '_', $language )[0] );
 
-		if ( in_array( $lang_code, \PodloveSubscribeButton\Defaults::button('language' ) ) ) {
+		if ( in_array( $lang_code, \PodloveSubscribeButton\Defaults::button( 'language' ) ) ) {
 			return $lang_code;
 		} else {
 			return 'en';
 		}
-	}
+	} // END language()
 
+	/**
+	 * Run a function for each site in its scope
+	 *
+	 * @param $callback
+	 */
 	public static function for_every_podcast_blog( $callback ) {
 		global $wpdb;
 
 		$plugin  = self::get_basename();
 		$blogids = $wpdb->get_col( "SELECT blog_id FROM " . $wpdb->blogs );
 
-		if ( ! is_array( $blogids ) )
+		if ( ! is_array( $blogids ) ) {
 			return;
+		}
 
 		foreach ( $blogids as $blog_id ) {
 			switch_to_blog( $blog_id );
@@ -94,6 +99,6 @@ Class Helpers {
 			}
 			restore_current_blog();
 		}
-	}
+	} // END for_every_podcast_blog()
 
 } // END Class
