@@ -139,7 +139,8 @@ class Migration {
 
 			foreach ( $old_options as $option ) {
 
-				$key   = end( explode( '_', $option ) );
+				$split = explode( '_', $option );
+				$key   = end( $split );
 				$value = get_option( $option );
 
 				$options[ $key ] = $value;
