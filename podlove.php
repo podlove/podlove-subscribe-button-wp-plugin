@@ -145,24 +145,28 @@ class PodloveSubscribeButton {
 
 	}
 
-	static function get_option( $key, $default = false ) {
+	/**
+     * Get value from the associative array of the plugin defaults option
+     *
+	 * @param $key
+	 * @param bool $default
+	 *
+	 * @return string|bool
+	 */
+	public static function get_option( $key, $default = false ) {
 
-		/** @todo after option reformat */
 		$options = \get_option( 'podlove_psb_defaults' );
-		// ! isset( $key ) -> $default;
 
 		if ( array_key_exists( $key, $options ) ) {
 			return $options[ $key ];
 		}
 
 		return $default;
-	}
+	} // END get_option()
 
 	public static function register_shortcode() {
 		add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
 	}
-
-
 
 	/**
 	 * Add the shortcode
