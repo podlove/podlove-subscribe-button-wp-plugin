@@ -151,7 +151,11 @@ class PodloveSubscribeButton {
 		$options = \get_option( 'podlove_psb_defaults' );
 		// ! isset( $key ) -> $default;
 
-        return $options[ $key ];
+		if ( array_key_exists( $key, $options ) ) {
+			return $options[ $key ];
+		}
+
+		return $default;
 	}
 
 	public static function register_shortcode() {
