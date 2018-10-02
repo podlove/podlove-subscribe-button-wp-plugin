@@ -70,10 +70,11 @@ class PodloveSubscribeButton {
 	public static function run() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_translations' ) );
 		add_action( 'init', array( __CLASS__, 'register_shortcode' ) );
-		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_init', array( 'PodloveSubscribeButton\Options', 'register_settings' ) );
 		add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'widgets_init', array( __CLASS__, 'widgets' ) );
+		add_action( 'network_admin_edit_podlove_psb_update_network_options', array( 'PodloveSubscribeButton\Settings\Buttons', 'podlove_psb_update_network_options' ) );
 		self::menu();
 
 	}
@@ -141,22 +142,6 @@ class PodloveSubscribeButton {
 
 	public static function load_translations() {
 		load_plugin_textdomain( 'podlove-subscribe-button' );
-
-	}
-
-	public static function register_settings() {
-		$settings = array(
-			'size',
-			'autowidth',
-			'style',
-			'format',
-			'color',
-			'language',
-		);
-
-		foreach ( $settings as $setting ) {
-			register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
-		}
 
 	}
 
