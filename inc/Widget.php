@@ -130,7 +130,7 @@ class Widget extends \WP_Widget {
 				),
 				'autowidth' => array(
 					'name'    => __( 'Autowidth', 'podlove-subscribe-button' ),
-					'options' => Defaults::button( 'width' ),
+					'options' => Defaults::button( 'autowidth' ),
 				),
 				'language'    => array(
 					'name'    => __( 'Language', 'podlove-subscribe-button' ),

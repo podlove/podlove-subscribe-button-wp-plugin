@@ -24,7 +24,7 @@ class Defaults {
 			'cover'     => __( 'Cover', 'podlove-subscribe-button' ),
 		);
 
-		$width = array(
+		$autowidth = array(
 			'on'  => __( 'Yes', 'podlove-subscribe-button' ),
 			'off' => __( 'No', 'podlove-subscribe-button' ),
 		);
