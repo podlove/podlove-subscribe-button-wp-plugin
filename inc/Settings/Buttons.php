@@ -57,6 +57,9 @@ class Buttons {
 		<?php
 	}
 
+	/**
+	 * Render the sidebar HTML
+	 */
 	public static function sidebar() { ?>
         <div id="submitdiv" class="postbox">
             <h2 class="ui-sortable-handle"><span>Podlove Subscribe Button <code><?php echo \PodloveSubscribeButton::$version; ?></code></span></h2>
@@ -69,7 +72,7 @@ class Buttons {
                 <div id="major-publishing-actions">
                     <ul>
                         <li>
-                            <a href="https://subscribe-button.podlove.org/">Podlove Subscribe Button</a>
+                            <a href="https://subscribe-button.podlove.org/" target="_blank">Podlove Subscribe Button</a>
                         </li>
                         <li>
                             <a href="https://podlove.org" target="_blank">Podlove Initiative</a>
