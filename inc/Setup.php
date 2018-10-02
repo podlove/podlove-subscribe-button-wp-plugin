@@ -33,6 +33,10 @@ class Setup {
 
 		Model\NetworkButton::build();
 
+		$default_values = Defaults::options();
+
+		add_site_option( 'podlove_psb_defaults', $default_values );
+
 		if ( $network_wide ) {
 			global $wpdb;
 
