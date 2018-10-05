@@ -52,10 +52,6 @@ class Setup {
 
 	}
 
-	public static function deactivation( $network_wide ) {
-
-	}
-
 	public static function uninstall() {
 		if ( is_multisite() ) {
 			self::uninstall_for_network();

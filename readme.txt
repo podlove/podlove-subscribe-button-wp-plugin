@@ -151,8 +151,13 @@ Consult the information provided on [the technical information page](https://pod
 
 ### 1.4.0 (YYYY-MM-DD)
 * ADDED select for `language` parameter
+* ADDED filter `podlove_psb_defaults_options` to set defaults on activation
 * ENHANCED admin UI to use WordPress core styling
+* ENHANCED use network default settings for activations on subsites
 * REQUIREMENT bumped to PHP 5.4
+
+### 1.3.6 (2018-10-02)
+* FIXED autowidth value not saving to options correctly
 
 ### 1.3.5 (2018-09-09)
 * Replaced the spectrum color selector with WP Color Picker

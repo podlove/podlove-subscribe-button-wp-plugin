@@ -51,7 +51,6 @@ if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 register_activation_hook(   __FILE__, array( 'PodloveSubscribeButton\Setup', 'activation' ) );
-register_deactivation_hook( __FILE__, array( 'PodloveSubscribeButton\Setup', 'deactivation' ) );
 register_uninstall_hook(    __FILE__, array( 'PodloveSubscribeButton\Setup', 'uninstall' ) );
 
 PodloveSubscribeButton\Migration::eval_db();
