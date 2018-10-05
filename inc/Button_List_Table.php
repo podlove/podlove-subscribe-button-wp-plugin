@@ -45,7 +45,11 @@ class Button_List_Table extends \WP_List_Table {
 		if ( ! $button->feeds ) {
 			return '<code>' . __( 'No preview. Please set a feed.', 'podlove-subscribe-button' ) . '</code>';
 		} else {
-			$options = get_option( 'podlove_psb_defaults' );
+			if ( is_network_admin() ) {
+				$options = get_site_option( 'podlove_psb_defaults' );
+			} else {
+				$options = get_option( 'podlove_psb_defaults' );
+			}
 
 			$preview  = "<div class='podlove-button-preview-container'>";
 			$preview .= $button->render(
