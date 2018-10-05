@@ -114,9 +114,45 @@ class Migration {
 
 	private static function migration_case_3() {
 
-		/** @todo */
+		/**
+		 * @todo
+		 *
+		 * network: for each blog with plugin active (or all ?)
+		 */
 
-		// 1. multiple options -> 1 option as associative array
+		//
+		/**
+		 * 1. multiple options -> 1 option as associative array
+		 * - consolidate `_default_*` into `_podlove_psb_defaults[*]`
+		 * - remove old options
+		 */
+		if ( ! get_option( 'podlove_subscribe_button_default_size' ) ) {
+			$old_options = array(
+				'podlove_subscribe_button_default_size',
+				'podlove_subscribe_button_default_autowidth',
+				'podlove_subscribe_button_default_color',
+				'podlove_subscribe_button_default_style',
+				'podlove_subscribe_button_default_format',
+				'podlove_subscribe_button_default_language',
+			);
+			$options     = array();
+
+			foreach ( $old_options as $option ) {
+
+				$split = explode( '_', $option );
+				$key   = end( $split );
+				$value = get_option( $option );
+
+				$options[ $key ] = $value;
+			}
+
+			// if old ones exist
+			add_option( 'podlove_psb_defaults', $options );
+
+			foreach ( $old_options as $option ) {
+				delete_option( $option );
+			}
+		}
 
 		// 2. DB !?
 

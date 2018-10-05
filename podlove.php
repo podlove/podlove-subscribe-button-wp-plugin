@@ -70,10 +70,11 @@ class PodloveSubscribeButton {
 	public static function run() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_translations' ) );
 		add_action( 'init', array( __CLASS__, 'register_shortcode' ) );
-		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_init', array( 'PodloveSubscribeButton\Options', 'register_settings' ) );
 		add_action( 'admin_init', array( 'PodloveSubscribeButton\Settings\Buttons', 'process_form' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'widgets_init', array( __CLASS__, 'widgets' ) );
+		add_action( 'network_admin_edit_podlove_psb_update_network_options', array( 'PodloveSubscribeButton\Settings\Buttons', 'podlove_psb_update_network_options' ) );
 		self::menu();
 
 	}
@@ -144,34 +145,28 @@ class PodloveSubscribeButton {
 
 	}
 
-	public static function register_settings() {
-		$settings = array(
-			'size',
-			'autowidth',
-			'style',
-			'format',
-			'color',
-			'language',
-		);
+	/**
+     * Get value from the associative array of the plugin defaults option
+     *
+	 * @param $key
+	 * @param bool $default
+	 *
+	 * @return string|bool
+	 */
+	public static function get_option( $key, $default = false ) {
 
-		foreach ( $settings as $setting ) {
-			register_setting( 'podlove-subscribe-button', 'podlove_subscribe_button_default_' . $setting );
+		$options = \get_option( 'podlove_psb_defaults' );
+
+		if ( array_key_exists( $key, $options ) ) {
+			return $options[ $key ];
 		}
 
-	}
-
-	static function get_option( $key, $default = false ) {
-
-		return \get_option( 'podlove_subscribe_button_default_' . $key, $default );
-
-	}
+		return $default;
+	} // END get_option()
 
 	public static function register_shortcode() {
 		add_shortcode( 'podlove-subscribe-button', array( 'PodloveSubscribeButton', 'shortcode' ) );
-
 	}
-
-
 
 	/**
 	 * Add the shortcode
@@ -238,7 +233,8 @@ class PodloveSubscribeButton {
 		if ( isset( $attribute_value ) && ctype_alnum( $attribute_value ) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
-			return get_option( 'podlove_subscribe_button_default_' . $attribute, \PodloveSubscribeButton\Model\Button::$properties[ $attribute ] );
+		    $default = get_option( 'podlove_psb_defaults', \PodloveSubscribeButton\Defaults::options() );
+			return $default[ $attribute ];
 		}
 
 	}
