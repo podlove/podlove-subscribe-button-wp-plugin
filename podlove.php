@@ -68,6 +68,7 @@ class PodloveSubscribeButton {
 	public static $version = '1.4.0-beta';
 
 	public static function run() {
+
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_translations' ) );
 		add_action( 'init', array( __CLASS__, 'register_shortcode' ) );
 		add_action( 'admin_init', array( 'PodloveSubscribeButton\Options', 'register_settings' ) );
@@ -75,9 +76,19 @@ class PodloveSubscribeButton {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'widgets_init', array( __CLASS__, 'widgets' ) );
 		add_action( 'network_admin_edit_podlove_psb_update_network_options', array( 'PodloveSubscribeButton\Settings\Buttons', 'podlove_psb_update_network_options' ) );
+
+		if ( is_multisite() ) {
+			add_filter( 'podlove_psb_defaults_options', array( __CLASS__, 'get_network_defaults' ) );
+        }
+
 		self::menu();
 
 	}
+
+	public static function get_network_defaults( $options ) {
+		$network_defaults = get_site_option( 'podlove_psb_defaults' );
+		return $network_defaults;
+    }
 
 	public static function widgets() {
 		register_widget( '\PodloveSubscribeButton\Widget' );

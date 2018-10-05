@@ -33,7 +33,7 @@ class Setup {
 
 		Model\NetworkButton::build();
 
-		$default_values = Defaults::options();
+		$default_values = Defaults::options_install();
 
 		add_site_option( 'podlove_psb_defaults', $default_values );
 

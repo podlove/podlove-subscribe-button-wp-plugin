@@ -93,6 +93,21 @@ class Defaults {
 
 	}
 
+	static function options_install() {
+
+		$options = array(
+			'size'      => 'big',
+			'autowidth' => 'on',
+			'color'     => '#599677',
+			'style'     => 'filled',
+			'format'    => 'rectangle',
+			'language'  => \PodloveSubscribeButton\Helpers::language( get_site_option( 'WPLANG' ) ),
+		);
+
+		return $options;
+
+	}
+
 	static function options() {
 
 		$options = array(
