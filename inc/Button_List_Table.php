@@ -9,7 +9,7 @@
 namespace PodloveSubscribeButton;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
 class Button_List_Table extends \WP_List_Table {
@@ -57,7 +57,7 @@ class Button_List_Table extends \WP_List_Table {
 				$options = get_option( 'podlove_psb_defaults' );
 			}
 
-			$preview  = "<div class='podlove-button-preview-container'>";
+			$preview = "<div class='podlove-button-preview-container'>";
 			$preview .= $button->render(
 				$options['size'],
 				$options['autowidth'],
@@ -91,9 +91,9 @@ class Button_List_Table extends \WP_List_Table {
 		$per_page = 1000;
 
 		// define column headers
-		$columns = $this->get_columns();
-		$hidden = array();
-		$sortable = $this->get_sortable_columns();
+		$columns               = $this->get_columns();
+		$hidden                = array();
+		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// retrieve data

@@ -24,16 +24,16 @@ if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
 
 	function podlove_psb_php_notice() {
 		?>
-		<div id="message" class="error">
-			<p>
-				<strong>The Podlove Subscribe Button Plugin could not be activated</strong>
-			</p>
-			<p>
-				The Podlove Subscribe Button Plugin requires <code>PHP 5.3</code> or higher.<br>
-				You are running <code>PHP <?php echo phpversion(); ?></code>.<br>
-				Please ask your hoster how to upgrade to an up-to-date PHP version.
-			</p>
-		</div>
+        <div id="message" class="error">
+            <p>
+                <strong>The Podlove Subscribe Button Plugin could not be activated</strong>
+            </p>
+            <p>
+                The Podlove Subscribe Button Plugin requires <code>PHP 5.3</code> or higher.<br>
+                You are running <code>PHP <?php echo phpversion(); ?></code>.<br>
+                Please ask your hoster how to upgrade to an up-to-date PHP version.
+            </p>
+        </div>
 		<?php
 	}
 
@@ -50,8 +50,8 @@ if ( ! version_compare( phpversion(), '5.4', ">=" ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-register_activation_hook(   __FILE__, array( 'PodloveSubscribeButton\Setup', 'activation' ) );
-register_uninstall_hook(    __FILE__, array( 'PodloveSubscribeButton\Setup', 'uninstall' ) );
+register_activation_hook( __FILE__, array( 'PodloveSubscribeButton\Setup', 'activation' ) );
+register_uninstall_hook( __FILE__, array( 'PodloveSubscribeButton\Setup', 'uninstall' ) );
 
 PodloveSubscribeButton\Migration::eval_db();
 PodloveSubscribeButton::run();
@@ -78,7 +78,7 @@ class PodloveSubscribeButton {
 
 		if ( is_multisite() ) {
 			add_filter( 'podlove_psb_defaults_options', array( __CLASS__, 'get_network_defaults' ) );
-        }
+		}
 
 		self::menu();
 
@@ -86,8 +86,9 @@ class PodloveSubscribeButton {
 
 	public static function get_network_defaults( $options ) {
 		$network_defaults = get_site_option( 'podlove_psb_defaults' );
+
 		return $network_defaults;
-    }
+	}
 
 	public static function widgets() {
 		register_widget( '\PodloveSubscribeButton\Widget' );
@@ -168,8 +169,8 @@ class PodloveSubscribeButton {
 	}
 
 	/**
-     * Get value from the associative array of the plugin defaults option
-     *
+	 * Get value from the associative array of the plugin defaults option
+	 *
 	 * @param $key
 	 * @param bool $default
 	 *
@@ -198,15 +199,16 @@ class PodloveSubscribeButton {
 	 * @return string|void
 	 */
 	public static function shortcode( $args ) {
-		if ( ! $args || ! isset( $args[ 'button' ] ) ) {
+		if ( ! $args || ! isset( $args['button'] ) ) {
 			return __( 'You need to create a Button first and provide its ID.', 'podlove-subscribe-button' );
 		} else {
-			$buttonid = $args[ 'button' ];
+			$buttonid = $args['button'];
 		}
 
 		// Fetch the (network)button by it's name
-		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name( $args[ 'button' ] ) )
-			return sprintf( __( 'Oops. There is no button with the ID "%s".', 'podlove-subscribe-button' ), $args[ 'button' ] );
+		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name( $args['button'] ) ) {
+			return sprintf( __( 'Oops. There is no button with the ID "%s".', 'podlove-subscribe-button' ), $args['button'] );
+		}
 
 		// Get button styling and options
 		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback( $args, 'width' ) );
@@ -214,19 +216,19 @@ class PodloveSubscribeButton {
 		$style     = self::get_attribute( 'style', self::get_array_value_with_fallback( $args, 'style' ) );
 		$format    = self::get_attribute( 'format', self::get_array_value_with_fallback( $args, 'format' ) );
 
-		if ( isset( $args[ 'language' ] ) ) {
-			$language = $args[ 'language' ];
+		if ( isset( $args['language'] ) ) {
+			$language = $args['language'];
 		} else {
 			$language = self::get_attribute( 'language', self::get_array_value_with_fallback( $args, 'language' ) );
 		}
 
-		if ( isset( $args[ 'color' ] ) ) {
-			$color = $args[ 'color' ];
+		if ( isset( $args['color'] ) ) {
+			$color = $args['color'];
 		} else {
 			$color = self::get_attribute( 'color', self::get_array_value_with_fallback( $args, 'color' ) );
 		}
 
-		if ( isset( $args[ 'hide' ] ) && $args[ 'hide' ] == 'true' ) {
+		if ( isset( $args['hide'] ) && $args['hide'] == 'true' ) {
 			$hide = true;
 		} else {
 			$hide = false;
@@ -249,13 +251,15 @@ class PodloveSubscribeButton {
 	/**
 	 * @param  string $attribute
 	 * @param  string $attribute_value
+	 *
 	 * @return string
 	 */
 	private static function get_attribute( $attribute = null, $attribute_value = null ) {
 		if ( isset( $attribute_value ) && ctype_alnum( $attribute_value ) && key_exists( $attribute_value, \PodloveSubscribeButton\Model\Button::$$attribute ) ) {
 			return $attribute_value;
 		} else {
-		    $default = get_option( 'podlove_psb_defaults', \PodloveSubscribeButton\Defaults::options() );
+			$default = get_option( 'podlove_psb_defaults', \PodloveSubscribeButton\Defaults::options() );
+
 			return $default[ $attribute ];
 		}
 
@@ -265,6 +269,7 @@ class PodloveSubscribeButton {
 	 * Interprets the provided width attribute and return either auto- or a specific width
 	 *
 	 * @param  string $width_attribute
+	 *
 	 * @return string
 	 */
 	private static function interpret_width_attribute( $width_attribute = null ) {
