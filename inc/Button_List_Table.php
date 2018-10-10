@@ -9,7 +9,7 @@
 namespace PodloveSubscribeButton;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
 class Button_List_Table extends \WP_List_Table {
@@ -29,14 +29,20 @@ class Button_List_Table extends \WP_List_Table {
 
 	public function column_name( $button ) {
 
+		$target      = 'shortcode-' . $button->name;
+		$copy_button = '<a class="copy-btn" data-clipboard-action="copy" data-clipboard-target=".' . $target . '">Copy Shortcode</a>';
+
 		$actions = array(
 			'edit'   => Settings\Buttons::get_action_link( $button, __( 'Edit', 'podlove-subscribe-button' ), 'edit' ),
-			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove-subscribe-button' ), 'confirm_delete' )
+			'delete' => Settings\Buttons::get_action_link( $button, __( 'Delete', 'podlove-subscribe-button' ), 'confirm_delete' ),
+			'copy'   => $copy_button,
 		);
 
 		return sprintf( '%1$s %2$s',
-		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button button="' . $button->name . '"]</code>',
-		    /*$3%s*/ $this->row_actions( $actions )
+			/*$1%s*/
+			'<p><b>'.$button->title . '</b></p><code class="' . $target . '">[podlove-subscribe-button button="' . $button->name . '"]</code>',
+			/*$3%s*/
+			$this->row_actions( $actions )
 		);
 
 	}
@@ -51,7 +57,7 @@ class Button_List_Table extends \WP_List_Table {
 				$options = get_option( 'podlove_psb_defaults' );
 			}
 
-			$preview  = "<div class='podlove-button-preview-container'>";
+			$preview = "<div class='podlove-button-preview-container'>";
 			$preview .= $button->render(
 				$options['size'],
 				$options['autowidth'],
@@ -85,9 +91,9 @@ class Button_List_Table extends \WP_List_Table {
 		$per_page = 1000;
 
 		// define column headers
-		$columns = $this->get_columns();
-		$hidden = array();
-		$sortable = $this->get_sortable_columns();
+		$columns               = $this->get_columns();
+		$hidden                = array();
+		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// retrieve data

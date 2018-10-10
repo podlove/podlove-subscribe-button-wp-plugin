@@ -6,3 +6,6 @@ table.podlove_alternating th {
 	color: red;
 	cursor: pointer;
 }
+.copy-btn {
+	cursor: pointer;
+}
