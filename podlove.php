@@ -111,9 +111,17 @@ class PodloveSubscribeButton {
 			return;
 		}
 
+		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'admin_inline_js' ) );
+
+		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
 		// CSS Stylesheet
-		wp_register_style( 'podlove-subscribe-button', \PodloveSubscribeButton\Helpers::get_url( '' ) . 'css/style.css' , false, self::$version );
+		wp_register_style( 'podlove-subscribe-button', \PodloveSubscribeButton\Helpers::get_url( '' ) . 'css/style.css', false, self::$version );
 		wp_enqueue_style( 'podlove-subscribe-button' );
+
+		// Clipboard.js
+		wp_register_script( 'clipboard.js', \PodloveSubscribeButton\Helpers::get_url( '' ) . "js/clipboard{$suffix}.js", array(), '2.0.1' );
+		wp_enqueue_script( 'clipboard.js' );
 
 		// Admin JS
 		wp_enqueue_style( 'wp-color-picker' );
@@ -125,6 +133,10 @@ class PodloveSubscribeButton {
 		wp_localize_script( 'podlove-subscribe-button-admin-tools', 'i18n', $js_translations );
 		wp_enqueue_script( 'podlove-subscribe-button-admin-tools' );
 
+	}
+
+	public static function admin_inline_js() {
+	    echo "<script type=\"text/javascript\">var clipboard = new ClipboardJS('.copy-btn');</script>";
 	}
 
 	public static function admin_menu() {
