@@ -29,7 +29,7 @@ class Button_List_Table extends \WP_List_Table {
 
 	public function column_name( $button ) {
 
-		$target      = 'shortcode-' . $button->name;
+		$target      = 'shortcode-' . str_replace(" ","-", $button->name );
 		$copy_button = '<a class="copy-btn" data-clipboard-action="copy" data-clipboard-target=".' . $target . '">Copy Shortcode</a>';
 
 		$actions = array(
