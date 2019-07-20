@@ -18,4 +18,4 @@ Developers: [Podlove Team + Contributors](https://github.com/podlove/podlove-sub
 ## License
 [MIT](https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE)
 
-Copyright (c) 2014-2018 Podlove
+Copyright (c) 2014-2019 Podlove

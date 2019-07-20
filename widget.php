@@ -36,15 +36,15 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'size'),
 				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'autowidth'),
 				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'style'),
-				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'format'), 
+				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'format'),
 				\PodloveSubscribeButton::get_array_value_with_fallback($instance, 'color')
 			);
-		
+
 		if ( strlen($instance['infotext']) )
 			echo wpautop($instance['infotext']);
 
 		echo $args['after_widget'];
-	}	
+	}
 
 	public function form( $instance ) {
 
@@ -83,20 +83,20 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
                     <optgroup label="<?php _e('Local', 'podlove'); ?>">
 						<?php
 						foreach ($buttons as $subscribebutton) {
-							echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+							echo "<option value='" . sanitize_title($subscribebutton->name) . "' " . selected( sanitize_title($subscribebutton->name), $button ) . " >" . sanitize_title($subscribebutton->title) . " (" . sanitize_title($subscribebutton->name) . ")</option>";
 						}
                         ?>
                     </optgroup>
                     <optgroup label="<?php _e('Network', 'podlove'); ?>">
 						<?php
 						foreach ($network_buttons as $subscribebutton) {
-							echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+							echo "<option value='" . sanitize_title($subscribebutton->name) . "' " . selected( sanitize_title($subscribebutton->name), $button ) . " >" . sanitize_title($subscribebutton->title) . " (" . sanitize_title($subscribebutton->name) . ")</option>";
 						}
                         ?>
                     </optgroup>
 				<?php else :
 					foreach ($buttons as $subscribebutton) {
-						echo "<option value='" . $subscribebutton->name . "' " . selected( $subscribebutton->name, $button ) . " >" . $subscribebutton->title . " (" . $subscribebutton->name . ")</option>";
+						echo "<option value='" . sanitize_title($subscribebutton->name) . "' " . selected( sanitize_title($subscribebutton->name), $button ) . " >" . sanitize_title($subscribebutton->title) . " (" . sanitize_title($subscribebutton->name) . ")</option>";
 					}
 				endif; ?>
             </select>
@@ -132,11 +132,11 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 					</optgroup>
 				</select>
 			<?php endforeach; ?>
-		
-			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove-subscribe-button' ); ?></label> 
+
+			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove-subscribe-button' ); ?></label>
 			<textarea class="widefat" rows="10" id="<?php echo $this->get_field_id( 'infotext' ); ?>" name="<?php echo $this->get_field_name( 'infotext' ); ?>"><?php echo $infotext; ?></textarea>
 		</p>
-		<?php 
+		<?php
 	}
 
 	public function update( $new_instance, $old_instance ) {

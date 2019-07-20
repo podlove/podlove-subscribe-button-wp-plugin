@@ -3,9 +3,9 @@ Contributors: chemiker, cfoellmann
 Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
-Tested up to: 4.9.8
+Tested up to: 5.2.2
 Requires PHP: 5.3
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: MIT
 License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
@@ -31,7 +31,7 @@ Podlove is an open source initiative to improve the overall podcasting infrastru
 
 Podlove currently provides:
 
-* [***Podlove Podcast Publisher***](https://publisher.podlove.org) - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts 
+* [***Podlove Podcast Publisher***](https://publisher.podlove.org) - a powerful plugin for WordPress for podcasters to publish metadata-rich podcasts
 * ***Podlove Web Player*** - a podcast-optimized HTML5 web player with chapter support
 * [***Podlove Subscribe Button***](https://subscribe-button.podlove.org) - a centrally hosted universal podcast subscribe button for the web
 
@@ -134,6 +134,10 @@ Consult the information provided on [the technical information page](https://pod
 
 == Changelog ==
 
+### 1.3.7 (2019-07-20)
+* FIXED an issue that prevented the subscribe button to appear
+* FIXED a XSS vulnerability
+
 ### 1.3.6 (2018-10-02)
 * FIXED autowidth value not saving to options correctly
 
@@ -181,7 +185,7 @@ Consult the information provided on [the technical information page](https://pod
 * Smaller Bugfix: Build tables on plugin-activation only
 
 ### 1.1
-* Network Support - If you run a WordPress Multisite Installation you can create network-wide available Buttons 
+* Network Support - If you run a WordPress Multisite Installation you can create network-wide available Buttons
 * Default Settings for Size and Autowidth
 * UI enhancements
 
@@ -195,4 +199,3 @@ Consult the information provided on [the technical information page](https://pod
 * Settings page to allow definition of preconfigured buttons
 * WordPress Widget to show preconfigured buttons in WordPress Sidebar
 * WordPress Shortcode [podlove-subscribe-button] to insert preconfigured buttons in pages and articles
-

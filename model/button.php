@@ -10,8 +10,7 @@ class Button extends Base {
 		'autowidth' => 'on',
 		'style' => 'filled',
 		'format' => 'rectangle',
-		'hide' => 'false',
-		'buttonid' => ''
+		'hide' => 'false'
 		// Note: the fields 'language' and 'json-data' cannot be set here (No function call allowed within class variables)
 	);
 
@@ -58,7 +57,7 @@ class Button extends Base {
 	}
 
 	/**
-	 * Returns either global buttons settings or the default settings 
+	 * Returns either global buttons settings or the default settings
 	 * @param  array
 	 * @return array
 	 */
@@ -78,7 +77,6 @@ class Button extends Base {
 	 * @param  string  $format
 	 * @param  string  $color
 	 * @param  boolean $hide
-	 * @param  boolean $buttonid
 	 * @return string
 	 */
 	public function render( $size='big', $autowidth='on', $style='filled', $format='rectangle', $color='#599677', $hide = false, $buttonid = false, $language='en' ) {
@@ -86,26 +84,30 @@ class Button extends Base {
 				$this->get_button_styling($size, $autowidth, $style, $format, $color),
 				array(
 						'hide' => $hide,
-						'buttonid' => $buttonid,
 						'language' => $language
 					)
 			);
 
 		return $this->provide_button_html(
 			array(
-				'title' => $this->title,
-				'subtitle' => $this->subtitle,
-				'description' => $this->description,
-				'cover' => $this->cover,
+				'title' => sanitize_text_field($this->title),
+				'subtitle' => sanitize_text_field($this->subtitle),
+				'description' => sanitize_textarea_field($this->description),
+				'cover' => sanitize_text_field($this->cover),
 				'feeds' => $this->get_feeds_as_array($this->feeds)
 			), $button_styling );
 	}
 
-	/** 
+	/**
 	 * Provides the feed as an array in the required format
 	 * @return array
 	 */
 	private function get_feeds_as_array( $feeds=array() ) {
+		$returnedFeeds = array();
+
+		if (! $feeds)
+			return $returnedFeeds;
+
 		foreach ($feeds as $feed) {
 			if ( isset(\PodloveSubscribeButton\MediaTypes::$audio[$feed['format']]['extension']) ) {
 				$new_feed = array(
@@ -118,19 +120,19 @@ class Button extends Base {
 				if ( isset($feed['itunesfeedid']) && $feed['itunesfeedid'] > 0 )
 					$new_feed['directory-url-itunes'] = "https://itunes.apple.com/podcast/id" . $feed['itunesfeedid'];
 
-				$feeds[] = $new_feed;
+				$returnedFeeds[] = $new_feed;
 			}
 		}
 
-		return $feeds;
+		return $returnedFeeds;
 	}
 
-	/** 
+	/**
 	 * Provides the HTML source of the Subscribe Button
 	 * @param  array $podcast_data
 	 * @param  array $button_styling
 	 * @param  string $data_attributes
-	 * @return string 
+	 * @return string
 	 */
 	private function provide_button_html($podcast_data, $button_styling, $data_attributes="") {
 		// Create data attributes for Button
@@ -142,8 +144,8 @@ class Button extends Base {
 			<script>
 				podcastData".$this->id . " = ".json_encode($podcast_data)."
 			</script>
-			<script 
-				class=\"podlove-subscribe-button\" 
+			<script
+				class=\"podlove-subscribe-button\"
 				src=\"https://cdn.podlove.org/subscribe-button/javascripts/app.js\" " . $data_attributes . ">
 			</script>
 		";

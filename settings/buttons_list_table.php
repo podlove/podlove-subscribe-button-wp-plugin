@@ -26,7 +26,7 @@ class Button_List_Table extends \WP_List_Table {
 		);
 
 		return sprintf('%1$s %2$s',
-		    /*$1%s*/ $button->title . '<br><code>[podlove-subscribe-button button="' . $button->name . '"]</code>',
+		    /*$1%s*/ sanitize_title($button->title) . '<br><code>[podlove-subscribe-button button="' . sanitize_text_field($button->name) . '"]</code>',
 		    /*$3%s*/ $this->row_actions( $actions )
 		);
 	}
