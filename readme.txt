@@ -1,6 +1,6 @@
 === Podlove Subscribe button ===
 Contributors: chemiker, cfoellmann
-Donate link: http://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
+Donate link: https://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 5.2.2
@@ -73,7 +73,6 @@ If you want to include a Podlove Subscribe Button in a WordPress page (or a post
 * `style` - default is filled, options are 'outline' and 'frameless'
 * `format` - default is a rectangle, options are 'square' and 'cover' (**Note**: 'cover' has a max size of 300px)
 * `hide` - if set to `true` the button will not be shown (useful if you want to use your own element)
-* `buttonid` - you can use this to open the popup from another element on the same page
 * `language` - specify the language the texts on the button and popup should be in (currently supports 'de', 'en', 'eo', 'fi', 'fr', 'nl', 'zh' and 'ja')
 
 Note that if you do not provide one of the attributes the subscribe button will use the globally set default.
