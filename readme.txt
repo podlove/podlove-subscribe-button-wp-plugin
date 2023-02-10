@@ -3,9 +3,9 @@ Contributors: chemiker, cfoellmann
 Donate link: https://flattr.com/thing/728463/Podlove-Podcasting-Plugin-for-WordPress
 Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
-Tested up to: 5.3
+Tested up to: 6.1.1
 Requires PHP: 5.3
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: MIT
 License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
@@ -132,6 +132,9 @@ Consult the information provided on [the technical information page](https://pod
 
 
 == Changelog ==
+
+### 1.3.8 (2023-02-10)
+* FIXED XSS and CSRF vulnerabilities
 
 ### 1.3.7 (2019-07-20)
 * FIXED an issue that prevented the subscribe button to appear
