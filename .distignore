@@ -1,0 +1,11 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+
+.distignore
+.gitignore
+
+.scrutinizer.yml
+plugin.code-workspace
+phpcs.xml
