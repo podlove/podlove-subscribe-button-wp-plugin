@@ -239,7 +239,7 @@ class Buttons {
 							<label for="podlove_button_name"><?php _e('Button ID', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo sanitize_text_field($button->name); ?>" />
+							<input type="text" class="regular-text" id="podlove_button_name" name="podlove_button[name]" value="<?php echo esc_attr($button->name); ?>" />
 							<br /><span class="description"><?php _e('The ID will be used as in internal identifier for shortcodes.', 'podlove-subscribe-button' ); ?></span>
 						</td>
 					</tr>
@@ -248,7 +248,7 @@ class Buttons {
 							<label for="podlove_button_title"><?php _e('Podcast Title', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo sanitize_text_field($button->title); ?>" />
+							<input type="text" class="regular-text" id="podlove_button_title" name="podlove_button[title]" value="<?php echo esc_attr($button->title); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -256,7 +256,7 @@ class Buttons {
 							<label for="podlove_button_subtitle"><?php _e('Podcast Subtitle', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo sanitize_text_field($button->subtitle); ?>" />
+							<input type="text" class="regular-text" id="podlove_button_subtitle" name="podlove_button[subtitle]" value="<?php echo esc_attr($button->subtitle); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -264,7 +264,7 @@ class Buttons {
 							<label for="podlove_button_description"><?php _e('Podcast Description', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
-							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo sanitize_text_field($button->description); ?></textarea>
+							<textarea class="autogrow" cols="40" rows="3" id="podlove_button_description" name="podlove_button[description]"><?php echo esc_attr($button->description); ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -272,7 +272,7 @@ class Buttons {
 							<label for="podlove-button-cover"><?php _e('Podcast Image URL', 'podlove-subscribe-button' ); ?></label>
 						</td>
 						<td>
-							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo sanitize_text_field($button->cover); ?>" />
+							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo esc_attr($button->cover); ?>" />
 							<a id="Podlove_cover_image_select" class="button" href="#">Select</a>
 							<br /><img src="<?php echo sanitize_text_field($button->cover); ?>" alt="" style="width: 200px" />
 							<script type="text/javascript">

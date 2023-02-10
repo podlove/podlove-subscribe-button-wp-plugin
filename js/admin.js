@@ -1,5 +1,22 @@
 (function($) {
 
+    var entityMap = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+      '/': '&#x2F;',
+      '`': '&#x60;',
+      '=': '&#x3D;'
+    };
+    
+    function escapeHtml(string) {
+      return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+      });
+    }
+
 	function podlove_init_color_buttons() {
         jQuery(document).ready( function($) {
             var params = {
@@ -78,18 +95,18 @@
 		}
 
 		function add_existing_feed( feed ) {
-			row = source.replace( /\{\{url\}\}/g, feed.url );
+			row = source.replace( /\{\{url\}\}/g, escapeHtml(feed.url) );
 			row = row.replace( /\{\{id\}\}/g, feed_counter );
 			if ( feed.itunesfeedid == null ) {
 				row = row.replace( /\{\{itunesfeedid\}\}/g, '' );
 			} else {
-				row = row.replace( /\{\{itunesfeedid\}\}/g, feed.itunesfeedid );
+				row = row.replace( /\{\{itunesfeedid\}\}/g, escapeHtml(feed.itunesfeedid) );
 			}
 
 			$("#feeds_table_body").append(row);
 
 			new_row = $("#feeds_table_body tr:last");
-			new_row.find('select.podlove-media-format option[value="' + feed.format + '"]').attr('selected',true);
+			new_row.find('select.podlove-media-format option[value="' + escapeHtml(feed.format) + '"]').attr('selected',true);
 
 			$(".podlove-icon-remove").on( 'click', function () {
 				$(this).closest("tr").remove();
