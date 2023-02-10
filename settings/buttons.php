@@ -48,6 +48,10 @@ class Buttons {
 		if ( null == filter_input(INPUT_GET, 'button') )
 			return;
 
+        if (!wp_verify_nonce($_REQUEST['_psb_nonce'])) {
+            return;
+        }
+
 		$post = filter_input_array(INPUT_POST);
 
 		$button = ( filter_input(INPUT_GET, 'network') === '1' ? \PodloveSubscribeButton\Model\NetworkButton::find_by_id( filter_input(INPUT_GET, 'button') ) : \PodloveSubscribeButton\Model\Button::find_by_id( filter_input(INPUT_GET, 'button') ) );
@@ -107,7 +111,15 @@ class Buttons {
 		if ( null === filter_input(INPUT_GET, 'button') )
 			return;
 
-		$action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : null );
+        $action = ( null !== filter_input(INPUT_GET, 'action') ? filter_input(INPUT_GET, 'action') : null );
+
+        if (!in_array($action, ['save', 'create', 'delete'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce($_REQUEST['_psb_nonce'])) {
+            return;
+        }            
 
 		if ( $action === 'save' ) {
 			self::save();
@@ -218,6 +230,7 @@ class Buttons {
 		$is_network = is_network_admin();
 		?>
 		<form method="post" action="<?php echo ( $is_network === true ? '/wp-admin/network/settings' : 'options-general' ) ?>.php?page=podlove-subscribe-button&button=<?php echo $button->id; ?>&action=<?php echo $action; ?>&network=<?php echo $is_network; ?>">
+            <?php wp_nonce_field(-1, '_psb_nonce'); ?>
 			<input type="hidden" value="<?php echo $button->id; ?>" name="podlove_button[id]" />
 			<table class="form-table" border="0" cellspacing="0">
 					<tbody>
@@ -327,10 +340,11 @@ class Buttons {
 
 	public static function get_action_link( $button, $title, $action = 'edit', $type = 'link' ) {
 		return sprintf(
-			'<a href="?page=%s&action=%s&button=%s&network='.is_network_admin().'"%s>' . $title . '</a>',
+			'<a href="?page=%s&action=%s&button=%s&network='.is_network_admin().'&_psb_nonce=%s"%s>' . $title . '</a>',
 			filter_input(INPUT_GET, 'page'),
 			$action,
 			$button->id,
+            wp_create_nonce(),
 			$type == 'button' ? ' class="button"' : ''
 		);
 	}
