@@ -210,9 +210,8 @@ abstract class Base {
 		$model = new $class();
 		$model->flag_as_not_new();
 		
-		$row = $wpdb->get_row(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\' LIMIT 0,1'
-		);
+		$query = $wpdb->prepare('SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'%s\' LIMIT 0,1', $value);
+		$row = $wpdb->get_row($query);
 		
 		if ( ! $row ) {
 			return null;
