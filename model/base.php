@@ -177,32 +177,6 @@ abstract class Base {
 		return $model;
 	}
 
-	public static function find_all_by_property( $property, $value ) {
-		global $wpdb;
-		
-		$class = get_called_class();
-		$models = array();
-		
-		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $property .  ' = \'' . $value . '\''
-		);
-		
-		if ( ! $rows ) {
-			return array();
-		}
-		
-		foreach ( $rows as $row ) {
-			$model = new $class();
-			$model->flag_as_not_new();
-			foreach ( $row as $property => $value ) {
-				$model->$property = static::unserialize_property($value);
-			}
-			$models[] = $model;
-		}
-		
-		return $models;
-	}
-
 	public static function find_one_by_property( $property, $value ) {
 		global $wpdb;
 		
@@ -223,67 +197,19 @@ abstract class Base {
 		
 		return $model;
 	}
-
-	public static function find_all_by_where( $where ) {
-		global $wpdb;
-		
-		$class = get_called_class();
-		$models = array();
-		
-		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where
-		);
-		
-		if ( ! $rows ) {
-			return array();
-		}
-		
-		foreach ( $rows as $row ) {
-			$model = new $class();
-			$model->flag_as_not_new();
-			foreach ( $row as $property => $value ) {
-				$model->$property = static::unserialize_property($value);
-			}
-			$models[] = $model;
-		}
-		
-		return $models;
-	}
 	
-	public static function find_one_by_where( $where ) {
-		global $wpdb;
-		
-		$class = get_called_class();
-		$model = new $class();
-		$model->flag_as_not_new();
-		
-		$row = $wpdb->get_row(
-			'SELECT * FROM ' . static::table_name() . ' WHERE ' . $where . ' LIMIT 0,1'
-		);
-		
-		if ( ! $row ) {
-			return null;
-		}
-		
-		foreach ( $row as $property => $value ) {
-			$model->$property = static::unserialize_property($value);
-		}
-		
-		return $model;
-	}
 	/**
 	 * Retrieve all entries from the table.
 	 *
-	 * @param  string $sql_suffix optional SQL, appended after FROM clause
 	 * @return array list of model objects
 	 */
-	public static function all( $sql_suffix = '' ) {
+	public static function all() {
 		global $wpdb;
 		
 		$class = get_called_class();
 		$models = array();
 		
-		$rows = $wpdb->get_results( 'SELECT * FROM ' . static::table_name() . ' ' . $sql_suffix );
+		$rows = $wpdb->get_results( 'SELECT * FROM ' . static::table_name() );
 
 		foreach ( $rows as $row ) {
 			$model = new $class();
