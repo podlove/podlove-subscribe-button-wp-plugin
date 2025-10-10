@@ -93,26 +93,29 @@ Displays a small, frameless square button with using data from button configurat
 
 == Frequently Asked Questions ==
 
-### I'm running the Podlove Publisher. Do I need this plugin to display a Subscribe button?
+= I'm running the Podlove Publisher. Do I need this plugin to display a Subscribe button? =
 
 Yes and No. If you simply want to display a Subscribe Button for your Podcast you publish with the Podlove Publisher you do not need this plugin as the Publisher itself provides this functionality. If you want to display multiple Subscribe Buttons you can use the Subscribe Button plugin.
 
-### Where do I create those "Network-wide" Buttons?
+= Where do I create those "Network-wide" Buttons? =
 
 You can find the Panel in the Networks Settings Section
 
-### Does this plugin actually contain the code for the button?
+= Does this plugin actually contain the code for the button? =
 
 No. This plugin just embeds the code that is needed to display the Podlove Subscribe Button. The button itself is served live from api.podlove.org
 
-### Do I update the plugin to get support for more clients?
+= Do I update the plugin to get support for more clients? =
 
 No. As the Podlove Subscribe Button is hosted centrally, it gets updated regularly independent from this pugin.
 
-### I am a podcast app developer and would like my app be listed in the button. What do I need to do?
+= I am a podcast app developer and would like my app be listed in the button. What do I need to do? =
 
 Consult the information provided on [the technical information page](https://podlove.org/podlove-subscribe-button) at podlove.org on how the button works and what app developers need to support and do in order to get listed in the button.
 
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/54baba88-4c9c-4194-8707-5e0f37dfb763)
 
 == Screenshots ==
 
