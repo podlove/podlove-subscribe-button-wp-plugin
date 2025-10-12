@@ -27,7 +27,7 @@ class Buttons {
 		}
 		?>
 		<div class="wrap">
-			<h2><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo filter_input(INPUT_GET, 'page'); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
+			<h2><?php echo __( 'Podlove Subscribe Button', 'podlove-subscribe-button' ); ?> <a href="?page=<?php echo esc_attr(filter_input(INPUT_GET, 'page')); ?>&amp;action=new&amp;network=<?php echo $is_network; ?>" class="add-new-h2"><?php _e( 'Add New', 'podlove-subscribe-button' ); ?></a></h2>
 			<?php
 
 			switch ( $action ) {
@@ -193,7 +193,7 @@ class Buttons {
 				<tr valign="top">
 				<th scope="row"><label for="podlove_subscribe_button_default_color"><?php _e('Color', 'podlove-subscribe-button' ); ?></label></th>
 				<td>
-					<input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color" value="<?php echo $settings['color'] ?>" />
+					<input id="podlove_subscribe_button_default_color" name="podlove_subscribe_button_default_color" class="podlove_subscribe_button_color" value="<?php echo esc_attr($settings['color']) ?>" />
 				</td>
 				</tr>
 				<tr valign="top">
@@ -274,7 +274,7 @@ class Buttons {
 						<td>
 							<input type="text" class="regular-text" id="podlove-button-cover" name="podlove_button[cover]" value="<?php echo esc_attr($button->cover); ?>" />
 							<a id="Podlove_cover_image_select" class="button" href="#">Select</a>
-							<br /><img src="<?php echo sanitize_text_field($button->cover); ?>" alt="" style="width: 200px" />
+							<br /><img src="<?php echo esc_url($button->cover); ?>" alt="" style="width: 200px" />
 							<script type="text/javascript">
 								(function($) {
 									$("#podlove-button-cover").on( 'change', function() {

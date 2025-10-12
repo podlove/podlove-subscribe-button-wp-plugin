@@ -27,7 +27,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 	public function widget( $args, $instance ) {
 		// Fetch the (network)button by it's name
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($instance['button']) )
-			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), $args['button'] );
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), esc_html($instance['button']) );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
@@ -134,7 +134,7 @@ class Podlove_Subscribe_Button_Widget extends \WP_Widget {
 			<?php endforeach; ?>
 
 			<label for="<?php echo $this->get_field_id( 'infotext' ); ?>"><?php _e( 'Description', 'podlove-subscribe-button' ); ?></label>
-			<textarea class="widefat" rows="10" id="<?php echo $this->get_field_id( 'infotext' ); ?>" name="<?php echo $this->get_field_name( 'infotext' ); ?>"><?php echo $infotext; ?></textarea>
+			<textarea class="widefat" rows="10" id="<?php echo $this->get_field_id( 'infotext' ); ?>" name="<?php echo $this->get_field_name( 'infotext' ); ?>"><?php echo esc_textarea($infotext); ?></textarea>
 		</p>
 		<?php
 	}

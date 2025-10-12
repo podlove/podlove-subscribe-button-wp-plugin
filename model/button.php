@@ -137,7 +137,7 @@ class Button extends Base {
 	private function provide_button_html($podcast_data, $button_styling, $data_attributes="") {
 		// Create data attributes for Button
 		foreach ($button_styling as $attribute => $value) {
-			$data_attributes .= 'data-' . $attribute . '="' . $value . '" ';
+			$data_attributes .= 'data-' . esc_attr($attribute) . '="' . esc_attr($value) . '" ';
 		}
 
 		return"

@@ -153,7 +153,7 @@ class PodloveSubscribeButton {
 
 		// Fetch the (network)button by it's name
 		if ( ! $button = \PodloveSubscribeButton\Model\Button::get_button_by_name($args['button']) )
-			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), $args['button'] );
+			return sprintf( __('Oops. There is no button with the ID "%s".', 'podlove-subscribe-button'), esc_html($args['button']) );
 
 		// Get button styling and options
 		$autowidth = self::interpret_width_attribute( self::get_array_value_with_fallback($args, 'width') );
