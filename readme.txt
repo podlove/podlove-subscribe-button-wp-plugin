@@ -5,7 +5,7 @@ Tags: button, podlove, podcast, feed, subscribe, widget, network
 Requires at least: 3.5.0
 Tested up to: 6.1.1
 Requires PHP: 5.3
-Stable tag: 1.3.11
+Stable tag: 1.3.12
 License: MIT
 License URI: https://github.com/podlove/podlove-subscribe-button-wp-plugin/blob/master/LICENSE
 
@@ -135,6 +135,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+### 1.3.12
+* FIXED XSS vulnerabilities
 
 ### 1.3.11
 * FIXED SQL Injection vulnerabilities
